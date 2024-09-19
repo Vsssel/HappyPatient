@@ -4,64 +4,61 @@
     <NuxtLink to="/dashboard">Dashboard</NuxtLink>
   </div>
   <div class="w-100 h-100 d-flex align-items-center justify-content-center">
-    <div class="w-50">
-      <FormField :fields-column="fields" />
+    <div class="w-25">
+      <FormField :fields-column="fields" :submit="onSubmit"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import FormField from '~/shared/components/form/FormField.vue'; // Adjust import path as needed
+import FormField from '~/shared/components/form/FormField.vue'; 
 import type { FormFields } from '~/shared/components/form/types';
 
-const suggestions = ['Apple', 'Banana', 'Cherry', 'Date', 'Fig', 'Grape'];
-const name = ref()
-const age = ref()
-const fruit = ref()
-const searchedFruit = ref()
+const values = ref({
+  name: null,
+  age: null,
+  selectedFruit: null
+})
 const fruitOptions = ref([
-      { name: 'Apple', code: 'apple' },
-      { name: 'Banana', code: 'banana' },
-      { name: 'Cherry', code: 'cherry' }
+      { label: 'Apple', value: 'apple' },
+      { label: 'Banana', value: 'banana' },
+      { label: 'Cherry', value: 'cherry' }
     ])
 
 const fields: FormFields = [
   {
+    name: 'name',
     type: 'text',
     text: 'Name',
-    value: name.value,
+    value: values.value.name,
     placeholder: 'Enter your name',
     icon: 'pi pi-user',
-    class: 'w-25'
+    class: 'col-12',
+    required: true
   },
   {
+    name: 'age',
     type: 'number',
     text: 'Age',
-    value: age.value,
+    value: values.value.age,
     placeholder: 'Enter your age',
-    icon: 'pi pi-calendar',
-    class: 'col-3'
+    class: 'col-12',
+    required: true
   },
   {
-    type: 'dropdown',
+    name: 'favourite_fruit',
+    type: 'select',
     text: 'Favorite Fruit',
-    value: fruit.value,
+    value: values.value.selectedFruit,
     placeholder: 'Select a fruit',
-    options: fruitOptions.value,
-    icon: 'pi pi-caret-down',
-    class: 'col-3'
-  },
-  {
-    type: 'autocomplete',
-    text: 'Search Fruit',
-    value: searchedFruit.value,
-    suggestions: suggestions,
-    placeholder: 'Start typing to search...',
-    class: 'col-3',
-    search: (event) => {
-      // Handle search logic here
-    }
+    options: fruitOptions,
+    class: 'col-12',
+    required: true
   }
 ];
+
+const onSubmit = () => {
+  console.log(values.value, 'values')
+}
 </script>

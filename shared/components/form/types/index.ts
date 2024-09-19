@@ -1,4 +1,5 @@
 export type FormFields = {
+    name: string;
     type: string;
     class?: string;
     text: string;
@@ -11,4 +12,5 @@ export type FormFields = {
     placeField?: string;
     size?: string;
     search?: any;
+    required: boolean;
 }[]

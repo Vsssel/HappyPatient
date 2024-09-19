@@ -12,7 +12,9 @@ export default defineNuxtConfig({
       }
   },
   css: [
-    'bootstrap/dist/css/bootstrap.min.css'
+    'bootstrap/dist/css/bootstrap.min.css',
+    'primeicons/primeicons.css',
+    'bootstrap-icons/font/bootstrap-icons.css'
   ],
   vite: {
     define: {

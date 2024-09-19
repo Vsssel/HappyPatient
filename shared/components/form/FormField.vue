@@ -1,10 +1,15 @@
 <template>
-    <form 
-      @submit.prevent="onSubmit"
-      :class="props.fieldsColumn ? 'd-flex flex-column w-100' : 'd-flex flex-row w-100 justify-content-between'"
+  <div class="w-100 d-flex flex-column align-items-center">
+    <form
+      novalidate
+      :class="[props.fieldsColumn ? 'd-flex flex-column w-100' : 'd-flex flex-row w-100 justify-content-between', 'was-validated']"
+      @submit.prevent="handleSubmit"
     >
-      <div v-for="(field, index) in fields" :key="index">
-        <label v-if="field.text">{{ field.text }}</label>
+      <div v-for="(field, index) in fields" :key="index" class="mb-3">
+        <label v-if="field.text" class="form-label d-flex">
+          {{ field.text }}
+          <i v-if="field.required" style="font-size: 8px; color: red; margin-left: 4px;" class="bi-asterisk"></i>
+        </label>
         <div>
           <div v-if="field.type === 'text'">
             <IconField>
@@ -12,65 +17,78 @@
               <InputText
                 v-model="field.value"
                 :placeholder="field.placeholder"
-                :class="field.class"
-            />
+                :class="[field.class, { 'is-invalid': !isValid(field), 'is-valid': isValid(field) && field.value }]"
+                :required="field.required"
+              />
+              <div v-if="!isValid(field)" class="invalid-feedback">
+                {{ field.required ? 'This field is required.' : '' }}
+              </div>
             </IconField>
           </div>
           <div v-if="field.type === 'number'">
-            <IconField>
-              <InputIcon v-if="field.icon" :class="field.icon" />
-              <InputNumber
-                v-model="field.value"
-                :placeholder="field.placeholder"
-                :class="field.class"
-              />
-            </IconField>
+            <InputNumber
+              v-model="field.value"
+              :placeholder="field.placeholder"
+              :class="[field.class, { 'is-invalid': !isValid(field), 'is-valid': isValid(field) && field.value }]"
+              :required="field.required"
+            />
+            <div v-if="!isValid(field)" class="invalid-feedback">
+              {{ field.required ? 'This field is required.' : '' }}
+            </div>
           </div>
-          <div v-if="field.type === 'dropdown'">
-            <IconField>
-              <InputIcon v-if="field.icon" :class="field.icon" />
-              <Dropdown
-                v-model="field.value"
-                :options="field.options"
-                :placeholder="field.placeholder"
-                :class="field.class"
-              />
-            </IconField>
+          <div v-if="field.type === 'select'">
+            <Select
+              v-model="field.value"
+              :options="field.options"
+              option-label="label"
+              option-value="value"
+              :placeholder="field.placeholder"
+              :class="[field.class, { 'is-invalid': !isValid(field), 'is-valid': isValid(field) && field.value }]"
+              :required="field.required"
+            />
+            <div v-if="!isValid(field)" class="invalid-feedback">
+              {{ field.required ? 'This field is required.' : '' }}
+            </div>
           </div>
-          <div v-if="field.type === 'autocomplete'">
-            <IconField>
-              <InputIcon v-if="field.icon" :class="field.icon" />
-              <AutoComplete
-                v-model="field.value"
-                :suggestions="field.suggestions"
-                :placeholder="field.placeholder"
-                @complete="field.search"
-                :class="field.class"
-              />
-            </IconField>
-          </div>
-          <!-- Add more components as needed -->
         </div>
       </div>
+      <button type="button" class="btn btn-primary" @click="handleSubmit">Submit</button>
     </form>
-  </template>
-  
-  <script setup lang="ts">
-  import { defineProps } from 'vue';
-  import InputText from 'primevue/inputtext';
-  import InputNumber from 'primevue/inputnumber';
-  import Dropdown from 'primevue/dropdown';
-  import AutoComplete from 'primevue/autocomplete';
-  import type { FormFields } from './types';
-  
-  const props = defineProps<{
-    fieldsRow?: FormFields;
-    fieldsColumn?: FormFields;
-  }>();
+  </div>
+</template>
 
-  const fields = props.fieldsRow ? props.fieldsRow : props.fieldsColumn
-  
-  const onSubmit = () => {
-    // Handle form submission logic here
-  };
-  </script>
+<script setup lang="ts">
+import { defineProps, ref } from 'vue';
+import InputText from 'primevue/inputtext';
+import InputNumber from 'primevue/inputnumber';
+import Select from 'primevue/select';
+import type { FormFields } from './types';
+
+const props = defineProps<{
+  fieldsRow?: FormFields;
+  fieldsColumn?: FormFields;
+  submit?: (fields: FormFields) => void;
+}>();
+
+const fields = reactive<FormFields>(props.fieldsRow ?? props.fieldsColumn ?? []);
+
+const isValid = (field: any) => {
+  return field.required ? field.value !== null && field.value !== '' : true;
+}
+
+const handleSubmit = () => {
+  if (props.submit) {
+    const allValid = fields.every(isValid);
+    if (allValid) {
+      props.submit(fields);
+    } else {
+      // Handle invalid form fields, e.g., show a global error message
+      console.log('Form is invalid');
+    }
+  }
+}
+
+watch(() => props.fieldsRow || props.fieldsColumn, (newFields) => {
+  Object.assign(fields, newFields || []);
+}, { immediate: true });
+</script>
