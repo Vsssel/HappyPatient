@@ -16,6 +16,7 @@
               <InputIcon v-if="field.icon" :class="field.icon" />
               <InputText
                 v-model="field.value"
+                @input="handleInputChange"
                 :placeholder="field.placeholder"
                 :class="[field.class, { 'is-invalid': !isValid(field), 'is-valid': isValid(field) && field.value }]"
                 :required="field.required"
@@ -28,6 +29,7 @@
           <div v-if="field.type === 'number'">
             <InputNumber
               v-model="field.value"
+              @input="handleInputChange"
               :placeholder="field.placeholder"
               :class="[field.class, { 'is-invalid': !isValid(field), 'is-valid': isValid(field) && field.value }]"
               :required="field.required"
@@ -39,6 +41,7 @@
           <div v-if="field.type === 'select'">
             <Select
               v-model="field.value"
+              @change="handleInputChange"
               :options="field.options"
               option-label="label"
               option-value="value"
@@ -58,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue';
+import { defineProps, reactive, watch, defineEmits } from 'vue';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import Select from 'primevue/select';
@@ -67,26 +70,38 @@ import type { FormFields } from './types';
 const props = defineProps<{
   fieldsRow?: FormFields;
   fieldsColumn?: FormFields;
-  submit?: (fields: FormFields) => void;
+  submit?: (fieldValues: Record<string, any>) => void;  // Adjust submit to accept only field values
 }>();
+
+const emit = defineEmits(['update:fieldsValues']); // Emit only field values
 
 const fields = reactive<FormFields>(props.fieldsRow ?? props.fieldsColumn ?? []);
 
+// Extract field values from the fields array
+const getFieldValues = () => {
+  return fields.reduce((acc, field) => {
+    acc[field.name] = field.value;
+    return acc;
+  }, {} as Record<string, any>);
+};
+
+// Handle form input changes
+const handleInputChange = () => {
+  emit('update:fieldsValues', getFieldValues()); // Emit only field values to the parent
+};
+
 const isValid = (field: any) => {
-  return field.required ? field.value !== null && field.value !== '' : true;
-}
+  return field.required ? field.value !== null : true;
+};
 
 const handleSubmit = () => {
-  if (props.submit) {
-    const allValid = fields.every(isValid);
-    if (allValid) {
-      props.submit(fields);
-    } else {
-      // Handle invalid form fields, e.g., show a global error message
-      console.log('Form is invalid');
-    }
+  const allValid = fields.every(isValid);
+  if (allValid && props.submit) {
+    props.submit(getFieldValues()); // Submit only field values
+  } else {
+    console.log('Form is invalid');
   }
-}
+};
 
 watch(() => props.fieldsRow || props.fieldsColumn, (newFields) => {
   Object.assign(fields, newFields || []);

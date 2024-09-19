@@ -1,11 +1,11 @@
 <template>
-    <div>
+  <div>
     <NuxtLink to="/appointment">Appointment</NuxtLink>
     <NuxtLink to="/dashboard">Dashboard</NuxtLink>
   </div>
   <div class="w-100 h-100 d-flex align-items-center justify-content-center">
     <div class="w-25">
-      <FormField :fields-column="fields" :submit="onSubmit"/>
+      <FormField :fields-column="fields" :submit="onSubmit" v-model:fieldsValues="formValues" />
     </div>
   </div>
 </template>
@@ -16,15 +16,16 @@ import FormField from '~/shared/components/form/FormField.vue';
 import type { FormFields } from '~/shared/components/form/types';
 
 const values = ref({
-  name: null,
-  age: null,
-  selectedFruit: null
-})
+  name: '',
+  age: '',
+  selectedFruit: ''
+});
+
 const fruitOptions = ref([
-      { label: 'Apple', value: 'apple' },
-      { label: 'Banana', value: 'banana' },
-      { label: 'Cherry', value: 'cherry' }
-    ])
+  { label: 'Apple', value: 'apple' },
+  { label: 'Banana', value: 'banana' },
+  { label: 'Cherry', value: 'cherry' }
+]);
 
 const fields: FormFields = [
   {
@@ -52,13 +53,17 @@ const fields: FormFields = [
     text: 'Favorite Fruit',
     value: values.value.selectedFruit,
     placeholder: 'Select a fruit',
-    options: fruitOptions,
+    options: fruitOptions.value,
     class: 'col-12',
     required: true
   }
 ];
 
-const onSubmit = () => {
-  console.log(values.value, 'values')
-}
+// Holds the form values
+const formValues = ref({});
+
+// Handle form submission
+const onSubmit = (fieldValues: Record<string, any>) => {
+  console.log(fieldValues, 'Form Submitted'); // Logs only the values, not the entire fields array
+};
 </script>
