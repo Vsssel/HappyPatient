@@ -10,9 +10,15 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@primevue/themes": "^4.0.7",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "nuxt": "^3.13.0",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.0.7",
     "vue": "latest"
+  },
+  "devDependencies": {
+    "@primevue/nuxt-module": "^4.0.7"
   }
 }
