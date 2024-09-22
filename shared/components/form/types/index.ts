@@ -1,16 +1,66 @@
-export type FormFields = {
+export type FormFieldProps = {
     name: string;
     type: string;
-    class?: string;
-    text: string;
-    value: string | number | null;
-    placeholder?: string;
-    options?: any;
-    suggestions?: any;
-    icon?: string;
-    placeIcon?: string;
-    placeField?: string;
-    size?: string;
-    search?: any;
     required: boolean;
-}[]
+    value?: unknown;
+    class?: string;
+    style?: string | Record<string, string>;
+    label?: Partial<{
+        text: string;
+        class?: string;
+        style?: string | Record<string, string>;
+    }>;
+    icon?: string;
+    placeholder?: string;
+    disabled?: boolean;
+}
+
+export type InputField = {
+    type: 'text' | 'number' | 'editor';
+}
+
+export type SelecField = {
+    type: 'select',
+    options: Array<{
+        label: string;
+        value: unknown;
+    }>
+}
+
+export type PasswordField = {
+    type: 'password',
+    feedback?: boolean
+}
+
+export type SlotField = {
+    type: 'slot',
+    name: string
+}
+
+export type TextArea = {
+    type: 'textarea'
+}
+
+export type AutocompleteField = {
+    type: 'autocomplete';
+    suggestions: {
+        itemField: string;
+        itemClass?: string;
+        items: Array<Record<string | number, any>>;
+        class: string;
+    }
+}
+
+export type DatePickerField = {
+    type: 'date',
+    name: string,
+    showIcon?: boolean,
+    iconDisplay?: 'input',
+    timeOnly?: boolean,
+    minDate?: Date,
+    maxDate?: Date,
+    showButtonBar?: boolean,
+    dateFormat?: 'dd/mm/yy' | 'mm/dd/yy' | 'yy/mm/dd'
+}
+
+export type FormFields = FormFieldProps & (InputField | SelecField | SlotField | TextArea | AutocompleteField | PasswordField | DatePickerField)
