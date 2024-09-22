@@ -17,8 +17,7 @@ import type { FormFields } from '~/shared/components/form/types';
 
 const values = ref({
   name: null,
-  age: null,
-  selectedFruit: null
+  surname: null
 });
 
 const fruitOptions = ref([
@@ -34,6 +33,16 @@ const fields: FormFields = [
     text: 'Name',
     value: values.value.name,
     placeholder: 'Enter your name',
+    icon: 'pi pi-user',
+    class: 'col-12',
+    required: true
+  },
+  {
+    name: 'surname',
+    type: 'text',
+    text: 'Surname',
+    value: values.value.surname,
+    placeholder: 'Enter your surname',
     icon: 'pi pi-user',
     class: 'col-12',
     required: true

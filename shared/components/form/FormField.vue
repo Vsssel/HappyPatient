@@ -13,7 +13,7 @@
         <div>
           <div v-if="field.type === 'text'">
             <IconField>
-              <InputIcon v-if="field.icon" :class="[field.icon]" />
+              <InputIcon v-if="field.icon" :class="field.icon"></InputIcon>
               <InputText
                 v-model="field.value"
                 @input="handleInputChange"
@@ -21,9 +21,6 @@
                 :class="[field.class, { 'is-invalid': !isValid(field), 'is-valid': isValid(field) && field.value }]"
                 :required="field.required"
               />
-              <div v-if="!isValid(field) && validated" class="invalid-feedback">
-                {{ field.required ? 'This field is required.' : '' }}
-              </div>
             </IconField>
           </div>
           <div v-if="field.type === 'number'">
@@ -34,9 +31,6 @@
               :class="[field.class, { 'is-invalid': !isValid(field), 'is-valid': isValid(field) && field.value }]"
               :required="field.required"
             />
-            <div v-if="!isValid(field) && validated" class="invalid-feedback">
-              {{ field.required ? 'This field is required.' : '' }}
-            </div>
           </div>
           <div v-if="field.type === 'select'">
             <Select
@@ -49,11 +43,9 @@
               :class="[field.class, { 'is-invalid': !isValid(field), 'is-valid': isValid(field) && field.value }]"
               :required="field.required"
             />
-            <div v-if="!isValid(field) && validated" class="invalid-feedback">
-              {{ field.required ? 'This field is required.' : '' }}
-            </div>
           </div>
         </div>
+        <Message v-if="!isValid(field) && validated" severity="error" class="p-0 mt-2 mb-2">This filed is required</Message>
       </div>
       <button type="button" class="btn btn-primary" @click="handleSubmit">Submit</button>
     </form>
