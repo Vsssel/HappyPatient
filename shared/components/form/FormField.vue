@@ -69,7 +69,7 @@
             <Editor
               v-model="field.value"
               @input="handleInputChange"
-              :editor-style="field.style"
+              git 
               :class="[field.class]"
               :required="field.required"
             />

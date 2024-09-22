@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   modules: [
     '@primevue/nuxt-module'
   ],
+
   primevue: {
     options: {
       theme: {
@@ -11,22 +12,27 @@ export default defineNuxtConfig({
       }
     }
   },
+
   css: [
     'bootstrap/dist/css/bootstrap.min.css',
-    'primeicons/primeicons.css',
     'bootstrap-icons/font/bootstrap-icons.css',
-    'quill/dist/quill.snow.css'
+    'primeicons/primeicons.css'
   ],
+
+
   vite: {
     define: {
       'process.env.DEBUG': false
     }
   },
+
   build: {
     transpile: ['bootstrap']
   },
+
   plugins: [
-    { src: '~/plugins/bootstrap.client.ts', mode: 'client' },
-    { src: '~/plugins/quill.client.ts', mode: 'client' }
-  ]
+    { src: '~/plugins/bootstrap.client.ts', mode: 'client' }
+  ],
+
+  compatibilityDate: '2024-09-22'
 })

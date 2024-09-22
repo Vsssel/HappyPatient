@@ -20,8 +20,7 @@
     "nuxt": "^3.13.0",
     "primeicons": "^7.0.0",
     "primevue": "^4.0.7",
-    "vue": "latest",
-    "vue3-quill": "^0.3.1"
+    "vue": "latest"
   },
   "devDependencies": {
     "@eslint/js": "^9.10.0",
