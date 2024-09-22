@@ -65,7 +65,7 @@
             </template>
           </DatePicker>
           </div>
-          <div v-if="field.type === 'editor'">
+          <!-- <div v-if="field.type === 'editor'">
             <Editor
               v-model="field.value"
               @input="handleInputChange"
@@ -73,7 +73,7 @@
               :class="[field.class]"
               :required="field.required"
             />
-          </div>
+          </div> -->
           <div v-if="field.type === 'select'">
             <Select
               v-model="field.value"
