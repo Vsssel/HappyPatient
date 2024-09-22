@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import FormField from '~/shared/components/form/FormField.vue'; 
+import FormField from '~/shared/components/form/FormField.vue';
 import type { FormFields } from '~/shared/components/form/types';
 
 const values = ref({
