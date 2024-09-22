@@ -64,6 +64,18 @@
               <i v-if="field.timeOnly" class="pi pi-clock" @click="slotProps.clickCallback" />
             </template>
           </DatePicker>
+          <div v-if="field.type === 'autocomplete'">
+              <AutoComplete
+                v-model="field.value"
+                :suggestions="field.suggestions"
+                @complete="search(field)"
+                optionLabel="name"
+                @input="handleInputChange"
+                :placeholder="field.placeholder"
+                :class="[field.class]"
+                :required="field.required"
+              />
+            </div>
           </div>
           <div v-if="field.type === 'select'">
             <Select
@@ -77,32 +89,6 @@
               :required="field.required"
             />
           </div>
-          <!-- <template
-            v-if="field.type === 'slot'"
-          >
-            <div
-              class="form-group"
-              :class="field.class"
-              :style="field.style"
-            >
-              <slot
-                :name="field.name"
-                v-bind="{
-                  value: inputs[field.name],
-                  values: inputs,
-                  inputs: allInputs,
-                  setValue: (value) => {
-                    setValue({
-                      idx: idx,
-                      name: field.name,
-                      oldValue: inputs[field.name].value,
-                      newValue: value
-                    })
-                  }
-                }"
-              />
-            </div>
-          </template> -->
         </div>
         <Message v-if="!isValid(field) && validated" severity="error" class="p-0 mt-2 mb-2">This filed is required</Message>
       </div>
@@ -117,6 +103,8 @@ import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import Select from 'primevue/select';
 import type { FormFields } from './types';
+import AutoComplete from 'primevue/autocomplete';
+import Message from 'primevue/message';
 
 const validated = ref(false)
 
@@ -154,6 +142,15 @@ const handleSubmit = () => {
     console.log('Form is invalid')
   }
 };
+
+const search = (field: FormFields) => {
+  return (event: { query: string }) => {
+    const query = event.query.toLowerCase();
+    const filteredSuggestions = field.suggestions.filter(item => item.name.toLowerCase().includes(query));
+    return filteredSuggestions;
+  };
+};
+
 
 watch(() => props.fieldsRow || props.fieldsColumn, (newFields) => {
   Object.assign(fields, newFields || []);

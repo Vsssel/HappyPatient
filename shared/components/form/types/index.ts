@@ -43,12 +43,7 @@ export type TextArea = {
 
 export type AutocompleteField = {
     type: 'autocomplete';
-    suggestions: {
-        itemField: string;
-        itemClass?: string;
-        items: Array<Record<string | number, any>>;
-        class: string;
-    }
+    suggestions: Array<Record<string | number, any>>;
 }
 
 export type DatePickerField = {

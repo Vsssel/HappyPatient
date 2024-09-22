@@ -17,15 +17,17 @@ import type { FormFields } from '~/shared/components/form/types';
 
 const values = ref({
   name: null,
-  fruite: null,
+  fruit: null, // corrected from 'fruite' to 'fruit'
   password: null,
   date: null,
   time: null,
-  editor: null
+  searched: null
 });
 
+const suggestions = [{ name: 'Apple' }, { name: 'Banana' }, { name: 'Cherry' }];
+
 const fruitOptions = ref([
-  { label: 'Not selected', value: null},
+  { label: 'Not selected', value: null },
   { label: 'Apple', value: 'apple' },
   { label: 'Banana', value: 'banana' },
   { label: 'Cherry', value: 'cherry' }
@@ -36,23 +38,19 @@ const fields: FormFields[] = [
     name: 'name',
     type: 'text',
     required: true,
-    label: {
-      text: 'Name: '
-    },
+    label: { text: 'Name: ' },
     value: values.value.name,
     placeholder: 'Enter your name',
     icon: 'pi pi-user',
     class: 'col-12',
   },
   {
-    name: 'fruite',
+    name: 'fruit',
     type: 'select',
     required: true,
-    label: {
-      text: 'Select Fruite'
-    },
-    value: values.value.fruite,
-    placeholder: 'Select you favourite fruite',
+    label: { text: 'Select Fruit' }, // corrected label
+    value: values.value.fruit,
+    placeholder: 'Select your favorite fruit',
     options: fruitOptions.value,
     class: 'col-12'
   },
@@ -61,9 +59,7 @@ const fields: FormFields[] = [
     type: 'password',
     feedback: true,
     required: true,
-    label: {
-      text: 'Password:'
-    },
+    label: { text: 'Password:' },
     value: values.value.password,
     placeholder: 'Enter password',
     class: 'col-12'
@@ -76,36 +72,40 @@ const fields: FormFields[] = [
     minDate: new Date(),
     maxDate: new Date('2024/12/31'),
     showButtonBar: true,
-    label: {
-      text: 'Select date'
-    },
+    label: { text: 'Select date' },
     showIcon: true,
     iconDisplay: 'input',
     dateFormat: 'dd/mm/yy',
     class: 'col-12'
   },
   {
-    name: 'date',
+    name: 'time',
     type: 'date',
     required: true,
     value: values.value.time,
-    label: {
-      text: 'Select time'
-    },
+    label: { text: 'Select time' },
     showIcon: true,
     timeOnly: true,
     iconDisplay: 'input',
     dateFormat: 'dd/mm/yy',
     class: 'col-12'
+  },
+  {
+    name: 'autocomplete',
+    type: 'autocomplete',
+    required: false,
+    value: values.value.searched,
+    label: { text: 'Search' },
+    suggestions: suggestions,
+    class: 'col-12',
+    placeholder: 'search'
   }
-]
-
+];
 
 const formValues = ref({});
 
-
 const onSubmit = (fieldValues: Record<string, any>) => {
-  console.log(fieldValues, 'Form Submitted')
+  console.log(fieldValues, 'Form Submitted');
 };
 </script>
 
