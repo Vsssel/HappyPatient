@@ -97,17 +97,7 @@ const fields: FormFields[] = [
     iconDisplay: 'input',
     dateFormat: 'dd/mm/yy',
     class: 'col-12'
-  },
-  // {
-  //   name: 'filled',
-  //   type: 'editor',
-  //   required: true,
-  //   value: values.value.editor,
-  //   label: {
-  //     text: 'Edit'
-  //   },
-  //   style: "width: 100%;"
-  // }
+  }
 ]
 
 

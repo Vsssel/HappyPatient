@@ -16,7 +16,7 @@ export type FormFieldProps = {
 }
 
 export type InputField = {
-    type: 'text' | 'number' | 'editor';
+    type: 'text' | 'number';
 }
 
 export type SelecField = {
