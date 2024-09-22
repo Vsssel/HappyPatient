@@ -13,7 +13,7 @@
         <div>
           <div v-if="field.type === 'text'">
             <IconField>
-              <InputIcon v-if="field.icon" :class="field.icon" />
+              <InputIcon v-if="field.icon" :class="[field.icon]" />
               <InputText
                 v-model="field.value"
                 @input="handleInputChange"
@@ -21,7 +21,7 @@
                 :class="[field.class, { 'is-invalid': !isValid(field), 'is-valid': isValid(field) && field.value }]"
                 :required="field.required"
               />
-              <div v-if="!isValid(field)" class="invalid-feedback">
+              <div v-if="!isValid(field) && validated" class="invalid-feedback">
                 {{ field.required ? 'This field is required.' : '' }}
               </div>
             </IconField>
@@ -34,7 +34,7 @@
               :class="[field.class, { 'is-invalid': !isValid(field), 'is-valid': isValid(field) && field.value }]"
               :required="field.required"
             />
-            <div v-if="!isValid(field)" class="invalid-feedback">
+            <div v-if="!isValid(field) && validated" class="invalid-feedback">
               {{ field.required ? 'This field is required.' : '' }}
             </div>
           </div>
@@ -49,7 +49,7 @@
               :class="[field.class, { 'is-invalid': !isValid(field), 'is-valid': isValid(field) && field.value }]"
               :required="field.required"
             />
-            <div v-if="!isValid(field)" class="invalid-feedback">
+            <div v-if="!isValid(field) && validated" class="invalid-feedback">
               {{ field.required ? 'This field is required.' : '' }}
             </div>
           </div>
@@ -67,17 +67,18 @@ import InputNumber from 'primevue/inputnumber';
 import Select from 'primevue/select';
 import type { FormFields } from './types';
 
+const validated = ref(false)
+
 const props = defineProps<{
   fieldsRow?: FormFields;
   fieldsColumn?: FormFields;
-  submit?: (fieldValues: Record<string, any>) => void;  // Adjust submit to accept only field values
+  submit?: (fieldValues: Record<string, any>) => void;
 }>();
 
-const emit = defineEmits(['update:fieldsValues']); // Emit only field values
+const emit = defineEmits(['update:fieldsValues'])
 
 const fields = reactive<FormFields>(props.fieldsRow ?? props.fieldsColumn ?? []);
 
-// Extract field values from the fields array
 const getFieldValues = () => {
   return fields.reduce((acc, field) => {
     acc[field.name] = field.value;
@@ -85,21 +86,21 @@ const getFieldValues = () => {
   }, {} as Record<string, any>);
 };
 
-// Handle form input changes
 const handleInputChange = () => {
-  emit('update:fieldsValues', getFieldValues()); // Emit only field values to the parent
+  emit('update:fieldsValues', getFieldValues())
 };
 
 const isValid = (field: any) => {
-  return field.required ? field.value !== null : true;
-};
+  return field.required ? field.value !== null && field.value !== '' : true
+}
 
 const handleSubmit = () => {
+  validated.value = true
   const allValid = fields.every(isValid);
   if (allValid && props.submit) {
-    props.submit(getFieldValues()); // Submit only field values
+    props.submit(getFieldValues())
   } else {
-    console.log('Form is invalid');
+    console.log('Form is invalid')
   }
 };
 

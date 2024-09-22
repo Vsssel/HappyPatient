@@ -16,9 +16,9 @@ import FormField from '~/shared/components/form/FormField.vue';
 import type { FormFields } from '~/shared/components/form/types';
 
 const values = ref({
-  name: '',
-  age: '',
-  selectedFruit: ''
+  name: null,
+  age: null,
+  selectedFruit: null
 });
 
 const fruitOptions = ref([
@@ -35,25 +35,6 @@ const fields: FormFields = [
     value: values.value.name,
     placeholder: 'Enter your name',
     icon: 'pi pi-user',
-    class: 'col-12',
-    required: true
-  },
-  {
-    name: 'age',
-    type: 'number',
-    text: 'Age',
-    value: values.value.age,
-    placeholder: 'Enter your age',
-    class: 'col-12',
-    required: true
-  },
-  {
-    name: 'favourite_fruit',
-    type: 'select',
-    text: 'Favorite Fruit',
-    value: values.value.selectedFruit,
-    placeholder: 'Select a fruit',
-    options: fruitOptions.value,
     class: 'col-12',
     required: true
   }
