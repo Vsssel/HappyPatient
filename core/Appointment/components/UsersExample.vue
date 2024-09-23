@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import Loader from "~/shared/Loader.vue";
+import Loader from "~/shared/components/loader/Loader.vue";
 import { ref, onMounted } from "vue";
 
 const isLoadingUrl1 = ref(true);
