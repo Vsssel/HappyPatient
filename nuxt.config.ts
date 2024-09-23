@@ -1,19 +1,30 @@
-import Aura from "@primevue/themes/aura";
+import Aura from '@primevue/themes/aura';
 
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2024-04-03",
-  devtools: { enabled: true },
-  plugins: ["~/plugins/primevue.ts"],
+    modules: [
+      '@primevue/nuxt-module'
+  ],
+    primevue: {
+      options: {
+          theme: {
+              preset: Aura
+          }
+      }
+  },
+  css: [
+    'bootstrap/dist/css/bootstrap.min.css',
+    'primeicons/primeicons.css',
+    'bootstrap-icons/font/bootstrap-icons.css'
+  ],
+  vite: {
+    define: {
+      'process.env.DEBUG': false
+    }
+  },
   build: {
-    transpile: ["primevue"],
+    transpile: ['bootstrap']
   },
-  modules: ["@primevue/nuxt-module"],
-  primevue: {
-    options: {
-      theme: {
-        preset: Aura,
-      },
-    },
-  },
-});
+  plugins: [
+    { src: '~/plugins/bootstrap.client.ts', mode: 'client' }
+  ]
+})
