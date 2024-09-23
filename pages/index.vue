@@ -3,9 +3,10 @@
     <NuxtLink to="/appointment">Appointment</NuxtLink>
     <NuxtLink to="/dashboard">Dashboard</NuxtLink>
   </div>
-  <div class="w-100 h-100 d-flex align-items-center justify-content-center">
+  <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center">
     <div class="w-25">
-      <FormField :fields-column="fields" :submit="onSubmit" v-model:fieldsValues="formValues" />
+      <FormField :formFields="fields" :submit="onSubmit" v-model:fieldsValues="formValues" />
+      <FormField :formGroup="formGroup" :submit="onSubmit" v-model:fieldsValues="formValues" />
     </div>
   </div>
 </template>
@@ -13,19 +14,19 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import FormField from '~/shared/components/form/FormField.vue';
-import type { FormFields } from '~/shared/components/form/types';
+import type { FormFields, FormGroup } from '~/shared/components/form/types';
 
-const values = ref({
-  name: null,
-  fruit: null,
-  password: null,
+const formValues = ref({
+  name: '',
+  fruit: '',
+  password: '',
   date: null,
   time: null,
-  searched: null,
-  textarea: null
+  searched: '',
+  textarea: ''
 });
 
-const suggestions = ['Apple', 'Banana', 'Cherry' ];
+const suggestions = ['Apple', 'Banana', 'Cherry'];
 
 const fruitOptions = ref([
   { label: 'Not selected', value: null },
@@ -40,7 +41,7 @@ const fields: FormFields[] = [
     type: 'text',
     required: true,
     label: { text: 'Name: ' },
-    value: values.value.name,
+    value: formValues.value.name,
     placeholder: 'Enter your name',
     icon: 'pi pi-user',
     class: 'col-12',
@@ -49,8 +50,8 @@ const fields: FormFields[] = [
     name: 'fruit',
     type: 'select',
     required: true,
-    label: { text: 'Select Fruit' }, // corrected label
-    value: values.value.fruit,
+    label: { text: 'Select Fruit' },
+    value: formValues.value.fruit,
     placeholder: 'Select your favorite fruit',
     options: fruitOptions.value,
     class: 'col-12'
@@ -61,7 +62,7 @@ const fields: FormFields[] = [
     feedback: true,
     required: true,
     label: { text: 'Password:' },
-    value: values.value.password,
+    value: formValues.value.password,
     placeholder: 'Enter password',
     class: 'col-12'
   },
@@ -69,7 +70,7 @@ const fields: FormFields[] = [
     name: 'date',
     type: 'date',
     required: true,
-    value: values.value.date,
+    value: formValues.value.date,
     minDate: new Date(),
     maxDate: new Date('2024/12/31'),
     showButtonBar: true,
@@ -80,44 +81,50 @@ const fields: FormFields[] = [
     class: 'col-12'
   },
   {
-    name: 'time',
-    type: 'date',
-    required: true,
-    value: values.value.time,
-    label: { text: 'Select time' },
-    showIcon: true,
-    timeOnly: true,
-    iconDisplay: 'input',
-    dateFormat: 'dd/mm/yy',
-    class: 'col-12'
-  },
-  {
-    name: 'searched',
-    type: 'autocomplete',
-    required: false,
-    value: values.value.searched,
-    label: { text: 'Search' },
-    suggestions: suggestions,
-    class: 'col-12',
-    placeholder: 'search'
-  },
-  {
     name: 'textarea',
     type: 'textarea',
     required: false,
-    value: values.value.textarea,
+    value: formValues.value.textarea,
     label: { text: 'Textarea' },
     class: 'col-12',
     autoResize: true,
     rows: 5,
     cols: 40
-  }
+  },
 ];
 
-const formValues = ref({});
+const formGroup: FormGroup[] = [
+  {
+    class: 'd-flex',
+    fields: [
+      {
+        name: 'time',
+        type: 'date',
+        required: true,
+        value: formValues.value.time,
+        label: { text: 'Select time' },
+        showIcon: true,
+        timeOnly: true,
+        iconDisplay: 'input',
+        dateFormat: 'dd/mm/yy',
+        class: 'col-6'
+      },
+      {
+        name: 'searched',
+        type: 'autocomplete',
+        required: false,
+        value: formValues.value.searched,
+        label: { text: 'Search' },
+        suggestions: suggestions,
+        class: 'col-6',
+        placeholder: 'search'
+      }
+    ]
+  }
+]
 
 const onSubmit = (fieldValues: Record<string, any>) => {
-  console.log(fieldValues, 'Form Submitted');
+  console.log('Form Submitted:', fieldValues);
 };
 </script>
 

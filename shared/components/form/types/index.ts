@@ -64,4 +64,10 @@ export type DatePickerField = {
     dateFormat?: 'dd/mm/yy' | 'mm/dd/yy' | 'yy/mm/dd'
 }
 
+export type FormGroup = {
+    class?: string
+    style?: string
+    fields: FormFields[]
+}
+
 export type FormFields = FormFieldProps & (InputField | SelecField | SlotField | TextArea | AutocompleteField | PasswordField | DatePickerField)

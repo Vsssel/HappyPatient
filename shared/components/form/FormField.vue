@@ -1,171 +1,80 @@
 <template>
-  <div class="w-100 d-flex flex-column align-items-center">
-    <form
-      novalidate
-      :class="[props.fieldsColumn ? 'd-flex flex-column w-100' : 'd-flex flex-row w-100 justify-content-between', 'was-validated']"
-      @submit.prevent="handleSubmit"
-    >
-      <div v-for="(field, index) in fields" :key="index" class="mb-3">
-        <label v-if="field.label" :style="field.label.style" :class="[ field.label.class,'form-label d-flex']">
-          {{ field.label.text }}
-          <i v-if="field.required" style="font-size: 8px; color: red; margin-left: 4px;" class="bi-asterisk"></i>
-        </label>
-        <div>
-          <div v-if="field.type === 'text'">
-            <IconField>
-              <InputIcon v-if="field.icon" :class="field.icon"></InputIcon>
-              <InputText
-                v-model="field.value"
-                @input="handleInputChange"
-                :placeholder="field.placeholder"
-                :class="[field.class]"
-                :required="field.required"
-              />
-            </IconField>
-          </div>
-          <div v-if="field.type === 'number'">
-            <InputNumber
-              v-model="field.value"
-              @input="handleInputChange"
-              :placeholder="field.placeholder"
-              :class="[field.class]"
-              :required="field.required"
-            />
-          </div>
-          <div v-if="field.type === 'password'">
-            <Password
-              toggle-mask
-              input-class="w-100"
-              v-model="field.value"
-              @input="handleInputChange"
-              :placeholder="field.placeholder"
-              :class="[field.class]"
-              :required="field.required"
-              :feedback="field.feedback || false"
-            />
-          </div>
-          <div v-if="field.type === 'date'">
-            <DatePicker
-              v-model="field.value"
-              @input="handleInputChange"
-              :show-icon="field.showIcon ?? false"
-              :icon-display="field.iconDisplay"
-              :time-only="field.timeOnly ?? false"
-              :min-date="field.minDate"
-              :max-date="field.maxDate"
-              :date-format="field.dateFormat ?? 'dd/mm/yy'"
-              :fluid="true"
-              :placeholder="field.placeholder"
-              :show-button-bar="field.showButtonBar ?? false"
-              :class="[field.class]"
-              :required="field.required"
-            >
-            <template #inputicon="slotProps">
-              <i v-if="field.timeOnly" class="pi pi-clock" @click="slotProps.clickCallback" />
-            </template>
-          </DatePicker>
+  <div>
+    <form @submit.prevent="handleSubmit" class="w-100 d-flex flex-column align-items-center">
+      <template v-if="fields.length">
+        <FieldsContainer  :fields="fields" :validated="validated"/>
+      </template>
+      <template v-else-if="groupFields.length">
+        <div v-for="(group, index) in groupFields" :class="group.class" :key="index">
+          <FieldsContainer  :fields="group.fields" :validated="validated"/>
         </div>
-          <div v-if="field.type === 'autocomplete'">
-              <AutoComplete
-                v-model="field.value"
-                :suggestions="filteredSuggestions"
-                input-class="w-100"
-                @complete="search($event, field.suggestions)"
-                @change="handleInputChange"
-                :placeholder="field.placeholder"
-                :class="[field.class]"
-                :required="field.required"
-              />
-          </div>
-          <div v-if="field.type === 'select'">
-            <Select
-              v-model="field.value"
-              @change="handleInputChange"
-              :options="field.options"
-              option-label="label"
-              option-value="value"
-              :placeholder="field.placeholder"
-              :class="[field.class]"
-              :required="field.required"
-            />
-          </div>
-          <div v-if="field.type === 'textarea'">
-            <Textarea 
-              v-model="field.value"
-              @change="handleInputChange"
-              :class="field.class"
-              :required="field.required"
-              :rows="field.rows"
-              :cols="field.cols"
-            />
-          </div>
-        </div>
-        <Message v-if="!isValid(field) && validated" severity="error" class="p-0 mt-2 mb-2">This filed is required</Message>
-      </div>
-      <button type="button" class="btn btn-primary" @click="handleSubmit">Submit</button>
+      </template>
+      <button type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, reactive, watch, defineEmits } from 'vue';
-import InputText from 'primevue/inputtext';
-import InputNumber from 'primevue/inputnumber';
-import Select from 'primevue/select';
-import type { AutocompleteField, FormFields } from './types';
-import AutoComplete from 'primevue/autocomplete';
-import Message from 'primevue/message';
+import { ref, reactive, watch, defineProps } from 'vue';
+import FieldsContainer from './FieldsContainer.vue';
+import type { FormFields, FormGroup } from './types';
 
-const validated = ref(false)
-const filteredSuggestions = ref()
+const validated = ref(false);
 
 const props = defineProps<{
-  fieldsRow?: FormFields[];
-  fieldsColumn?: FormFields[];
+  formFields?: FormFields[];
+  formGroup?: FormGroup[];
   submit?: (fieldValues: Record<string, any>) => void;
 }>();
 
-const emit = defineEmits(['update:fieldsValues'])
-
-const fields = reactive<FormFields[]>(props.fieldsRow ?? props.fieldsColumn ?? []);
+const fields = reactive<FormFields[]>(props.formFields ?? []);
+const groupFields = reactive<FormGroup[]>(props.formGroup ?? []);  // Correct type here
 
 const getFieldValues = () => {
-  return fields.reduce((acc, field) => {
+  // Handling both individual and grouped fields
+  const individualValues = fields.reduce((acc, field) => {
     acc[field.name] = field.value;
     return acc;
   }, {} as Record<string, any>);
-};
 
-const handleInputChange = () => {
-  emit('update:fieldsValues', getFieldValues())
+  const groupValues = groupFields.reduce((acc, group) => {
+    group.fields.forEach((field) => {
+      acc[field.name] = field.value;
+    });
+    return acc;
+  }, {} as Record<string, any>);
+
+  return { ...individualValues, ...groupValues };
 };
 
 const isValid = (field: any) => {
-  return field.required ? field.value !== null && field.value !== '' : true
-}
+  return field.required ? field.value !== null && field.value !== '' : true;
+};
 
 const handleSubmit = () => {
-  validated.value = true
-  const allValid = fields.every(isValid);
+  validated.value = true;
+  const allFields = [...fields, ...groupFields.flatMap(group => group.fields)];
+  const allValid = allFields.every(isValid);
   if (allValid && props.submit) {
-    props.submit(getFieldValues())
+    props.submit(getFieldValues());
   } else {
-    console.log('Form is invalid')
+    console.log('Form is invalid');
   }
 };
 
-const search = (event: any, suggestions: AutocompleteField['suggestions']) => {
-  if(!event.query.trim().length){
-    filteredSuggestions.value = [...suggestions]
-  } else {
-    filteredSuggestions.value = suggestions.filter((item) => {
-      return String(item).toLowerCase().startsWith(event.query.toLowerCase())
-    })
-  }
-}
+watch(
+  () => props.formFields,
+  (newFields) => {
+    Object.assign(fields, newFields || []);
+  },
+  { immediate: true }
+);
 
-
-watch(() => props.fieldsRow || props.fieldsColumn, (newFields) => {
-  Object.assign(fields, newFields || []);
-}, { immediate: true });
+watch(
+  () => props.formGroup,
+  (newGroupFields) => {
+    Object.assign(groupFields, newGroupFields || []);
+  },
+  { immediate: true }
+);
 </script>
