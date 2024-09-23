@@ -64,18 +64,18 @@
               <i v-if="field.timeOnly" class="pi pi-clock" @click="slotProps.clickCallback" />
             </template>
           </DatePicker>
+        </div>
           <div v-if="field.type === 'autocomplete'">
               <AutoComplete
                 v-model="field.value"
-                :suggestions="field.suggestions"
-                @complete="search(field)"
-                optionLabel="name"
-                @input="handleInputChange"
+                :suggestions="filteredSuggestions"
+                input-class="w-100"
+                @complete="search($event, field.suggestions)"
+                @change="handleInputChange"
                 :placeholder="field.placeholder"
                 :class="[field.class]"
                 :required="field.required"
               />
-            </div>
           </div>
           <div v-if="field.type === 'select'">
             <Select
@@ -102,11 +102,12 @@ import { defineProps, reactive, watch, defineEmits } from 'vue';
 import InputText from 'primevue/inputtext';
 import InputNumber from 'primevue/inputnumber';
 import Select from 'primevue/select';
-import type { FormFields } from './types';
+import type { AutocompleteField, FormFields } from './types';
 import AutoComplete from 'primevue/autocomplete';
 import Message from 'primevue/message';
 
 const validated = ref(false)
+const filteredSuggestions = ref()
 
 const props = defineProps<{
   fieldsRow?: FormFields[];
@@ -143,13 +144,15 @@ const handleSubmit = () => {
   }
 };
 
-const search = (field: FormFields) => {
-  return (event: { query: string }) => {
-    const query = event.query.toLowerCase();
-    const filteredSuggestions = field.suggestions.filter(item => item.name.toLowerCase().includes(query));
-    return filteredSuggestions;
-  };
-};
+const search = (event: any, suggestions: AutocompleteField['suggestions']) => {
+  if(!event.query.trim().length){
+    filteredSuggestions.value = [...suggestions]
+  } else {
+    filteredSuggestions.value = suggestions.filter((item) => {
+      return item.toLowerCase().startsWith(event.query.toLowerCase())
+    })
+  }
+}
 
 
 watch(() => props.fieldsRow || props.fieldsColumn, (newFields) => {

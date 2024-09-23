@@ -24,7 +24,7 @@ const values = ref({
   searched: null
 });
 
-const suggestions = [{ name: 'Apple' }, { name: 'Banana' }, { name: 'Cherry' }];
+const suggestions = ['Apple', 'Banana', 'Cherry' ];
 
 const fruitOptions = ref([
   { label: 'Not selected', value: null },
@@ -91,7 +91,7 @@ const fields: FormFields[] = [
     class: 'col-12'
   },
   {
-    name: 'autocomplete',
+    name: 'searched',
     type: 'autocomplete',
     required: false,
     value: values.value.searched,
