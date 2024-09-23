@@ -17,11 +17,12 @@ import type { FormFields } from '~/shared/components/form/types';
 
 const values = ref({
   name: null,
-  fruit: null, // corrected from 'fruite' to 'fruit'
+  fruit: null,
   password: null,
   date: null,
   time: null,
-  searched: null
+  searched: null,
+  textarea: null
 });
 
 const suggestions = ['Apple', 'Banana', 'Cherry' ];
@@ -99,6 +100,17 @@ const fields: FormFields[] = [
     suggestions: suggestions,
     class: 'col-12',
     placeholder: 'search'
+  },
+  {
+    name: 'textarea',
+    type: 'textarea',
+    required: false,
+    value: values.value.textarea,
+    label: { text: 'Textarea' },
+    class: 'col-12',
+    autoResize: true,
+    rows: 5,
+    cols: 40
   }
 ];
 

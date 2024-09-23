@@ -39,7 +39,11 @@ export type SlotField = {
 }
 
 export type TextArea = {
-    type: 'textarea'
+    type: 'textarea',
+    autoResize?: boolean,
+    value: string | null
+    rows: number,
+    cols: number
 }
 
 export type AutocompleteField = {

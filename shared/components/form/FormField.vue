@@ -89,6 +89,16 @@
               :required="field.required"
             />
           </div>
+          <div v-if="field.type === 'textarea'">
+            <Textarea 
+              v-model="field.value"
+              @change="handleInputChange"
+              :class="field.class"
+              :required="field.required"
+              :rows="field.rows"
+              :cols="field.cols"
+            />
+          </div>
         </div>
         <Message v-if="!isValid(field) && validated" severity="error" class="p-0 mt-2 mb-2">This filed is required</Message>
       </div>
