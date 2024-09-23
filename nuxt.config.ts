@@ -1,4 +1,4 @@
-import Aura from '@primevue/themes/aura';
+import Aura from "@primevue/themes/aura";
 
 export default defineNuxtConfig({
   modules: [
@@ -22,12 +22,12 @@ export default defineNuxtConfig({
 
   vite: {
     define: {
-      'process.env.DEBUG': false
-    }
+      "process.env.DEBUG": false,
+    },
   },
 
   build: {
-    transpile: ['bootstrap']
+    transpile: ["bootstrap"],
   },
 
   plugins: [
