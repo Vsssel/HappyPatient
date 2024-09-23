@@ -29,7 +29,8 @@ export type SelecField = {
 
 export type PasswordField = {
     type: 'password',
-    feedback?: boolean
+    feedback?: boolean,
+    value: string | null;
 }
 
 export type SlotField = {
@@ -43,11 +44,12 @@ export type TextArea = {
 
 export type AutocompleteField = {
     type: 'autocomplete';
-    suggestions: Array<Record<string | number, any>>;
+    suggestions: string[] | number[];
 }
 
 export type DatePickerField = {
     type: 'date',
+    value: Date | null | undefined | Date[]
     name: string,
     showIcon?: boolean,
     iconDisplay?: 'input',

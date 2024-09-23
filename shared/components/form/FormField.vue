@@ -149,7 +149,7 @@ const search = (event: any, suggestions: AutocompleteField['suggestions']) => {
     filteredSuggestions.value = [...suggestions]
   } else {
     filteredSuggestions.value = suggestions.filter((item) => {
-      return item.toLowerCase().startsWith(event.query.toLowerCase())
+      return String(item).toLowerCase().startsWith(event.query.toLowerCase())
     })
   }
 }
