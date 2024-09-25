@@ -1,6 +1,4 @@
-import type { Store } from 'pinia'
-
-export type Name = 'userAuthStore'
+export type Name = 'authToken'
 
 export type State = {
     token: string
@@ -10,9 +8,7 @@ export type Actions = {
     setToken(token: string): void
 }
 
-export type Getetrs = {
+export type Getters = {
     getToken(): string
     isAuthorized(): boolean
 }
-
-export type StoreType = Store<Name, State, Actions, Getetrs>

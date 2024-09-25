@@ -7,6 +7,6 @@ export type ApiOption = {
 }
 
 export type ApiResponse<T> = {
-    data: T | null;
+    data: T | undefined;
     error: string | null;
 }

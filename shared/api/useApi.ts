@@ -1,10 +1,8 @@
-import { storeToRefs } from 'pinia'
-import { userAuthStore } from "../stores/userAuthStore"
 import type { ApiOption, ApiResponse } from "./type"
 import { useRuntimeConfig } from "#app"
+import { clearToken, getToken, setToken } from "../stores/userAuthStore"
 
 export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Promise<ApiResponse<T>> => {
-    const store = userAuthStore()
     const config = useRuntimeConfig()
     const baseUrl = config.public.API_BASE_URL
 
@@ -15,7 +13,7 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
         }
 
         if (options.auth) {
-            const { token } = storeToRefs(store)
+            const token = getToken
             if (token) {
                 headers['Authorization'] = `Bearer ${token}`
             } else {
@@ -23,15 +21,23 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
             }
         }
 
-        const data = await $fetch<T>("https://jsonplaceholder.typicode.com" + endpoint, {
+        const response = await $fetch.raw<T>(baseUrl + endpoint, {
             method: options.methos,
             headers,
             body: options.body,
-            params: options.params
+            params: options.params,
         })
+
+        if (response.headers.get('auth')) {
+            clearToken()
+            setToken(response.headers.get('auth'))
+        }
+
+        const data = response._data
+
 
         return { data, error: null }
     } catch (error: any) {
-        return { data: null, error: error.message }
+        return { data: undefined, error: error.message }
     }
 }

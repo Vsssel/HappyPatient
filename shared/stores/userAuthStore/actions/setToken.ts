@@ -1,5 +1,3 @@
-import type { StoreType } from "../types"
-
-export default function setToken(this: StoreType, token: string): void {
-    this.token = token
+export default function setToken(token: string | null): void {
+    token && localStorage.setItem("authToken", token)
 }

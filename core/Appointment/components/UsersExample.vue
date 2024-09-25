@@ -32,7 +32,7 @@ const fetchFromUrl = async (url: string, dataRef: Ref<any>, loadingRef: Ref<bool
       methos: "GET",
       auth: false
     });
-    dataRef.value = await response
+    dataRef.value = response
   } finally {
     loadingRef.value = false;
   }

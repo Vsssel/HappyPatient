@@ -3,19 +3,20 @@ import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
   modules: [
-    '@pinia/nuxt',
     '@primevue/nuxt-module'
   ],
-
-  alias: {
-    pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs"
-  },
 
   primevue: {
     options: {
       theme: {
         preset: Aura
       }
+    }
+  },
+
+  runtimeConfig: {
+    public: {
+      API_BASE_URL: process.env.API_BASE_URL
     }
   },
 

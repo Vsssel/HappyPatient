@@ -1,5 +1,3 @@
-import type { StoreType } from "../types"
-
-export default function isAuthorized(this: StoreType): boolean {
-    return !!this.token
+export default function isAuthorized(): boolean {
+    return !!localStorage.getItem("authToken")
 }
