@@ -9,6 +9,9 @@ dist
 # Node dependencies
 node_modules
 
+# Editor directories and files
+.vscode
+
 # Logs
 logs
 *.log
@@ -19,6 +22,5 @@ logs
 .idea
 
 # Local env files
-.env
 .env.*
 !.env.example

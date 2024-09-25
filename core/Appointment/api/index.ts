@@ -1,2 +1,1 @@
-export { getAppointments } from './getAppointment'
-export { postAppointment } from './postAppointment'
+// to do
