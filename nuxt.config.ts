@@ -1,10 +1,15 @@
 import Aura from "@primevue/themes/aura";
+import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@primevue/nuxt-module'
   ],
+
+  alias: {
+    pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs"
+  },
 
   primevue: {
     options: {

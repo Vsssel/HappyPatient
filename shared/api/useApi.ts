@@ -23,7 +23,7 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
             }
         }
 
-        const data = await $fetch<T>(baseUrl + endpoint, {
+        const data = await $fetch<T>("https://jsonplaceholder.typicode.com" + endpoint, {
             method: options.methos,
             headers,
             body: options.body,

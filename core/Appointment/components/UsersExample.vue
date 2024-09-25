@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import Loader from "~/shared/components/loader/Loader.vue";
-import { ref, onMounted, Ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useApi } from "~/shared/api";
 
 const isLoadingUrl1 = ref(true);
