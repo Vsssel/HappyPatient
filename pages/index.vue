@@ -82,4 +82,8 @@ const onSubmit = (fieldValues: Record<string, any>) => {
   --p-primary-900: var(--p-blue-900);
   --p-primary-950: var(--p-blue-950);
 }
+
+body {
+  position: relative;
+}
 </style>
