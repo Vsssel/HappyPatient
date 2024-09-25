@@ -18,7 +18,8 @@
 
 <script setup lang="ts">
 import Loader from "~/shared/components/loader/Loader.vue";
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, Ref } from 'vue'
+import { useApi } from "~/shared/api";
 
 const isLoadingUrl1 = ref(true);
 const isLoadingUrl2 = ref(true);
@@ -27,15 +28,18 @@ const dataUrl2 = ref(null);
 
 const fetchFromUrl = async (url: string, dataRef: Ref<any>, loadingRef: Ref<boolean>) => {
   try {
-    const response = await fetch(url);
-    dataRef.value = await response.json();
+    const response = await useApi<any>(url, {
+      methos: "GET",
+      auth: false
+    });
+    dataRef.value = await response
   } finally {
     loadingRef.value = false;
   }
 };
 
 onMounted(() => {
-  fetchFromUrl("https://jsonplaceholder.typicode.com/todos/1", dataUrl1, isLoadingUrl1);
-  fetchFromUrl("https://jsonplaceholder.typicode.com/todos/2", dataUrl2, isLoadingUrl2);
+  fetchFromUrl("/todos/1", dataUrl1, isLoadingUrl1);
+  fetchFromUrl("/todos/2", dataUrl2, isLoadingUrl2);
 });
 </script>

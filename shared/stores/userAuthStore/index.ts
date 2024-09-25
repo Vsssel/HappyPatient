@@ -1,4 +1,4 @@
-import { defineStore } from "pinia"
+import { defineStore } from 'pinia'
 import type { Name, Actions, Getetrs, State } from "./types"
 
 import * as actions from './actions'
@@ -11,12 +11,10 @@ export const userAuthStore = defineStore<Name, State, Getetrs, Actions>('userAut
 
     getters: {
         ...getters
-    }
-
+    },
     state() {
         return {
             token: ''
         }
-    },
-
+    }
 })

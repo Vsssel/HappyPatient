@@ -2,6 +2,7 @@ import Aura from "@primevue/themes/aura";
 
 export default defineNuxtConfig({
   modules: [
+    '@pinia/nuxt',
     '@primevue/nuxt-module'
   ],
 
