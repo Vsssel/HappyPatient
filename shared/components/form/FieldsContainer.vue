@@ -3,11 +3,11 @@
         <div class="w-100">
             <label v-if="field.label" :style="field.label.style" :class="[ field.label.class,'form-label d-flex']">
               {{ field.label.text }}
-              <i v-if="field.required" style="font-size: 8px; color: red; margin-left: 4px;" class="bi-asterisk"></i>
+              <i v-if="field.required" style="font-size: 8px; color: red; margin-left: 4px;" class="bi-asterisk" />
             </label>
         <div>
         <div v-if="field.type === 'text'">
-                <IconField>
+            <IconField>
                 <InputIcon v-if="field.icon" :class="field.icon"></InputIcon>
                 <InputText
                     v-model="field.value"
@@ -16,18 +16,17 @@
                     :class="[field.class]"
                     
                 />
-                </IconField>
-            </div>
-            <div v-if="field.type === 'number'">
-                <InputNumber
-                v-model="field.value"
-                @input="handleInputChange"
-                :placeholder="field.placeholder"
-                :class="[field.class]"
-                
-                />
-            </div>
-            <div v-if="field.type === 'password'">
+            </IconField>
+        </div>
+        <div v-if="field.type === 'number'">
+            <InputNumber
+              v-model="field.value"
+              @input="handleInputChange"
+              :placeholder="field.placeholder"
+              :class="[field.class]"  
+            />
+        </div>
+        <div v-if="field.type === 'password'">
                 <Password
                 toggle-mask
                 input-class="w-100"

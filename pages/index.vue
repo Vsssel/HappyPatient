@@ -10,7 +10,11 @@
           <Checkbox v-model="formValues.toggle" :binary="true" />
         </template>
       </FormField>
-      <FormField :formGroup="formGroup" :submit="onSubmit" v-model:fieldsValues="formValues" />
+      <FormField class="d-flex" :formGroup="formGroup" :submit="onSubmit" v-model:fieldsValues="formValues">
+        <template #button>
+          <button class="btn btn-primary align-self-end">Submit</button>
+        </template>
+      </FormField>
     </div>
   </div>
 </template>
@@ -123,6 +127,7 @@ const formGroup: FormGroup[] = [
 ]
 
 const onSubmit = (fieldValues: Record<string, any>) => {
+  formValues.value.time = fieldValues.time
   console.log('Form Submitted:', fieldValues);
 };
 </script>

@@ -29,7 +29,12 @@
           </FieldsContainer>
         </div>
       </template>
-      <button type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
+      <slot
+        v-if="('button' in $slots)"
+        name="button"
+        type="submit"
+      />
+      <button v-else type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
     </form>
   </div>
 </template>
@@ -48,10 +53,9 @@ const props = defineProps<{
 }>();
 
 const fields = reactive<FormFields[]>(props.formFields ?? []);
-const groupFields = reactive<FormGroup[]>(props.formGroup ?? []);  // Correct type here
+const groupFields = reactive<FormGroup[]>(props.formGroup ?? []); 
 
 const getFieldValues = () => {
-  // Handling both individual and grouped fields
   const individualValues = fields.reduce((acc, field) => {
     acc[field.name] = field.value;
     return acc;
