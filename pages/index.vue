@@ -10,9 +10,9 @@
           <Checkbox v-model="formValues.toggle" :binary="true" />
         </template>
       </FormField>
-      <FormField class="d-flex" :formGroup="formGroup" :submit="onSubmit" v-model:fieldsValues="formValues">
+      <FormField :formGroup="formGroup" :submit="onSubmit" v-model:fieldsValues="formValues">
         <template #button>
-          <button class="btn btn-primary align-self-end">Submit</button>
+          <button class="btn btn-primary align-self-end m-3">Submit</button>
         </template>
       </FormField>
     </div>
@@ -98,7 +98,7 @@ const fields: FormFields[] = [
 
 const formGroup: FormGroup[] = [
   {
-    class: 'd-flex',
+    class: 'row',
     fields: [
       {
         name: 'time',
@@ -109,7 +109,6 @@ const formGroup: FormGroup[] = [
         showIcon: true,
         timeOnly: true,
         iconDisplay: 'input',
-        dateFormat: 'dd/mm/yy',
         class: 'col-6'
       },
       {
