@@ -94,33 +94,11 @@
                 :cols="field.cols"
                 />
             </div>
-            <template
-              v-if="field.type === 'slot'"
-            >
-              <div
-                class="form-group"
-                :class="field.class"
-              >
-                <slot
-                  :name="field.name"
-                  v-bind="{
-                    value: field.value,
-                    values: inputs,
-                    inputs: allInputs,
-                    setValue: (value: any) => {
-                      setValue({
-                        idx: idx,
-                        name: field.name,
-                        oldValue: inputs[field.name].value,
-                        newValue: value
-                      })
-                    }
-                  }"
-                />
-              </div>
+            <template v-if="field.type === 'slot'">
+              <slot :name="field.name"></slot>
             </template>
             </div>
-            <Message v-if="!isValid(field) && validated" severity="error" :class="['p-0 mt-2 mb-2', field.class]">This filed is required</Message>
+            <p v-if="!isValid(field) && validated" :class="['p-0 fs-7 mt-2 mb-2 text-danger', field.class]">This filed is required</p>
         </div>
     </template>
   </template>
@@ -134,7 +112,6 @@
   import AutoComplete from 'primevue/autocomplete';
   import DatePicker from 'primevue/datepicker';
   import Password from 'primevue/password';
-  import Message from 'primevue/message';
   
   import type { FormFields } from './types';
   

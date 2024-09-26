@@ -2,11 +2,31 @@
   <div>
     <form @submit.prevent="handleSubmit" class="w-100 d-flex flex-column align-items-center">
       <template v-if="fields.length">
-        <FieldsContainer  :fields="fields" :validated="validated"/>
+        <FieldsContainer  :fields="fields" :validated="validated">
+          <template
+                v-for="(_, slot) of $slots"
+                #[slot]="scope"
+              >
+                <slot
+                  :name="slot"
+                  v-bind="scope"
+                />
+              </template>
+        </FieldsContainer>
       </template>
       <template v-else-if="groupFields.length">
         <div v-for="(group, index) in groupFields" :class="group.class" :key="index">
-          <FieldsContainer  :fields="group.fields" :validated="validated"/>
+          <FieldsContainer  :fields="group.fields" :validated="validated">
+            <template
+                v-for="(_, slot) of $slots"
+                #[slot]="scope"
+              >
+                <slot
+                  :name="slot"
+                  v-bind="scope"
+                />
+              </template>
+          </FieldsContainer>
         </div>
       </template>
       <button type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
