@@ -4,10 +4,12 @@
     import Table from './Table.vue';
     import NotAvailableSlot from './NotAvailableSlot.vue';
     import FreeSlot from './FreeSlot.vue';
+    import RoundButton from '~/shared/components/button/RoundButton.vue';
+    import FormField from '~/shared/components/form/FormField.vue';
+    import ScheduleHeader from './ScheduleHeader.vue';
 
     const { week } = defineProps<{ week: GetSubResponseWorkTime[] }>()
 
-    const loading = ref(false);
     const whereNoSlots = ref<EmptySlot[]>([]);
     const slots = ref<SlotInfo[]>([]);
     
@@ -15,35 +17,29 @@
         () => new Array(SLOTS_COUNT).fill(WorkingStatus.NOT_WORKING)
     );
 
-    onMounted(() => {
-        loading.value = true;
+    onMounted(() => week.forEach(day => {
+        const dayAtWeek = day.dayAtWeek;
+        let indexes = { start: timeToSlotIndex(day.startTime), end: timeToSlotIndex(day.endTime) };
+        setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.AVAILABLE)
+        
+        indexes = { start: timeToSlotIndex(day.lunch.startTime), end: timeToSlotIndex(day.lunch.endTime) };
+        setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.NOT_AVAILABLE);
+        slots.value.push({ status: SlotStatus.LUNCH, dayAtWeek, indexes, toShow: null });
 
-        for (let day of week) {
-            const dayAtWeek = day.dayAtWeek;
-            let indexes = { start: timeToSlotIndex(day.startTime), end: timeToSlotIndex(day.endTime) };
-            setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.AVAILABLE)
-            
-            indexes = { start: timeToSlotIndex(day.lunch.startTime), end: timeToSlotIndex(day.lunch.endTime) };
-            setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.NOT_AVAILABLE);
-            slots.value.push({ status: SlotStatus.LUNCH, dayAtWeek, indexes, toShow: null });
+        for (let slot of day.slots) {
+            const indexes = { start: timeToSlotIndex(slot.startTime), end: timeToSlotIndex(slot.endTime) };
+            setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.NOT_AVAILABLE)
 
-            for (let slot of day.slots) {
-                const indexes = { start: timeToSlotIndex(slot.startTime), end: timeToSlotIndex(slot.endTime) };
-                setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.NOT_AVAILABLE)
-
-                if (slot.mine && slot.type)
-                    slots.value.push({ status: SlotStatus.MY_APPOINTMENT, dayAtWeek, indexes, toShow: { type: slot.type } });
-                else
-                    slots.value.push({ status: SlotStatus.SOME_APPOINTMENT, dayAtWeek, indexes, toShow: null });
-            }
-
-            for (let [slotIndex, slotWorkingStatus] of isWorkingTime[dayAtWeek].entries())
-                if (slotWorkingStatus != WorkingStatus.NOT_AVAILABLE)
-                    whereNoSlots.value.push({ dayIndex: dayAtWeek, slotIndex, status: slotWorkingStatus });
+            if (slot.mine && slot.type)
+                slots.value.push({ status: SlotStatus.MY_APPOINTMENT, dayAtWeek, indexes, toShow: { type: slot.type } });
+            else
+                slots.value.push({ status: SlotStatus.SOME_APPOINTMENT, dayAtWeek, indexes, toShow: null });
         }
 
-        loading.value = false;
-    });
+        for (let [slotIndex, slotWorkingStatus] of isWorkingTime[dayAtWeek].entries())
+            if (slotWorkingStatus != WorkingStatus.NOT_AVAILABLE)
+                    whereNoSlots.value.push({ dayIndex: dayAtWeek, slotIndex, status: slotWorkingStatus });
+    }));
 
     const setWorkingStatus = (
         weekDayIndex: number,
@@ -57,14 +53,29 @@
 
 
 <template>
-    <Table v-if="week.length > 0" :week-day-date="week[0].date">
-        <template v-for="slot in slots" #[slotKey(slot)]>
-            <NotAvailableSlot :slot="slot" />
-        </template>
-        <template v-for="emptySlot in whereNoSlots" #[emptySlotKey(emptySlot)]>
-            <FreeSlot v-if="emptySlot.status == WorkingStatus.AVAILABLE"
-                :day-index="emptySlot.dayIndex" :slot-index="emptySlot.slotIndex"
-            />
-        </template>
-    </Table>
+    <div id="schedule-container" class="d-flex flex-column">
+        <ScheduleHeader />
+        <Table v-if="week.length > 0" :week-day-date="week[0].date">
+            <template v-for="slot in slots" #[slotKey(slot)]>
+                <NotAvailableSlot :slot="slot" />
+            </template>
+            <template v-for="emptySlot in whereNoSlots" #[emptySlotKey(emptySlot)]>
+                <FreeSlot v-if="emptySlot.status == WorkingStatus.AVAILABLE"
+                    :day-index="emptySlot.dayIndex" :slot-index="emptySlot.slotIndex"
+                />
+            </template>
+        </Table>
+    </div>
 </template>
+
+
+<style scoped>
+    #schedule-container {
+        width: min-content;
+        margin: 40px auto;
+        padding: 10px;
+        gap: 5px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+    }
+</style>

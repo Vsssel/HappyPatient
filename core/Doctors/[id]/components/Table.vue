@@ -41,6 +41,10 @@
     table {
         border-collapse: collapse;
         background-color: #ebf0f6;
+        width: min-content;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
     }
 
     th, td {
