@@ -92,7 +92,8 @@
               <slot :name="field.name"></slot>
             </template>
           </div>
-          <p :class="['p-0 fs-7 text-danger w-100']">{{ (!isValid(field) && validated) ?  'This filed is required' : ' '}}</p>
+          <p v-if="!isValid(field) && validated" :class="['p-0 fs-7 text-danger w-100']">{{ 'This filed is required' }}</p>
+          <p v-else :class="['p-2 fs-7 text-danger w-100']"></p>
         </div>
     </template>
   </template>
