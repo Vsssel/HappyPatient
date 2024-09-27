@@ -6,7 +6,7 @@
   <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center">
     <div class="w-25">
       <FormField :formFields="fields" :submit="onSubmit" v-model:fieldsValues="formValues">
-        <template #check="{field}">
+        <template #check>
           <Checkbox v-model="formValues.toggle" :binary="true" />
         </template>
       </FormField>

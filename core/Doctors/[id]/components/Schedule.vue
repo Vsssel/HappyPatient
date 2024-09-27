@@ -8,6 +8,7 @@
     import FormField from '~/shared/components/form/FormField.vue';
     import ScheduleHeader from './ScheduleHeader.vue';
     import { getDoctorSchedule } from '../api';
+    import Loader from '~/shared/components/loader/Loader.vue';
 
     const props = defineProps<{ id: number, week: GetScheduleResponse[] }>();
     const week = ref<GetScheduleResponse[]>([...props.week]);
@@ -68,24 +69,26 @@
 
 
 <template>
-    <div id="schedule-container" class="d-flex flex-column">
-        <ScheduleHeader
-            :week-number="weekNumber"
-            :decrement="() => weekNumber--"
-            :increment="() => weekNumber++"
-        />
-        
-        <Table v-if="week.length > 0" :week-day-date="week[0].date">
-            <template v-for="slot in slots" #[slotKey(slot)]>
-                <NotAvailableSlot :slot="slot" />
-            </template>
-            <template v-for="emptySlot in whereNoSlots" #[emptySlotKey(emptySlot)]>
-                <FreeSlot v-if="emptySlot.status == WorkingStatus.AVAILABLE"
-                    :day-index="emptySlot.dayIndex" :slot-index="emptySlot.slotIndex"
-                />
-            </template>
-        </Table>
-    </div>
+    <Loader :is-loading="loading">
+        <div id="schedule-container" class="d-flex flex-column">
+            <ScheduleHeader
+                :week-number="weekNumber"
+                :decrement="() => weekNumber--"
+                :increment="() => weekNumber++"
+            />
+            
+            <Table v-if="week.length > 0" :week-day-date="week[0].date">
+                <template v-for="slot in slots" #[slotKey(slot)]>
+                    <NotAvailableSlot :slot="slot" />
+                </template>
+                <template v-for="emptySlot in whereNoSlots" #[emptySlotKey(emptySlot)]>
+                    <FreeSlot v-if="emptySlot.status == WorkingStatus.AVAILABLE"
+                        :day-index="emptySlot.dayIndex" :slot-index="emptySlot.slotIndex"
+                    />
+                </template>
+            </Table>
+        </div>
+    </Loader>
 </template>
 
 

@@ -176,13 +176,28 @@ const response = {
         {
             date: "12-09-2024",
             dayAtWeek: 4,
-            startTime: "12:00:00",
-            endTime: "12:00:00",
+            startTime: "11:00:00",
+            endTime: "14:00:00",
             lunch: {
-                startTime: "12:00:00",
-                endTime: "12:00:00"
+                startTime: "12:30:00",
+                endTime: "13:00:00"
             },
-            slots: []
+            slots: [
+                {
+                    id: 7,
+                    startTime: "12:00:00",
+                    endTime: "12:30:00",
+                    mine: false,
+                    type: null
+                },
+                {
+                    id: 10,
+                    startTime: "13:30:00",
+                    endTime: "14:00:00",
+                    mine: false,
+                    type: null
+                }
+            ]
         },
         {
             date: "13-09-2024",
@@ -198,13 +213,21 @@ const response = {
         {
             date: "14-09-2024",
             dayAtWeek: 6,
-            startTime: "12:00:00",
-            endTime: "12:00:00",
+            startTime: "14:00:00",
+            endTime: "16:00:00",
             lunch: {
                 startTime: "12:00:00",
                 endTime: "12:00:00"
             },
-            slots: []
+            slots: [
+                {
+                    id: 7,
+                    startTime: "15:00:00",
+                    endTime: "15:30:00",
+                    mine: true,
+                    type: 'treat'
+                },
+            ]
         },
         {
             date: "15-09-2024",

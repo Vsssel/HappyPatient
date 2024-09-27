@@ -2,16 +2,14 @@
   <div>
     <h3>Data from URL 1:</h3>
     <Loader :isLoading="isLoadingUrl1" :size="{ width: '500px', height: '500px' }" type="square" :data="dataUrl1">
-      <template #default="{ data }">
-        <div>Data: {{ data }}</div>
+      <template>
+        <div>Data: {{ dataUrl1 }}</div>
       </template>
     </Loader>
 
     <h3>Data from URL 2:</h3>
     <Loader :isLoading="isLoadingUrl2" :size="{ width: '100%', height: '5rem' }" type="line" :data="dataUrl2">
-      <template #default="{ data }">
-        <div>Data: {{ data }}</div>
-      </template>
+      <div>Data: {{ dataUrl2 }}</div>
     </Loader>
   </div>
 </template>

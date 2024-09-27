@@ -5,6 +5,7 @@
     import BackgroundBlur from '~/shared/components/BackgroundBlur.vue';
     import response from './mock-response';
     import { getDoctorProfile } from '~/core/Doctors/[id]/api';
+    import Loader from '~/shared/components/loader/Loader.vue';
 
     const route = useRoute();
     const id = parseInt(route.params.id.toString());
@@ -15,7 +16,7 @@
     });
 
     const pageData = ref<GetProfileResponse>(response);
-    const loading = ref(true)
+    const loading = ref(true);
 
     onMounted(() => getDoctorProfile(id)
         .then(response => {
@@ -28,13 +29,16 @@
 </script>
 
 <template>
-    <BackgroundBlur v-if="bookingWindowProps">
-        <BookingWindow
-            :day-index="bookingWindowProps.dayIndex"
-            :slot-start-index="bookingWindowProps.slotStartIndex"
-        />
-    </BackgroundBlur>
-    
-    <Schedule v-if="id" :id="id" :week="response.workTime"/>
-    <p v-else>400</p>
+    <Loader :is-loading="loading">
+        <BackgroundBlur v-if="bookingWindowProps">
+            <BookingWindow
+                :day-index="bookingWindowProps.dayIndex"
+                :slot-start-index="bookingWindowProps.slotStartIndex"
+            />
+        </BackgroundBlur>
+        
+        <Schedule v-if="id" :id="id" :week="response.workTime"/>
+        <p v-else>400</p>
+    </Loader>
+        
 </template>
