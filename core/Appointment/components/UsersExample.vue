@@ -2,9 +2,7 @@
   <div>
     <h3>Data from URL 1:</h3>
     <Loader :isLoading="isLoadingUrl1" :size="{ width: '500px', height: '500px' }" type="square" :data="dataUrl1">
-      <template>
-        <div>Data: {{ dataUrl1 }}</div>
-      </template>
+      <div>Data: {{ dataUrl1 }}</div>
     </Loader>
 
     <h3>Data from URL 2:</h3>

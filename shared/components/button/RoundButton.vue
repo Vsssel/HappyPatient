@@ -4,7 +4,7 @@
 
 
 <template>
-    <button class="d-flex justify-content-center align-items-center border-0 p-1" :disabled="disabled">
+    <button class="d-flex justify-content-center align-items-center border-0 p-2" :disabled="disabled">
         <slot></slot>
     </button>
 </template>

@@ -4,11 +4,10 @@
     import Table from './Table.vue';
     import NotAvailableSlot from './NotAvailableSlot.vue';
     import FreeSlot from './FreeSlot.vue';
-    import RoundButton from '~/shared/components/button/RoundButton.vue';
-    import FormField from '~/shared/components/form/FormField.vue';
     import ScheduleHeader from './ScheduleHeader.vue';
     import { getDoctorSchedule } from '../api';
     import Loader from '~/shared/components/loader/Loader.vue';
+    import { getWeekDates } from '~/shared/values';
 
     const props = defineProps<{ id: number, week: GetScheduleResponse[] }>();
     const week = ref<GetScheduleResponse[]>([...props.week]);
@@ -16,6 +15,8 @@
     const slots = ref<SlotInfo[]>([]);
     const weekNumber = ref(0);
     const loading = ref(false);
+    const weekDates = computed(() => getWeekDates(week.value[0].date));
+    const now = computed(() => new Date());
     
     const isWorkingTime: WorkingStatus[][] = new Array(7).fill(null).map(
         () => new Array(SLOTS_COUNT).fill(WorkingStatus.NOT_WORKING)
@@ -77,13 +78,14 @@
                 :increment="() => weekNumber++"
             />
             
-            <Table v-if="week.length > 0" :week-day-date="week[0].date">
+            <Table v-if="week.length > 0" :week="weekDates">
                 <template v-for="slot in slots" #[slotKey(slot)]>
                     <NotAvailableSlot :slot="slot" />
                 </template>
                 <template v-for="emptySlot in whereNoSlots" #[emptySlotKey(emptySlot)]>
                     <FreeSlot v-if="emptySlot.status == WorkingStatus.AVAILABLE"
                         :day-index="emptySlot.dayIndex" :slot-index="emptySlot.slotIndex"
+                        :date="weekDates[emptySlot.dayIndex]" :now="now"
                     />
                 </template>
             </Table>

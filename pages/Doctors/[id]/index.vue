@@ -38,7 +38,6 @@
         </BackgroundBlur>
         
         <Schedule v-if="id" :id="id" :week="response.workTime"/>
-        <p v-else>400</p>
     </Loader>
         
 </template>

@@ -2,8 +2,7 @@
     import { hoursSlotsRelation } from '../values/index';
     import { getWeekDates, SLOTS_PER_HOUR, weekDayTitles } from '~/shared/values/index';
 
-    const { weekDayDate } = defineProps<{ weekDayDate: string }>();
-    const weekDates = ref(getWeekDates(weekDayDate));
+    const { week } = defineProps<{ week: string[] }>();
 </script>
 
 
@@ -14,7 +13,7 @@
             <th v-for="weekDay in weekDayTitles" :key="weekDay.index" class="text-center">
                 <span class="fw-semibold">{{ weekDay.default }}</span>
                 <br>
-                <span class="add fw-normal">{{ weekDates[weekDay.index] }}</span>
+                <span class="add fw-normal">{{ week[weekDay.index] }}</span>
             </th>
         </tr>
         <tr v-for="hourSlotsRelation in hoursSlotsRelation" :key="hourSlotsRelation.hour">

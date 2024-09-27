@@ -12,7 +12,7 @@ const response = {
     },
     workTime: [
         {
-            date: "09-09-2024",
+            date: "23-09-2024",
             dayAtWeek: 1,
             startTime: "09:00:00",
             endTime: "17:30:00",
@@ -66,7 +66,7 @@ const response = {
             ]
         },
         {
-            date: "10-09-2024",
+            date: "24-09-2024",
             dayAtWeek: 2,
             startTime: "09:00:00",
             endTime: "17:30:00",
@@ -120,7 +120,7 @@ const response = {
             ]
         },
         {
-            date: "11-09-2024",
+            date: "25-09-2024",
             dayAtWeek: 3,
             startTime: "09:00:00",
             endTime: "15:30:00",
@@ -174,7 +174,7 @@ const response = {
             ]
         },
         {
-            date: "12-09-2024",
+            date: "26-09-2024",
             dayAtWeek: 4,
             startTime: "11:00:00",
             endTime: "14:00:00",
@@ -200,10 +200,10 @@ const response = {
             ]
         },
         {
-            date: "13-09-2024",
+            date: "27-09-2024",
             dayAtWeek: 5,
-            startTime: "12:00:00",
-            endTime: "12:00:00",
+            startTime: "08:00:00",
+            endTime: "18:00:00",
             lunch: {
                 startTime: "12:00:00",
                 endTime: "12:00:00"
@@ -211,7 +211,7 @@ const response = {
             slots: []
         },
         {
-            date: "14-09-2024",
+            date: "28-09-2024",
             dayAtWeek: 6,
             startTime: "14:00:00",
             endTime: "16:00:00",
@@ -230,7 +230,7 @@ const response = {
             ]
         },
         {
-            date: "15-09-2024",
+            date: "29-09-2024",
             dayAtWeek: 0,
             startTime: "12:00:00",
             endTime: "12:00:00",
