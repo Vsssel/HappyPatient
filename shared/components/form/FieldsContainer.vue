@@ -99,7 +99,7 @@
   </template>
   
   <script setup lang="ts">
-  import { reactive, defineProps, defineEmits } from 'vue';
+  import { reactive, defineProps, defineEmits, ref } from 'vue';
   import InputText from 'primevue/inputtext';
   import InputNumber from 'primevue/inputnumber';
   import Select from 'primevue/select';
@@ -123,7 +123,7 @@
     return field.required ? field.value !== null && field.value !== '' : true;
   };
   
-  const filteredSuggestions = ref();
+  const filteredSuggestions = ref()
   const search = (event: any, suggestions: string[] | number[]) => {
     if (!event.query.trim().length) {
       filteredSuggestions.value = [...suggestions];
