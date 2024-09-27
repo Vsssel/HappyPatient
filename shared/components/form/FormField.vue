@@ -2,14 +2,39 @@
   <div>
     <form @submit.prevent="handleSubmit" class="w-100 d-flex flex-column align-items-center">
       <template v-if="fields.length">
-        <FieldsContainer  :fields="fields" :validated="validated"/>
+        <FieldsContainer  :fields="fields" :validated="validated">
+          <template
+                v-for="(_, slot) of $slots"
+                #[slot]="scope"
+              >
+                <slot
+                  :name="slot"
+                  v-bind="scope"
+                />
+              </template>
+        </FieldsContainer>
       </template>
       <template v-else-if="groupFields.length">
         <div v-for="(group, index) in groupFields" :class="group.class" :key="index">
-          <FieldsContainer  :fields="group.fields" :validated="validated"/>
+          <FieldsContainer  :fields="group.fields" :validated="validated">
+            <template
+                v-for="(_, slot) of $slots"
+                #[slot]="scope"
+              >
+                <slot
+                  :name="slot"
+                  v-bind="scope"
+                />
+              </template>
+          </FieldsContainer>
         </div>
       </template>
-      <button type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
+      <slot
+        v-if="('button' in $slots)"
+        name="button"
+        type="submit"
+      />
+      <button v-else type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
     </form>
   </div>
 </template>
@@ -28,10 +53,9 @@ const props = defineProps<{
 }>();
 
 const fields = reactive<FormFields[]>(props.formFields ?? []);
-const groupFields = reactive<FormGroup[]>(props.formGroup ?? []);  // Correct type here
+const groupFields = reactive<FormGroup[]>(props.formGroup ?? []); 
 
 const getFieldValues = () => {
-  // Handling both individual and grouped fields
   const individualValues = fields.reduce((acc, field) => {
     acc[field.name] = field.value;
     return acc;
