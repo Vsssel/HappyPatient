@@ -5,8 +5,16 @@
   </div>
   <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center">
     <div class="w-25">
-      <FormField :formFields="fields" :submit="onSubmit" v-model:fieldsValues="formValues" />
-      <FormField :formGroup="formGroup" :submit="onSubmit" v-model:fieldsValues="formValues" />
+      <FormField :formFields="fields" :submit="onSubmit" v-model:fieldsValues="formValues">
+        <template #check="{field}">
+          <Checkbox v-model="formValues.toggle" :binary="true" />
+        </template>
+      </FormField>
+      <FormField :formGroup="formGroup" :submit="onSubmit" v-model:fieldsValues="formValues">
+        <template #button>
+          <button class="btn btn-primary align-self-end m-3">Submit</button>
+        </template>
+      </FormField>
     </div>
   </div>
 </template>
@@ -15,6 +23,7 @@
 import { ref } from 'vue';
 import FormField from '~/shared/components/form/FormField.vue';
 import type { FormFields, FormGroup } from '~/shared/components/form/types';
+import Checkbox from 'primevue/checkbox';
 
 const formValues = ref({
   name: '',
@@ -23,7 +32,8 @@ const formValues = ref({
   date: null,
   time: null,
   searched: '',
-  textarea: ''
+  textarea: '',
+  toggle: false
 });
 
 const suggestions = ['Apple', 'Banana', 'Cherry'];
@@ -81,21 +91,14 @@ const fields: FormFields[] = [
     class: 'col-12'
   },
   {
-    name: 'textarea',
-    type: 'textarea',
-    required: false,
-    value: formValues.value.textarea,
-    label: { text: 'Textarea' },
-    class: 'col-12',
-    autoResize: true,
-    rows: 5,
-    cols: 40
-  },
+    name: 'check',
+    type: 'slot'
+  }
 ];
 
 const formGroup: FormGroup[] = [
   {
-    class: 'd-flex',
+    class: 'row',
     fields: [
       {
         name: 'time',
@@ -106,7 +109,6 @@ const formGroup: FormGroup[] = [
         showIcon: true,
         timeOnly: true,
         iconDisplay: 'input',
-        dateFormat: 'dd/mm/yy',
         class: 'col-6'
       },
       {
@@ -124,6 +126,7 @@ const formGroup: FormGroup[] = [
 ]
 
 const onSubmit = (fieldValues: Record<string, any>) => {
+  formValues.value.time = fieldValues.time
   console.log('Form Submitted:', fieldValues);
 };
 </script>

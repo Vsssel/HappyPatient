@@ -1,7 +1,7 @@
 export type FormFieldProps = {
     name: string;
     type: string;
-    required: boolean;
+    required?: boolean;
     value?: unknown;
     class?: string;
     style?: string | Record<string, string>;
