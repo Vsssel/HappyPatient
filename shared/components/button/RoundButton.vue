@@ -1,9 +1,10 @@
 <script setup lang="ts">
+    const { disabled } = defineProps({ disabled: { type: Boolean, required: false } });
 </script>
 
 
 <template>
-    <button class="d-flex justify-content-center align-items-center border-0 p-1">
+    <button class="d-flex justify-content-center align-items-center border-0 p-1" :disabled="disabled">
         <slot></slot>
     </button>
 </template>
@@ -21,5 +22,9 @@
     }
     button:active {
         background-color: #e3e3e3;
+    }
+
+    button:disabled {
+        background-color: #eee;
     }
 </style>

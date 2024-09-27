@@ -26,7 +26,7 @@
     const openBookingFormEvent = inject<(bookingWindowValues: BookingFormDefault) => void>('toOpenBookingForm');
 
     const margin = 2;
-    const color = '#c3b4d2';
+    const color = '#8bcfcc';
     const iconSize = computed(() => `${35/SLOTS_PER_HOUR}px`);
 
     const onClick = () => {

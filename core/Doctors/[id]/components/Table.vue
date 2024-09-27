@@ -40,7 +40,7 @@
 <style scoped>
     table {
         border-collapse: collapse;
-        background-color: #ebf0f6;
+        background-color: #f6f6f6;
         width: min-content;
         border: 1px solid #ddd;
         border-radius: 10px;

@@ -1,4 +1,4 @@
-export type GetResponse = {
+export type GetProfileResponse = {
     id: number,
     name: string,
     surname: string,
@@ -7,7 +7,7 @@ export type GetResponse = {
     office: string,
     expInMonthes: number,
     category: GetSubResponseCategory,
-    workTime: GetSubResponseWorkTime[]
+    workTime: GetScheduleResponse[]
 };
 
 export type GetSubResponseCategory = {
@@ -15,7 +15,7 @@ export type GetSubResponseCategory = {
     title: string
 };
 
-export type GetSubResponseWorkTime = {
+export type GetScheduleResponse = {
     date: string,
     dayAtWeek: number,
     startTime: string,

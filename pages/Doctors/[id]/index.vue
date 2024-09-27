@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import BookingWindow from '~/core/Doctors/[id]/components/BookingWindow.vue';
     import Schedule from '~/core/Doctors/[id]/components/Schedule.vue';
-    import type { BookingFormDefault, GetResponse } from '~/core/Doctors/[id]/types';
+    import type { BookingFormDefault, GetProfileResponse } from '~/core/Doctors/[id]/types';
     import BackgroundBlur from '~/shared/components/BackgroundBlur.vue';
     import response from './mock-response';
     import { getDoctorProfile } from '~/core/Doctors/[id]/api';
@@ -14,17 +14,17 @@
         bookingWindowProps.value = bookingWindowValues;
     });
 
-    const pageData = ref<GetResponse>(response);
+    const pageData = ref<GetProfileResponse>(response);
     const loading = ref(true)
 
-    // onMounted(() => getDoctorProfile(id)
-    //     .then(response => {
-    //         if (!response) throw new Error();
-    //         pageData.value = response;
-    //     })
-    //     .catch(console.error)
-    //     .finally(() => loading.value = false)
-    // );
+    onMounted(() => getDoctorProfile(id)
+        .then(response => {
+            if (!response) throw new Error();
+            pageData.value = response;
+        })
+        .catch(console.error)
+        .finally(() => loading.value = false)
+    );
 </script>
 
 <template>
@@ -35,6 +35,6 @@
         />
     </BackgroundBlur>
     
-    <Schedule v-if="id" :week="response.workTime"/>
+    <Schedule v-if="id" :id="id" :week="response.workTime"/>
     <p v-else>400</p>
 </template>

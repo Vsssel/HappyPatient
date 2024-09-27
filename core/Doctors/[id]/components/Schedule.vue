@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { SlotStatus, WorkingStatus, type EmptySlot, type GetSubResponseWorkTime, type SlotInfo } from '../types';
+    import { SlotStatus, WorkingStatus, type EmptySlot, type GetScheduleResponse, type SlotInfo } from '../types';
     import { SLOTS_COUNT, timeToSlotIndex, slotKey, emptySlotKey } from '../values';
     import Table from './Table.vue';
     import NotAvailableSlot from './NotAvailableSlot.vue';
@@ -7,17 +7,20 @@
     import RoundButton from '~/shared/components/button/RoundButton.vue';
     import FormField from '~/shared/components/form/FormField.vue';
     import ScheduleHeader from './ScheduleHeader.vue';
+    import { getDoctorSchedule } from '../api';
 
-    const { week } = defineProps<{ week: GetSubResponseWorkTime[] }>()
-
+    const props = defineProps<{ id: number, week: GetScheduleResponse[] }>();
+    const week = ref<GetScheduleResponse[]>([...props.week]);
     const whereNoSlots = ref<EmptySlot[]>([]);
     const slots = ref<SlotInfo[]>([]);
+    const weekNumber = ref(0);
+    const loading = ref(false);
     
     const isWorkingTime: WorkingStatus[][] = new Array(7).fill(null).map(
         () => new Array(SLOTS_COUNT).fill(WorkingStatus.NOT_WORKING)
     );
 
-    onMounted(() => week.forEach(day => {
+    onMounted(() => week.value.forEach(day => {
         const dayAtWeek = day.dayAtWeek;
         let indexes = { start: timeToSlotIndex(day.startTime), end: timeToSlotIndex(day.endTime) };
         setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.AVAILABLE)
@@ -41,6 +44,18 @@
                     whereNoSlots.value.push({ dayIndex: dayAtWeek, slotIndex, status: slotWorkingStatus });
     }));
 
+    watch(weekNumber, (value) => {
+        loading.value = true;
+        getDoctorSchedule(props.id, value)
+            .then(newWeek => {
+                if (!newWeek) throw new Error();
+                week.value = newWeek;            
+            })
+            .catch(console.error)
+            .finally()
+        loading.value = false;
+    });
+
     const setWorkingStatus = (
         weekDayIndex: number,
         indexes: { start: number, end: number },
@@ -54,7 +69,12 @@
 
 <template>
     <div id="schedule-container" class="d-flex flex-column">
-        <ScheduleHeader />
+        <ScheduleHeader
+            :week-number="weekNumber"
+            :decrement="() => weekNumber--"
+            :increment="() => weekNumber++"
+        />
+        
         <Table v-if="week.length > 0" :week-day-date="week[0].date">
             <template v-for="slot in slots" #[slotKey(slot)]>
                 <NotAvailableSlot :slot="slot" />
@@ -74,6 +94,7 @@
         width: min-content;
         margin: 40px auto;
         padding: 10px;
+        padding-top: 7.5px;
         gap: 5px;
         border: 1px solid #ddd;
         border-radius: 20px;
