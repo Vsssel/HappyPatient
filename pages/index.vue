@@ -6,7 +6,7 @@
   <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center">
     <div class="w-25">
       <FormField :formFields="fields" :submit="onSubmit" v-model:fieldsValues="formValues">
-        <template #check="{field}">
+        <template #check>
           <Checkbox v-model="formValues.toggle" :binary="true" />
         </template>
       </FormField>
@@ -144,5 +144,9 @@ const onSubmit = (fieldValues: Record<string, any>) => {
   --p-primary-800: var(--p-blue-800);
   --p-primary-900: var(--p-blue-900);
   --p-primary-950: var(--p-blue-950);
+}
+
+body {
+  position: relative;
 }
 </style>

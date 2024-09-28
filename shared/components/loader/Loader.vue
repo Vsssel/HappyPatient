@@ -1,52 +1,21 @@
 <template>
-  <div>
     <div v-if="isLoading">
-      <div v-if="type === 'square'">
-        <Skeleton :style="sizeStyle" shape="square" />
-      </div>
-      <div v-else-if="type === 'line'">
-        <Skeleton :style="sizeStyle" />
-      </div>
-      <div v-else>
-        <Skeleton width="6rem" height="6rem" />
-      </div>
+      <Skeleton v-if="type === 'square'" :style="sizeStyle" shape="square" />
+      <Skeleton v-else-if="type === 'line'" :style="sizeStyle" />
+      <Skeleton v-else width="6rem" height="6rem" />
     </div>
-    <div v-else>
-      <slot :data="data">
-        <div>Data: {{ data }}</div>
-      </slot>
-    </div>
-  </div>
+  <slot v-else></slot>
 </template>
 
 <script setup lang="ts">
 import Skeleton from 'primevue/skeleton';
 import { computed } from 'vue';
 
-const props = defineProps({
-  isLoading: {
-    type: Boolean,
-    required: true,
-  },
-  type: {
-    type: String,
-    default: 'default',
-  },
-  size: {
-    type: Object,
-    default: () => ({
-      width: '100%',
-      height: 'auto',
-    }),
-  },
-  data: {
-    type: [Object, null],
-    default: null,
-  },
-});
+const { type, size } = defineProps<{
+  isLoading: boolean,
+  type?: string,
+  size?: Record<string, string>
+}>();
 
-const sizeStyle = computed(() => ({
-  width: props.size.width || '100%',
-  height: props.size.height || 'auto',
-}));
+const sizeStyle = computed(() => ({ width: '100%', height: 'auto', ...size }));
 </script>
