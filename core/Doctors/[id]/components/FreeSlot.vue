@@ -1,11 +1,8 @@
 <template>
     <div class="btn-container position-absolute w-100 h-100 bg-white">
-        <button @click="onClick" v-if="isActual"
-            class="p-0 d-flex justify-content-center align-items-center text-center text-secondary rounded"
-            :style="{ margin: `${margin}px`, width: `calc(100% - ${2 * margin}px)`, height: `calc(100% - ${2 * margin}px)`, borderColor: color }"
-        >
-            <PlusCalendar :size="`${35/SLOTS_PER_HOUR}px`" :color="color"/>
-        </button>
+        <button @click="onClick" v-if="isActual" :style="buttonStyle"
+            class="bi bi-calendar-plus-fill p-0 d-flex justify-content-center align-items-center rounded"
+        ></button>
     </div>
 </template>
 
@@ -14,7 +11,6 @@
     import { SLOTS_PER_HOUR } from '~/shared/values';
     import type { BookingFormDefault } from '../types';
     import { slotIndexToDatetime } from '../values';
-    import PlusCalendar from '~/shared/components/icons/PlusCalendar.vue';
 
     const { date, dayIndex, slotIndex, now } = defineProps<{
         date: string,
@@ -26,6 +22,15 @@
 
     const margin = 2;
     const color = '#8bcfcc';
+    const buttonStyle = computed(() => ({
+        width: `calc(100% - ${2 * margin}px)`,
+        height: `calc(100% - ${2 * margin}px)`,
+        margin: `${margin}px`,
+        borderColor: color,
+        fontSize: `${25/SLOTS_PER_HOUR}px`,
+        color
+
+    }));
 
     const isActual = computed(() => now < slotIndexToDatetime(date, slotIndex));
 
