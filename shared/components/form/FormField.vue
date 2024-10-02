@@ -10,7 +10,7 @@
                 <slot
                   :name="slot"
                   v-bind="scope"
-                />
+                ></slot>
               </template>
         </FieldsContainer>
       </template>
@@ -24,7 +24,7 @@
                 <slot
                   :name="slot"
                   v-bind="scope"
-                />
+                ></slot>
               </template>
           </FieldsContainer>
         </div>
@@ -33,7 +33,7 @@
         v-if="('button' in $slots)"
         name="button"
         type="submit"
-      />
+      ></slot>
       <button v-else type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
     </form>
   </div>
