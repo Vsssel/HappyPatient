@@ -1,4 +1,5 @@
 <template>
+  <HeaderView />
   <div>
     <NuxtLink to="/appointment">Appointment</NuxtLink>
     <NuxtLink to="/dashboard">Dashboard</NuxtLink>
@@ -24,6 +25,7 @@ import { ref } from 'vue';
 import FormField from '~/shared/components/form/FormField.vue';
 import type { FormFields, FormGroup } from '~/shared/components/form/types';
 import Checkbox from 'primevue/checkbox';
+import HeaderView from '~/shared/components/header/HeaderView.vue';
 
 const formValues = ref({
   name: '',
