@@ -21,7 +21,7 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
             }
         }
 
-        const response = await $fetch.raw<T>(baseUrl + endpoint, {
+        const response = await $fetch.raw<T>('https://18c5-77-240-35-7.ngrok-free.app/' + endpoint, {
             method: options.methos,
             headers,
             body: options.body,
