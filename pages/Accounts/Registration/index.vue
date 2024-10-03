@@ -150,7 +150,7 @@ const onSubmit = async (fieldValues: Record<string, any>) => {
 
   try {
     const response = await fetch(
-      'http://172.20.10.11:2222/patient/auth/sign-up',
+      'http://172.20.10.8:8000/patient/auth/sign-up',
       {
         method: 'POST',
         headers: {
