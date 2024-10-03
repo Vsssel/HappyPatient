@@ -54,7 +54,7 @@ const onSubmit = (fieldValues: Record<string, any>) => {
     });
 
     setTimeout(() => {
-      router.push({ path: '/dashboard', query: { showToast: 'true' } });
+      router.push({ path: '/', query: { showToast: 'true' } })
     }, 1000);
   }
 };
