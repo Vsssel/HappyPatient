@@ -1,10 +1,11 @@
-import { useApi } from "~/shared/api";
-import type { GetProfileResponse, GetScheduleResponse } from "../types";
-import { isAuthorized } from "~/shared/stores/userAuthStore";
+import { useApi } from '~/shared/api';
+import type { GetProfileResponse, GetScheduleResponse } from '../types';
+import me from '~/shared/stores/User';
+
 
 export const getDoctorProfile = async (id: number): Promise<GetProfileResponse | undefined> => (
     (await useApi<GetProfileResponse>(`/doctors/${id}`, {
-        auth: isAuthorized(),
+        auth: me.isAuthorized(),
         params: { 'week': 0 }
     })).data
 );
@@ -15,6 +16,6 @@ export const getDoctorSchedule = async (
 ): Promise<GetScheduleResponse[] | undefined> => (
     (await (useApi<GetScheduleResponse[]>(
         `/doctors/${id}/${weekNumber}`,
-        { auth: isAuthorized() })
+        { auth: me.isAuthorized() })
     )).data
 );
