@@ -21,7 +21,7 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
             }
         }
 
-        const response = await $fetch.raw<T>("http://172.20.10.11:2222/" + endpoint, {
+        const response = await $fetch.raw<T>(baseUrl + endpoint, {
             method: options.methos,
             headers,
             body: options.body,
@@ -36,8 +36,8 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
         const data = response._data
 
 
-        return { data, error: null }
+        return { status: response.status, message: response.statusText, data: data }
     } catch (error: any) {
-        return { data: undefined, error: error.message }
+        return { status: 500, message: "Something went wrong", data: undefined }
     }
 }

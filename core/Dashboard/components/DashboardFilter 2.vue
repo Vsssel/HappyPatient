@@ -29,37 +29,6 @@
               <MultiSelect v-model="selectedOffices" display="chip" :options="officesOptions" optionLabel="label" optionValue="value"></MultiSelect>
             </div>
           </template>
-          <template #categories>
-            <div class="d-flex flex-column">
-              <span class="mb-2">Select categories</span>
-              <MultiSelect v-model="selectedCategories" display="chip" :options="categoriesOption" optionLabel="label" optionValue="value"></MultiSelect>
-            </div>
-          </template>
-          <template #sort_by>
-            <label class="p-1">Sort by</label>
-            <div class="d-flex justify-content-between ">
-              <div class="d-flex gap-1 align-items-center">
-                  <RadioButton v-model="selectedSortBy" inputId="ingredient1" value="name" />
-                  <label for="ingredient1" class="ml-2">Name</label>
-              </div>
-              <div class="d-flex gap-1 align-items-center">
-                  <RadioButton v-model="selectedSortBy" inputId="ingredient2" value="surname" />
-                  <label for="ingredient2" class="ml-2">Surname</label>
-              </div>
-              <div class="d-flex gap-1 align-items-center">
-                  <RadioButton v-model="selectedSortBy" inputId="ingredient3" value="experience" />
-                  <label for="ingredient3" class="ml-2">Experience</label>
-              </div>
-              <div class="d-flex gap-1 align-items-center">
-                  <RadioButton v-model="selectedSortBy" inputId="ingredient4" value="category_id" />
-                  <label for="ingredient4" class="ml-2">Category</label>
-              </div>
-            </div>
-          </template>
-          <template #asc_order>
-            <ToggleButton v-model="checked" onLabel="Ascending" offLabel="Descending" onIcon="pi pi-arrow-up" 
-            offIcon="pi pi-arrow-down" class="w-36" />
-          </template>
         </FormField>
       </div>
     </div>
@@ -68,9 +37,6 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item" aria-current="page">
             <NuxtLink to="/" class="text-decoration-none text-dark">Services</NuxtLink>
-          </li>
-          <li class="breadcrumb-item" aria-current="page">
-            <NuxtLink to="/auth/signin" class="text-decoration-none text-dark">Log in</NuxtLink>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
             <NuxtLink to="/" class="text-decoration-underline text-dark">Dashboard</NuxtLink>
@@ -94,7 +60,6 @@ import type { DoctorsSearchResourcesResponse } from '../types';
 import { getDoctors, getDoctorsResourses } from '../api';
 import { categoriesToOption, getDoctorsSuggestions, officesToOption } from '../utils';
 import { doctors } from '../values';
-import RadioButton from 'primevue/radiobutton';
 
 const isVisible = ref<boolean>(false);
 const filteredSuggestions = ref<any[]>([]);
@@ -102,13 +67,11 @@ const selectedOffices = ref<any[]>([]);
 const officesOptions = ref<{ label: string, value: string }[]>([]);
 const resources = ref<DoctorsSearchResourcesResponse | null>(null);
 const categoriesOption = ref<{ label: string, value: string }[]>([]);
-const selectedCategories = ref<string[]>([])
-const selectedSortBy = ref('')
-const checked = ref<boolean>(true)
+
 
 const values = ref({
   fullname: '',
-  categories: [],
+  category: '',
   min_exp_years: -1,
   max_exp_years: -1,
   offices: [],
@@ -121,8 +84,11 @@ const FormFields: FormGroup[] = [
     class: 'row w-100',
     fields: [
       {
-        name: 'categories',
-        type: 'slot',
+        name: 'category',
+        type: 'select',
+        label: { text: 'Select doctor category' },
+        value: values.value.category,
+        options: categoriesOption.value,
         class: 'col-6',
       },
       {
@@ -151,26 +117,6 @@ const FormFields: FormGroup[] = [
       },
     ],
   },
-  {
-    class: 'row w-100',
-    fields: [
-      {
-        name: 'sort_by',
-        type: 'slot',
-        class: 'col-12',
-      }
-    ]
-  },
-  {
-    class: 'row w-100',
-    fields: [
-      {
-        name: 'asc_order',
-        type: 'slot',
-        class: 'col-12',
-      }
-    ]
-  }
 ];
 
 const toggleFilter = () => {
@@ -178,26 +124,20 @@ const toggleFilter = () => {
 };
 
 const onSubmit = async(submittedValues: Record<string, any>) => {
+  console.log(selectedOffices.value);
+  console.log('Form Submitted:', submittedValues);
   values.value = {
     fullname: submittedValues.fullname,
-    categories: selectedCategories.value,
+    category: submittedValues.categories,
     min_exp_years: submittedValues.min_exp_years === -1 ? undefined : submittedValues.min_exp_years,
     max_exp_years: submittedValues.max_exp_years === -1 ? undefined : submittedValues.max_exp_years,
     offices: selectedOffices.value,
-    sort_by: selectedSortBy.value,
-    asc_order: checked.value,
+    sort_by: 'min_exp_years',
+    asc_order: true,
   }
-
-  const filtered = removeEmptyParams(values.value)
-  doctors.value = (await getDoctors(filtered)).data
+  console.log(values.value)
+   doctors.value = (await getDoctors(values.value)).data
 }
-
-const removeEmptyParams = (params: Record<string, any>) => {
-  return Object.fromEntries(
-    Object.entries(params)
-      .filter(([_, value]) => value !== null && value !== undefined)
-  );
-};
 
 const search = (event: any) => {
   const doctorsOption = getDoctorsSuggestions(resources.value?.doctors || [])

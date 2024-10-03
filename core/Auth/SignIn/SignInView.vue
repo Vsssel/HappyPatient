@@ -1,65 +1,3 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-import { useToast } from 'primevue/usetoast';
-import FormField from '~/shared/components/form/FormField.vue';
-import type { FormFields } from '~/shared/components/form/types';
-import doctor from '~/assets/login/doctor.png';
-import { useRouter } from 'vue-router';
-
-useSeoMeta({
-  title: 'Login page | EasyHealth+',
-  description: 'Login page for EasyHealth+ medical service platform',
-});
-
-const toast = useToast();
-const router = useRouter();
-
-const formValues = ref({
-  name: '',
-  password: '',
-});
-
-const fields: FormFields[] = [
-  {
-    name: 'email',
-    type: 'text',
-    required: true,
-    label: { text: 'Email: ' },
-    value: formValues.value.name,
-    placeholder: 'Enter your email',
-    icon: 'pi pi-user',
-    class: 'col-12',
-  },
-  {
-    name: 'password',
-    type: 'password',
-    feedback: true,
-    required: true,
-    label: { text: 'Password:' },
-    value: formValues.value.password,
-    placeholder: 'Enter password',
-    class: 'col-12',
-  },
-];
-
-const onSubmit = (fieldValues: Record<string, any>) => {
-  console.log('Form Submitted:', fieldValues);
-
-  if (fieldValues.email && fieldValues.password) {
-    toast.add({
-      severity: 'success',
-      summary: 'Login Successful',
-      detail: 'You have been logged in successfully!',
-      life: 3000,
-    });
-
-    setTimeout(() => {
-      router.push({ path: '/', query: { showToast: 'true' } })
-    }, 1000);
-  }
-};
-</script>
-
 <template>
   <div class="login-page">
     <div class="left-side">
@@ -73,9 +11,10 @@ const onSubmit = (fieldValues: Record<string, any>) => {
       <div class="login-block">
         <h2>Login</h2>
         <FormField
+          class="w-100"
           :formFields="fields"
           :submit="onSubmit"
-          v-model:fieldsValues="formValues"
+          v-model:values="values"
         >
           <template #button>
             <button class="btn btn-primary px-3">Log in</button>
@@ -83,7 +22,7 @@ const onSubmit = (fieldValues: Record<string, any>) => {
         </FormField>
         <p>
           Don't have account?
-          <NuxtLink to="/accounts/registration" class="register-link"
+          <NuxtLink to="/auth/signup" class="register-link"
             >Register</NuxtLink
           >
         </p>
@@ -92,7 +31,61 @@ const onSubmit = (fieldValues: Record<string, any>) => {
   </div>
   <Toast />
 </template>
+<script setup lang="ts">
+import { ref } from 'vue'
+import FormField from '~/shared/components/form/FormField.vue'
+import type { FormFields } from '~/shared/components/form/types'
+import doctor from '~/assets/login/doctor.png'
+import { useRouter } from 'vue-router'
+import type { PatientAuthSignInRequest } from './types'
 
+const router = useRouter()
+
+useSeoMeta({
+  title: 'Login page | EasyHealth+',
+  description: 'Login page for EasyHealth+ medical service platform',
+});
+
+
+const values = ref<PatientAuthSignInRequest>({
+  email: '',
+  password: '',
+});
+
+const fields: FormFields[] = [
+  {
+    name: 'email',
+    type: 'text',
+    required: true,
+    label: { text: 'Email: ' },
+    value: values.value.email,
+    placeholder: 'Enter your email',
+    icon: 'pi pi-user',
+    class: 'w-100',
+  },
+  {
+    name: 'password',
+    type: 'password',
+    feedback: true,
+    required: true,
+    label: { text: 'Password:' },
+    value: values.value.password,
+    placeholder: 'Enter password',
+    class: 'w-100',
+  },
+];
+
+const onSubmit = (fieldValues: Record<string, any>) => {
+  console.log('Form Submitted:', fieldValues);
+
+  if (fieldValues.email && fieldValues.password) {
+
+    setTimeout(() => {
+      router.push({ path: '/', query: { showToast: 'true' } })
+    }, 1000);
+  }
+};
+</script>
 <style scoped>
 .login-page {
   display: flex;
@@ -132,7 +125,7 @@ const onSubmit = (fieldValues: Record<string, any>) => {
 }
 
 .login-block {
-  width: 400px;
+  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
