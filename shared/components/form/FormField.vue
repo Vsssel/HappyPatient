@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="handleSubmit" class="w-100 d-flex flex-column align-items-center">
+    <form @submit.prevent="handleSubmit" @keydown="handleKeyPress" class="w-100 d-flex flex-column align-items-center">
       <template v-if="fields.length">
         <FieldsContainer  :fields="fields" :validated="validated">
           <template
@@ -84,7 +84,13 @@ const handleSubmit = () => {
   } else {
     console.log('Form is invalid');
   }
-};
+}
+
+const handleKeyPress = (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    handleSubmit()
+  }
+}
 
 watch(
   () => props.formFields,

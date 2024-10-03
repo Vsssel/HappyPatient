@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isLoading">
+    <div v-if="isLoading" class="w-100">
       <Skeleton v-if="type === 'square'" :style="sizeStyle" shape="square" />
       <Skeleton v-else-if="type === 'line'" :style="sizeStyle" />
       <Skeleton v-else width="6rem" height="6rem" />

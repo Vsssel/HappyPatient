@@ -8,14 +8,13 @@
         <div>
           <div v-if="field.type === 'text'">
             <IconField>
-                <InputIcon v-if="field.icon" :class="field.icon"></InputIcon>
-                <InputText
-                    v-model="field.value"
-                    @input="handleInputChange"
-                    :placeholder="field.placeholder"
-                    class="w-100"
-                    
-                />
+              <InputIcon v-if="field.icon" :class="field.icon"></InputIcon>
+              <InputText
+                v-model="field.value"
+                @input="handleInputChange"
+                :placeholder="field.placeholder"
+                class="w-100"
+              />
             </IconField>
           </div>
           <div v-if="field.type === 'number'">
