@@ -1,6 +1,6 @@
 export type SearchRequest = {
     fullname?: string,
-    category_ids?: number[],
+    category_ids?: string[],
     min_exp_years?: number,
     max_exp_years?: number,
     offices?: string[],
