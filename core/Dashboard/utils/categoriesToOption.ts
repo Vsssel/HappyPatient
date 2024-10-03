@@ -5,7 +5,7 @@ export const categoriesToOption = (data: DoctorsSearchResourcesResponse['categor
     data.forEach((item) => {
         res.push({
             label: item.title.replace(/\b\w/g, (char) => char.toUpperCase()),
-            value: item.id
+            value: item.title
         })
     })
     return res
