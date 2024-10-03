@@ -32,14 +32,14 @@
         </FormField>
       </div>
     </div>
-    <div class="col-4 p-3 d-flex justify-content-between align-items-center">
-      <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb" class="w-75">
+    <div class="col-4 p-3 d-flex align-items-center">
+      <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb" class="w-75 d-flex justify-content-center">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <NuxtLink to="/appointment" class="text-decoration-none text-dark">Appointment</NuxtLink>
+          <li class="breadcrumb-item" aria-current="page">
+            <NuxtLink to="/" class="text-decoration-none text-dark">Services</NuxtLink>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
-            <NuxtLink to="/dashboard" class="text-decoration-none text-dark">Dashboard</NuxtLink>
+            <NuxtLink to="/" class="text-decoration-underline text-dark">Dashboard</NuxtLink>
           </li>
         </ol>
       </nav>
