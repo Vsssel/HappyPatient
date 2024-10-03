@@ -21,7 +21,7 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
             }
         }
 
-        const response = await $fetch.raw<T>(baseUrl + endpoint, {
+        const response = await $fetch.raw<T>("http://172.20.10.11:2222/" + endpoint, {
             method: options.methos,
             headers,
             body: options.body,

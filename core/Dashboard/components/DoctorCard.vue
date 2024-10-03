@@ -1,11 +1,11 @@
 <script setup lang="ts">
     import Avatar from '~/shared/components/profile/Avatar.vue';
-    import type { SearchResponseElement } from '../types';
+    import type { DoctorsearchResponse } from '../types';
     import { capitalizeFirstLetter } from '../values';
 
-    defineProps<{ doctor: SearchResponseElement }>();
+    defineProps<{ doctor: DoctorsearchResponse }>();
 
-    const avatarTitleOf = (doctor: SearchResponseElement) => (
+    const avatarTitleOf = (doctor: DoctorsearchResponse) => (
         `${doctor.name} ${doctor.surname}'s avatar`
     );
 </script>
@@ -16,7 +16,7 @@
         class="doctor-card text-decoration-none text-secondary p-2"
     >
         <div class="d-flex align-items-center gap-3">
-            <Avatar :url="doctor.avatarUrl" :title="avatarTitleOf(doctor)" />
+            <Avatar url="https://img.freepik.com/premium-vector/vector-doctor-medical-hospital-health-medicine-illustration-care-man-clinic-people-profes_1013341-112928.jpg" :title="avatarTitleOf(doctor)" />
             <div class="d-flex flex-column gap-2">
                 <span class="fs-5 fw-semibold">
                     {{ `${doctor.name} ${doctor.surname}` }}
@@ -25,11 +25,11 @@
                     <span>{{ capitalizeFirstLetter(doctor.category.title) }}</span>
                     <span class="d-flex gap-1">
                         Experience in
-                        <span v-if="doctor.expInMonthes > 12">
-                            {{ Math.floor(doctor.expInMonthes / 12) }}
+                        <span v-if="doctor.experience > 12">
+                            {{ Math.floor(doctor.experience / 12) }}
                         </span>
                         <span style="font-size: 10px;">
-                            {{ doctor.expInMonthes % 12 }} / 12
+                            {{ doctor.experience % 12 }} / 12
                         </span>
                         years
                     </span>

@@ -1,26 +1,51 @@
 export type SearchRequest = {
     fullname?: string,
-    'category-ids'?: number[],
-    'min-exp-years'?: number,
-    'max-exp-years'?: number,
+    category_ids?: number[],
+    min_exp_years?: number,
+    max_exp_years?: number,
     offices?: string[],
     workdays?: string[],
-    'sort-by'?: string,
-    'asc-order'?: boolean
-};
+    sort_by?: string,
+    asc_order?: boolean
+}
 
-export type SearchResponseElement = {
-    id: number,
-    name: string,
-    surname: string,
-    avatarUrl: string,
-    age: number,
-    office: string,
-    expInMonthes: number,
-    category: SearchSubResponseCategory
-};
+export type DoctorsearchResponse = {
+    id: number;
+    name: string;
+    surname: string;
+    experience: number;
+    category: {
+        id: number;
+        title: string;
+    }
+}
+
+export type DoctorsSearchResourcesRequest = {
+    doctors: boolean;
+    categories: boolean;
+    offices: boolean;
+}
+
+export type DoctorsSearchResourcesResponse = {
+    doctors: {
+        id: null;
+        name: string;
+        surname: string;
+    }[],
+    categories: {
+        id: number;
+        title: string;
+    }[],
+    offices: string[]
+}
+
+export type ResponseMessage = {
+    status: boolean,
+    message: string,
+    data: any
+}
 
 export type SearchSubResponseCategory = {
     id: number,
     title: string
-};
+}

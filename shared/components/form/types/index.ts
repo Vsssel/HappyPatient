@@ -21,10 +21,10 @@ export type InputField = {
 
 export type SelecField = {
     type: 'select',
-    options: Array<{
+    options: {
         label: string;
-        value: unknown;
-    }>
+        value: any;
+    }[]
 }
 
 export type PasswordField = {

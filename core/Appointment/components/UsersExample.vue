@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import Loader from "~/shared/components/loader/Loader.vue";
 import { ref, onMounted } from 'vue'
-import { useApi } from "~/shared/api";
+import { useApi } from '~/shared/api';
 
 const isLoadingUrl1 = ref(true);
 const isLoadingUrl2 = ref(true);
@@ -26,7 +26,8 @@ const fetchFromUrl = async (url: string, dataRef: Ref<any>, loadingRef: Ref<bool
   try {
     const response = await useApi<any>(url, {
       methos: "GET",
-      auth: false
+      auth: false,
+      params: {userId: 1}
     });
     dataRef.value = response
   } finally {
@@ -35,7 +36,7 @@ const fetchFromUrl = async (url: string, dataRef: Ref<any>, loadingRef: Ref<bool
 };
 
 onMounted(() => {
-  fetchFromUrl("/todos/1", dataUrl1, isLoadingUrl1);
-  fetchFromUrl("/todos/2", dataUrl2, isLoadingUrl2);
+  fetchFromUrl("/todos", dataUrl1, isLoadingUrl1);
+  fetchFromUrl("/todos", dataUrl2, isLoadingUrl2);
 });
 </script>
