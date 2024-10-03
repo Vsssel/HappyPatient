@@ -8,30 +8,34 @@
 
 <template>
     <table class="user-select-none">
-        <tr>
-            <th class="text-center fw-semibold">Time</th>
-            <th v-for="weekDay in weekDayTitles" :key="weekDay.index" class="text-center">
-                <span class="fw-semibold">{{ weekDay.default }}</span>
-                <br>
-                <span class="add fw-normal">{{ week[weekDay.index] }}</span>
-            </th>
-        </tr>
-        <tr v-for="hourSlotsRelation in hoursSlotsRelation" :key="hourSlotsRelation.hour">
-            <th class="text-center">
-                <span class="fw-semibold">{{ `${hourSlotsRelation.hour}:00` }}</span>
-                <br>
-                <span class="add fw-normal">{{ `${hourSlotsRelation.hour + 1}:00` }}</span>
-            </th>
-            <td v-for="weekDay in weekDayTitles" :key="weekDay.index"
-                class="position-relative p-0"
-            >
-                <div v-for="slotIndex in hourSlotsRelation.slotIndexes" :key="slotIndex"
-                    class="min-slot" :style="{ height: `${50/SLOTS_PER_HOUR}px` }"
+        <thead>
+            <tr>
+                <th class="text-center fw-semibold">Time</th>
+                <th v-for="weekDay in weekDayTitles" :key="weekDay.index" class="text-center">
+                    <span class="fw-semibold">{{ weekDay.default }}</span>
+                    <br>
+                    <span class="add fw-normal">{{ week[weekDay.index] }}</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="hourSlotsRelation in hoursSlotsRelation" :key="hourSlotsRelation.hour">
+                <th class="text-center">
+                    <span class="fw-semibold">{{ `${hourSlotsRelation.hour}:00` }}</span>
+                    <br>
+                    <span class="add fw-normal">{{ `${hourSlotsRelation.hour + 1}:00` }}</span>
+                </th>
+                <td v-for="weekDay in weekDayTitles" :key="weekDay.index"
+                    class="position-relative p-0"
                 >
-                    <slot :name="`${weekDay.index}-${slotIndex}`"></slot>
-                </div>
-            </td>
-        </tr>
+                    <div v-for="slotIndex in hourSlotsRelation.slotIndexes" :key="slotIndex"
+                        class="min-slot" :style="{ height: `${50/SLOTS_PER_HOUR}px` }"
+                    >
+                        <slot :name="`${weekDay.index}-${slotIndex}`"></slot>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
     </table>
 </template>
 

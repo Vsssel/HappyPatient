@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="handleSubmit" class="w-100 d-flex flex-column align-items-center">
+    <form @submit.prevent="handleSubmit" @keydown="handleKeyPress" class="w-100 d-flex flex-column align-items-center">
       <template v-if="fields.length">
         <FieldsContainer  :fields="fields" :validated="validated">
           <template
@@ -10,7 +10,7 @@
                 <slot
                   :name="slot"
                   v-bind="scope"
-                />
+                ></slot>
               </template>
         </FieldsContainer>
       </template>
@@ -24,7 +24,7 @@
                 <slot
                   :name="slot"
                   v-bind="scope"
-                />
+                ></slot>
               </template>
           </FieldsContainer>
         </div>
@@ -33,7 +33,7 @@
         v-if="('button' in $slots)"
         name="button"
         type="submit"
-      />
+      ></slot>
       <button v-else type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
     </form>
   </div>
@@ -84,7 +84,13 @@ const handleSubmit = () => {
   } else {
     console.log('Form is invalid');
   }
-};
+}
+
+const handleKeyPress = (event: KeyboardEvent) => {
+  if (event.key === 'Enter') {
+    handleSubmit()
+  }
+}
 
 watch(
   () => props.formFields,
