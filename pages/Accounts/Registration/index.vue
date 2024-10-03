@@ -183,9 +183,11 @@ const onSubmit = async (fieldValues: Record<string, any>) => {
     password: fieldValues.password,
   };
 
+  const API_BASE_URL = process.env.API_BASE_URL;
+
   try {
     const response = await fetch(
-      'http://172.20.10.13:8000/patient/auth/sign-up',
+      `${API_BASE_URL}/patient/auth/sign-up`,
       {
         method: 'POST',
         headers: {
