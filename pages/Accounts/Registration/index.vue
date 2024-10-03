@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import FormField from '~/shared/components/form/FormField.vue';
-import type { FormFields, FormGroup } from '~/shared/components/form/types';
+import type { FormGroup } from '~/shared/components/form/types';
 import Toast from 'primevue/toast';
 import doctor from '~/assets/registration/doctor.png';
 
@@ -23,6 +23,10 @@ const formValues = ref({
   password: '',
   confirmPassword: '',
 });
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+const iinRegex = /^\d{12}$/;
 
 const formGroup: FormGroup[] = [
   {
@@ -127,6 +131,37 @@ const formGroup: FormGroup[] = [
 ];
 
 const onSubmit = async (fieldValues: Record<string, any>) => {
+  if (!emailRegex.test(fieldValues.email)) {
+    toast.add({
+      severity: 'error',
+      summary: 'Invalid Email',
+      detail: 'Please enter a valid email address!',
+      life: 3000,
+    });
+    return;
+  }
+
+  if (!passwordRegex.test(fieldValues.password)) {
+    toast.add({
+      severity: 'error',
+      summary: 'Invalid Password',
+      detail:
+        'Password must be at least 8 characters long, include at least one uppercase letter, one number, and one special character.',
+      life: 3000,
+    });
+    return;
+  }
+
+  if (!iinRegex.test(fieldValues.iin)) {
+    toast.add({
+      severity: 'error',
+      summary: 'Invalid IIN',
+      detail: 'IIN must contain exactly 12 digits.',
+      life: 3000,
+    });
+    return;
+  }
+
   if (fieldValues.password !== fieldValues.confirmPassword) {
     toast.add({
       severity: 'error',

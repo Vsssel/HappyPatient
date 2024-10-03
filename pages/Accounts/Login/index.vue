@@ -15,7 +15,8 @@ const toast = useToast();
 const router = useRouter();
 
 const formValues = ref({
-  name: '',
+  email: '',
+  phone: '',
   password: '',
 });
 
@@ -25,15 +26,23 @@ const fields: FormFields[] = [
     type: 'text',
     required: true,
     label: { text: 'Email: ' },
-    value: formValues.value.name,
+    value: formValues.value.email,
     placeholder: 'Enter your email',
     icon: 'pi pi-user',
     class: 'col-12',
   },
   {
+    name: 'phone',
+    type: 'text',
+    required: true,
+    label: { text: 'Phone: ' },
+    value: formValues.value.phone,
+    placeholder: 'Enter your phone number',
+    class: 'col-12',
+  },
+  {
     name: 'password',
     type: 'password',
-    feedback: true,
     required: true,
     label: { text: 'Password:' },
     value: formValues.value.password,
@@ -42,10 +51,48 @@ const fields: FormFields[] = [
   },
 ];
 
-const onSubmit = (fieldValues: Record<string, any>) => {
+// Function to handle form submission
+const onSubmit = async (fieldValues: Record<string, any>) => {
   console.log('Form Submitted:', fieldValues);
 
-  if (fieldValues.email && fieldValues.password) {
+  // Check if email, phone, and password are provided
+  if (!fieldValues.email || !fieldValues.phone || !fieldValues.password) {
+    toast.add({
+      severity: 'error',
+      summary: 'Invalid Input',
+      detail: 'Please fill in email, phone, and password!',
+      life: 3000,
+    });
+    return;
+  }
+
+  // Define the login payload
+  const loginPayload = {
+    email: fieldValues.email,
+    phone: fieldValues.phone,
+    password: fieldValues.password,
+  };
+
+  try {
+    // Make the API request to log in the user
+    const response = await fetch(
+      'http://172.20.10.13:8000/patient/auth/login',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginPayload),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error('Login failed');
+    }
+
+    const data = await response.json();
+
+    // Show success message and navigate to the dashboard
     toast.add({
       severity: 'success',
       summary: 'Login Successful',
@@ -56,6 +103,14 @@ const onSubmit = (fieldValues: Record<string, any>) => {
     setTimeout(() => {
       router.push({ path: '/dashboard', query: { showToast: 'true' } });
     }, 1000);
+  } catch (error) {
+    // Show error message if login fails
+    toast.add({
+      severity: 'error',
+      summary: 'Login Failed',
+      detail: 'Incorrect email, phone, or password. Please try again.',
+      life: 3000,
+    });
   }
 };
 </script>
