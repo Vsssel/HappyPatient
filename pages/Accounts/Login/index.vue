@@ -1,43 +1,61 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useToast } from "primevue/usetoast";
-import InputText from "primevue/inputtext";
-import Password from "primevue/password";
-import Button from "primevue/button";
-import doctor from "~/assets/login/doctor.png";
-import { useRouter } from "vue-router";
+import { ref } from 'vue';
+import { useToast } from 'primevue/usetoast';
+import FormField from '~/shared/components/form/FormField.vue';
+import type { FormFields } from '~/shared/components/form/types';
+import doctor from '~/assets/login/doctor.png';
+import { useRouter } from 'vue-router';
 
 useSeoMeta({
-  title: "Login page | EasyHealth+",
-  description: "Login page for EasyHealth+ medical service platform",
+  title: 'Login page | EasyHealth+',
+  description: 'Login page for EasyHealth+ medical service platform',
 });
 
-const username = ref<string>("");
-const password = ref<string>("");
-
 const toast = useToast();
-
 const router = useRouter();
 
-const handleLogin = () => {
-  if (username.value && password.value) {
+const formValues = ref({
+  name: '',
+  password: '',
+});
+
+const fields: FormFields[] = [
+  {
+    name: 'email',
+    type: 'text',
+    required: true,
+    label: { text: 'Email: ' },
+    value: formValues.value.name,
+    placeholder: 'Enter your email',
+    icon: 'pi pi-user',
+    class: 'col-12',
+  },
+  {
+    name: 'password',
+    type: 'password',
+    feedback: true,
+    required: true,
+    label: { text: 'Password:' },
+    value: formValues.value.password,
+    placeholder: 'Enter password',
+    class: 'col-12',
+  },
+];
+
+const onSubmit = (fieldValues: Record<string, any>) => {
+  console.log('Form Submitted:', fieldValues);
+
+  if (fieldValues.email && fieldValues.password) {
     toast.add({
-      severity: "success",
-      summary: "Login Successful",
-      detail: "You have been logged in successfully!",
+      severity: 'success',
+      summary: 'Login Successful',
+      detail: 'You have been logged in successfully!',
       life: 3000,
     });
 
     setTimeout(() => {
-      router.push({ path: "/dashboard", query: { showToast: "true" } });
+      router.push({ path: '/dashboard', query: { showToast: 'true' } });
     }, 1000);
-  } else {
-    toast.add({
-      severity: "error",
-      summary: "Login Failed",
-      detail: "Please enter valid credentials.",
-      life: 3000,
-    });
   }
 };
 </script>
@@ -54,16 +72,15 @@ const handleLogin = () => {
     <div class="right-side">
       <div class="login-block">
         <h2>Login</h2>
-        <div class="login-input">
-          <InputText v-model="username" placeholder="Username" />
-          <Password
-            v-model="password"
-            placeholder="Password"
-            toggleMask
-            :feedback="false"
-          />
-          <Button label="Login" class="p-mt-3" @click="handleLogin" />
-        </div>
+        <FormField
+          :formFields="fields"
+          :submit="onSubmit"
+          v-model:fieldsValues="formValues"
+        >
+          <template #button>
+            <button class="btn btn-primary px-3">Log in</button>
+          </template>
+        </FormField>
         <p>
           Don't have account?
           <NuxtLink to="/accounts/registration" class="register-link"
@@ -83,7 +100,7 @@ const handleLogin = () => {
 }
 
 .left-side {
-  background-color: #19be46;
+  background-color: #0d6efd;
   width: 40%;
   display: flex;
   align-items: end;
@@ -124,7 +141,6 @@ const handleLogin = () => {
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  text-align: center;
 }
 
 .login-block h2 {
@@ -143,7 +159,7 @@ const handleLogin = () => {
 }
 
 .register-link {
-  color: #19be46;
+  color: #0d6efd;
   cursor: pointer;
   text-decoration: none;
 }

@@ -1,44 +1,69 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
-import InputText from "primevue/inputtext";
-import Password from "primevue/password";
-import Button from "primevue/button";
-import Toast from "primevue/toast";
-
-import doctor from "~/assets/registration/doctor.png";
+import { ref } from 'vue';
+import FormField from '~/shared/components/form/FormField.vue';
+import type { FormFields } from '~/shared/components/form/types';
+import Toast from 'primevue/toast';
+import doctor from '~/assets/registration/doctor.png';
 
 useSeoMeta({
-  title: "Registration page | EasyHealth+",
-  description: "Registration page for EasyHealth+ medical service platform",
+  title: 'Registration page | EasyHealth+',
+  description: 'Registration page for EasyHealth+ medical service platform',
 });
 
 const toast = useToast();
-const router = useRouter()
+const router = useRouter();
 
-const email: Ref<String> = ref("");
-const password: Ref<String> = ref("");
-const rPassword: Ref<String> = ref("");
+const formValues = ref({
+  name: '',
+  password: '',
+});
 
-  const handleRegister = () => {
-  if (email.value && password.value) {
+const fields: FormFields[] = [
+  {
+    name: 'email',
+    type: 'text',
+    required: true,
+    label: { text: 'Email: ' },
+    value: formValues.value.name,
+    placeholder: 'Enter your email',
+    icon: 'pi pi-user',
+    class: 'col-12',
+  },
+  {
+    name: 'password',
+    type: 'password',
+    feedback: true,
+    required: true,
+    label: { text: 'Password:' },
+    value: formValues.value.password,
+    placeholder: 'Enter password',
+    class: 'col-12',
+  },
+  {
+    name: 'confrim-password',
+    type: 'password',
+    required: true,
+    label: { text: 'Confirm password:' },
+    value: formValues.value.password,
+    placeholder: 'Confirm password',
+    class: 'col-12',
+  },
+];
+
+const onSubmit = (fieldValues: Record<string, any>) => {
+  console.log('Form Submitted:', fieldValues);
+
+  if (fieldValues.email && fieldValues.password) {
     toast.add({
-      severity: "success",
-      summary: "Registration Successful",
-      detail: "You have been registerred in successfully!",
+      severity: 'success',
+      summary: 'Registration Successful',
+      detail: 'You have been registerred in successfully!',
       life: 3000,
     });
 
     setTimeout(() => {
-      router.push({ path: "/dashboard", query: { showToast: "true" } });
+      router.push({ path: '/dashboard', query: { showToast: 'true' } });
     }, 1000);
-  } else {
-    toast.add({
-      severity: "error",
-      summary: "Registration Failed",
-      detail: "Please enter valid credentials.",
-      life: 3000,
-    });
   }
 };
 </script>
@@ -55,17 +80,15 @@ const rPassword: Ref<String> = ref("");
     <div class="right-side">
       <div class="login-block">
         <h2>Registration</h2>
-        <div class="login-input">
-          <InputText v-model="email" type="email" placeholder="Email" />
-          <Password v-model="password" placeholder="Password" toggleMask />
-          <Password
-            v-model="rPassword"
-            placeholder="Confirm password"
-            toggleMask
-            :feedback="false"
-          />
-          <Button label="Register" class="p-mt-3" @click="handleRegister" />
-        </div>
+        <FormField
+          :formFields="fields"
+          :submit="onSubmit"
+          v-model:fieldsValues="formValues"
+        >
+          <template #button>
+            <button class="btn btn-primary px-3">Sign up</button>
+          </template>
+        </FormField>
         <p>
           Already have account?
           <NuxtLink to="/accounts/login" class="register-link">Login</NuxtLink>
@@ -85,7 +108,7 @@ const rPassword: Ref<String> = ref("");
 }
 
 .left-side {
-  background-color: #19be46;
+  background-color: #0d6efd;
   width: 40%;
   display: flex;
   align-items: end;
@@ -126,7 +149,6 @@ const rPassword: Ref<String> = ref("");
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  text-align: center;
 }
 
 .login-block h2 {
@@ -145,7 +167,7 @@ const rPassword: Ref<String> = ref("");
 }
 
 .register-link {
-  color: #19be46;
+  color: #0d6efd;
   cursor: pointer;
   text-decoration: none;
 }
