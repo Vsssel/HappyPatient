@@ -36,9 +36,6 @@ useSeoMeta({
   title: 'Registration page | EasyHealth+',
   description: 'Registration page for EasyHealth+ medical service platform',
 });
-
-const toast = useToast();
-const router = useRouter();
 </script>
 
 <style scoped>

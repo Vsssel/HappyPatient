@@ -1,5 +1,5 @@
 <template>
-    <div class="card w-75 d-flex flex-row align-items-center p-5" style="background-color: #1DC9A066;">
+    <div class="card w-75 d-flex flex-row align-items-center p-5" style="background-color: rgba(13, 110, 253, 0.7);">
         <div class="d-flex flex-column align-items-center">
             <h1 class="card-title text-white w-75 text-center">Welcome to Easy-Health Medical Center</h1>
             <h4 class="card-text text-white w-75 text-center">At Easy-Health, your health is our top priority. We are a modern, 

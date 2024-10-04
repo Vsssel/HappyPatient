@@ -1,34 +1,36 @@
 <template>
-    <FormField 
-        :formFields="firstFormField"
-        v-model:values="values" 
-        :submit="onSubmit"
-    >
-        <template #button>
-            <button class="btn btn-primary px-3">Next</button>
-        </template>
-        <template #email>
-          <label class="form-label d-flex">
-            Email: 
-            <i style="font-size: 8px; color: red; margin-left: 4px;" class="bi-asterisk" />
-          </label>
-          <input type="text" v-model="typedEmail" class="form-control">
-          <label v-if="!errorEmail" class="form-label text-danger">{{ !typedEmail ? 'This field is required' : 'Invalid email'}}</label>
-        </template>
-    </FormField>
+  <FormField 
+      :formFields="firstFormField"
+      v-model:values="values" 
+      :submit="onSubmit"
+  >
+    <template #button>
+       <button class="btn btn-primary px-3">Next</button>
+    </template>
+    <template #error="{ field }">
+      <label v-if="field.name === 'email' && !errorEmail && validated" class="form-label text-danger">
+        {{ 'Invalid email' }}
+      </label>
+    </template>
+ </FormField>
+ <ToasT />
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
 import FormField from '~/shared/components/form/FormField.vue'
 import type { PostPatientAuthRequest } from '../types'
 import { name, surname, formNumber } from '../values'
+import { postPatientAuth } from '../api/postPatientAuth'
+import Toast from 'primevue/toast'
 
-const typedEmail = ref<string>('')
 const errorEmail = ref<boolean>(false)
+const validated = ref(false);
+const toast = useToast()
 
 const values = ref<PostPatientAuthRequest>({
-    email: ''
+  email: ''
 })
+
 const firstFormField = [
   {
     name: 'name',
@@ -50,24 +52,39 @@ const firstFormField = [
   },
   {
     name: 'email',
-    type: 'slot',
+    type: 'text',
+    required: true,
+    label: { text: 'Email: ' },
+    value: values.value.email,
+    placeholder: 'Enter your email',
     class: 'w-100',
-  },
+  }
 ]
 
 const isValidEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 }
 
 
-const onSubmit = async(fieldValues: Record<string, any>) => {
-  errorEmail.value = isValidEmail(typedEmail.value) && typedEmail.value.length > 0
-  values.value = {
-      email: typedEmail.value
+const onSubmit = async (fieldValues: Record<string, any>) => {
+  validated.value = true;
+  errorEmail.value = isValidEmail(fieldValues.email)
+  if (!errorEmail.value) {
+    return; 
   }
-  name.value = fieldValues.name
-  surname.value = fieldValues.surname
-  errorEmail.value && (formNumber.value = 2)
+  name.value = fieldValues.name;
+  surname.value = fieldValues.surname;
+  if (errorEmail.value) {
+    values.value.email = fieldValues.email
+    const response = await postPatientAuth(values.value)
+    console.log(response)
+    if(response.status < 400){
+      formNumber.value = 2;
+    }
+    else{
+        toast.add({ severity: 'error', summary: 'Something went wrong', life: 3000 })
+    }
+  }
 }
 </script>

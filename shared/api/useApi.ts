@@ -13,15 +13,13 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
         }
 
         if (options.auth) {
-            const token = getToken
+            const token = getToken()
             if (token) {
                 headers['Authorization'] = `Bearer ${token}`
-            } else {
-                throw new Error('No token available')
             }
         }
 
-        const response = await $fetch.raw<T>('https://18c5-77-240-35-7.ngrok-free.app/' + endpoint, {
+        const response = await $fetch.raw<T>('http://172.20.10.11:2222/' + endpoint, {
             method: options.methos,
             headers,
             body: options.body,
@@ -38,6 +36,7 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
 
         return { status: response.status, message: response.statusText, data: data }
     } catch (error: any) {
-        return { status: 500, message: "Something went wrong", data: undefined }
+        console.log(error)
+        return { status: error.response.status, message: "Something went wrong", data: error.response.detail }
     }
 }

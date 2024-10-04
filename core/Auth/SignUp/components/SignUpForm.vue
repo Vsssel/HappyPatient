@@ -30,20 +30,35 @@
                 <InputOtp integerOnly mask v-model="verification"></InputOtp>
             </div>
         </template>
+        <template #error="{ field }">
+            <label v-if="field.name === 'email' && !errorEmail && validated" class="form-label text-danger">
+                {{ 'Invalid email' }}
+            </label>
+        </template>
     </FormField>
+    <Toast />
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { PostPatientAuthSignUpRequest } from '../types'
-import type { FormGroup } from '~/shared/components/form/types';
-import FormField from '~/shared/components/form/FormField.vue';
-import { formNumber } from '../values';
-import InputOtp from 'primevue/inputotp';
+import type { FormGroup } from '~/shared/components/form/types'
+import FormField from '~/shared/components/form/FormField.vue'
+import { formNumber } from '../values'
+import InputOtp from 'primevue/inputotp'
+import { name, surname } from '../values'
+import Toast from 'primevue/toast'
+import { postPatientAuthSignUp } from '../api';
 
 const selectedGender = ref<string>('');
 const genders = ref([{ name: 'Male', key: 'male' }, { name: 'Female', key: 'female' }]);
 const passwordVerification = ref<string>('');
 const verification = ref()
+
+const errorEmail = ref<boolean>(false)
+const validated = ref(false);
+
+const toast = useToast();
+const router = useRouter();
 
 const formValues = ref<PostPatientAuthSignUpRequest>({
   name: '',
@@ -84,7 +99,7 @@ const secondFormField: FormGroup[] = [
     ],
   },
   {
-    class: 'row',
+    class: 'column w-100',
     fields: [
       {
         name: 'password',
@@ -128,5 +143,50 @@ const secondFormField: FormGroup[] = [
     ]
   }
 ];
+
+const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+const formatDate = (dateStr: string): string => {
+  const date = new Date(dateStr);
+  
+  const day = String(date.getDate()).padStart(2, '0')
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+};
+
+
+const onSubmit = async (fieldValues: Record<string, any>) => {
+  validated.value = true;
+  errorEmail.value = isValidEmail(fieldValues.email)
+  if (!errorEmail.value) {
+    return; 
+  }
+  if(fieldValues.password !== fieldValues.confirmPassword){
+    toast.add({ severity: 'error', summary: 'Passwords dismatch', life: 3000 });
+    return
+  }
+  if (errorEmail.value) {
+    formValues.value = {
+        name: name.value,
+        surname: surname.value,
+        email: fieldValues.email,
+        gender: selectedGender.value.toLowerCase(),
+        birthDate: formatDate(fieldValues.dateOfBirth),
+        emailVerificationCode: Number(verification.value),
+        password: fieldValues.password
+    }
+    const response = await postPatientAuthSignUp(formValues.value)
+    if(response.status < 400){
+        toast.add({ severity: 'success', summary: 'Account Created', life: 3000 });
+        router.push('/auth/signin')
+    }else if(response.status >= 400){
+        toast.add({ severity: 'error', summary: 'Something went wrong', life: 3000 });
+    }
+  }
+}
 
 </script>

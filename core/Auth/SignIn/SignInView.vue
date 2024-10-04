@@ -19,6 +19,11 @@
           <template #button>
             <button class="btn btn-primary px-3">Log in</button>
           </template>
+          <template #error="{ field }">
+            <label v-if="field.name === 'email' && !errorEmail && validated" class="form-label text-danger">
+                {{ 'Invalid email' }}
+            </label>
+        </template>
         </FormField>
         <p>
           Don't have account?
@@ -38,7 +43,12 @@ import type { FormFields } from '~/shared/components/form/types'
 import doctor from '~/assets/login/doctor.png'
 import { useRouter } from 'vue-router'
 import type { PatientAuthSignInRequest } from './types'
+import { postPatientAuthSignIn } from './api'
 
+const errorEmail = ref<boolean>(false)
+const validated = ref(false);
+
+const toast = useToast()
 const router = useRouter()
 
 useSeoMeta({
@@ -75,14 +85,30 @@ const fields: FormFields[] = [
   },
 ];
 
-const onSubmit = (fieldValues: Record<string, any>) => {
-  console.log('Form Submitted:', fieldValues);
+const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
 
-  if (fieldValues.email && fieldValues.password) {
-
-    setTimeout(() => {
-      router.push({ path: '/', query: { showToast: 'true' } })
-    }, 1000);
+const onSubmit = async(fieldValues: Record<string, any>) => {
+  validated.value = true;
+  errorEmail.value = isValidEmail(fieldValues.email)
+  if (!errorEmail.value) {
+    return; 
+  }
+  if (errorEmail.value) {
+    values.value = {
+      email: fieldValues.email,
+      password: fieldValues.password
+    }
+    console.log(values.value)
+    const response = await postPatientAuthSignIn(values.value)
+    console.log(response)
+    if(response.status < 400){
+      router.push('/')
+    }else {
+      toast.add({ severity: 'error', summary: 'Something went wrong', life: 3000 });
+    }
   }
 };
 </script>
