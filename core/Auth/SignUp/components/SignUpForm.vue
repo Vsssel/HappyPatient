@@ -183,7 +183,7 @@ const onSubmit = async (fieldValues: Record<string, any>) => {
     if(response.status < 400){
         toast.add({ severity: 'success', summary: 'Account Created', life: 3000 });
         router.push('/auth/signin')
-    }else if(response.status >= 400){
+    }else {
         toast.add({ severity: 'error', summary: 'Something went wrong', life: 3000 });
     }
   }
