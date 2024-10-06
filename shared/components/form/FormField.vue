@@ -25,7 +25,11 @@
                   :name="slot"
                   v-bind="scope"
                 ></slot>
-              </template>
+            </template>
+            <slot
+              v-if="('error' in $slots)"
+              name="error"
+            ></slot>
           </FieldsContainer>
         </div>
       </template>

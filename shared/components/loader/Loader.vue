@@ -10,7 +10,6 @@
 <script setup lang="ts">
 import Skeleton from 'primevue/skeleton';
 import { computed } from 'vue';
-
 const { type, size } = defineProps<{
   isLoading: boolean,
   type?: string,

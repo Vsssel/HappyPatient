@@ -56,6 +56,10 @@
               </div>
             </div>
           </template>
+          <template #asc_order>
+            <ToggleButton v-model="checked" onLabel="Ascending" offLabel="Descending" onIcon="pi pi-arrow-up" 
+            offIcon="pi pi-arrow-down" class="w-36" />
+          </template>
         </FormField>
       </div>
     </div>
@@ -64,6 +68,9 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item" aria-current="page">
             <NuxtLink to="/" class="text-decoration-none text-dark">Services</NuxtLink>
+          </li>
+          <li class="breadcrumb-item" aria-current="page">
+            <NuxtLink to="/auth/signin" class="text-decoration-none text-dark">Log in</NuxtLink>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
             <NuxtLink to="/" class="text-decoration-underline text-dark">Dashboard</NuxtLink>
@@ -97,6 +104,7 @@ const resources = ref<DoctorsSearchResourcesResponse | null>(null);
 const categoriesOption = ref<{ label: string, value: string }[]>([]);
 const selectedCategories = ref<string[]>([])
 const selectedSortBy = ref('')
+const checked = ref<boolean>(true)
 
 const values = ref({
   fullname: '',
@@ -152,6 +160,16 @@ const FormFields: FormGroup[] = [
         class: 'col-12',
       }
     ]
+  },
+  {
+    class: 'row w-100',
+    fields: [
+      {
+        name: 'asc_order',
+        type: 'slot',
+        class: 'col-12',
+      }
+    ]
   }
 ];
 
@@ -167,7 +185,7 @@ const onSubmit = async(submittedValues: Record<string, any>) => {
     max_exp_years: submittedValues.max_exp_years === -1 ? undefined : submittedValues.max_exp_years,
     offices: selectedOffices.value,
     sort_by: selectedSortBy.value,
-    asc_order: null,
+    asc_order: checked.value,
   }
 
   const filtered = removeEmptyParams(values.value)
