@@ -2,7 +2,7 @@
   <div class="login-page">
     <div class="left-side">
       <div class="title">
-        <h1>Welcome to EasyHealth!</h1>
+        <h1>Welcome to Zhanuya Med!</h1>
         <p>We are want to Automize process of giving treatment</p>
         <img :src="doctor" alt="Doctor" />
       </div>
@@ -20,8 +20,8 @@
             <button class="btn btn-primary px-3">Log in</button>
           </template>
           <template #error="{ field }">
-            <label v-if="field.name === 'email' && !errorEmail && validated" class="form-label text-danger">
-                {{ 'Invalid email' }}
+            <label v-if="field.name === 'login' && (!errorEmail && !errorIIN) && validated" class="form-label text-danger">
+                {{ 'Invalid login' }}
             </label>
         </template>
         </FormField>
@@ -44,39 +44,35 @@ import doctor from '~/assets/login/doctor.png'
 import { useRouter } from 'vue-router'
 import type { PatientAuthSignInRequest } from './types'
 import { postPatientAuthSignIn } from './api'
+import { useToast } from 'primevue/usetoast'
 
 const errorEmail = ref<boolean>(false)
+const errorIIN = ref<boolean>(false)
 const validated = ref(false);
 
 const toast = useToast()
 const router = useRouter()
 
-useSeoMeta({
-  title: 'Login page | EasyHealth+',
-  description: 'Login page for EasyHealth+ medical service platform',
-});
-
 
 const values = ref<PatientAuthSignInRequest>({
-  email: '',
+  login: '',
   password: '',
 });
 
 const fields: FormFields[] = [
   {
-    name: 'email',
+    name: 'login',
     type: 'text',
     required: true,
-    label: { text: 'Email: ' },
-    value: values.value.email,
-    placeholder: 'Enter your email',
+    label: { text: 'Login: ' },
+    value: values.value.login,
+    placeholder: 'Enter your IIN or Email',
     icon: 'pi pi-user',
     class: 'w-100',
   },
   {
     name: 'password',
     type: 'password',
-    feedback: true,
     required: true,
     label: { text: 'Password:' },
     value: values.value.password,
@@ -90,15 +86,21 @@ const isValidEmail = (email: string): boolean => {
   return emailRegex.test(email);
 }
 
+const isValidIIN = (iin: string): boolean => {
+  const iinRegex = /^\d+$/
+  return (iin.length === 12 && iinRegex.test(iin))
+}
+
 const onSubmit = async(fieldValues: Record<string, any>) => {
   validated.value = true;
-  errorEmail.value = isValidEmail(fieldValues.email)
-  if (!errorEmail.value) {
+  errorEmail.value = isValidEmail(fieldValues.login)
+  errorIIN.value = isValidIIN(fieldValues.login)
+  if (!errorEmail.value && !errorIIN.value) {
     return; 
   }
-  if (errorEmail.value) {
+  if (errorEmail.value || errorIIN.value) {
     values.value = {
-      email: fieldValues.email,
+      login: fieldValues.login,
       password: fieldValues.password
     }
     console.log(values.value)

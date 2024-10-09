@@ -2,7 +2,7 @@
     <div class="login-page">
       <div class="left-side">
         <div class="title">
-          <h1>Create account on EasyHealth</h1>
+          <h1>Create account on Zhanuya Med</h1>
           <p>Become our patient and get fast and easy treatment!</p>
           <img :src="doctor" alt="Doctor" width="250" />
         </div>
@@ -24,18 +24,12 @@
     <Toast />
   </template>  
 <script setup lang="ts">
-import { ref } from 'vue';
 import Toast from 'primevue/toast';
 import doctor from '~/assets/registration/doctor.png';
 import { formNumber } from './values';
 import AuthForm from './components/AuthForm.vue';
 import SignUpForm from './components/SignUpForm.vue';
 
-
-useSeoMeta({
-  title: 'Registration page | EasyHealth+',
-  description: 'Registration page for EasyHealth+ medical service platform',
-});
 </script>
 
 <style scoped>
