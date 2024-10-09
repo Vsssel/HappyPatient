@@ -5,8 +5,7 @@
     import NotAvailableSlot from './NotAvailableSlot.vue';
     import FreeSlot from './FreeSlot.vue';
     import ScheduleHeader from './ScheduleHeader.vue';
-    import { getDoctorSchedule } from '../api';
-    import Loader from '~/shared/components/loader/Loader.vue';
+    import { getDoctorSchedule } from '../api'
     import { getWeekDates } from '~/shared/values';
 
     const props = defineProps<{ id: number, week: GetScheduleResponse[] }>();

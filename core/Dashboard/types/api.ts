@@ -1,23 +1,28 @@
-export type SearchRequest = {
+export type DoctorSearchRequest = {
     fullname?: string,
-    category_ids?: string[],
+    categories?: number[],
     min_exp_years?: number,
-    max_exp_years?: number,
-    offices?: string[],
-    workdays?: string[],
+    offices?: number[],
     sort_by?: string,
     asc_order?: boolean
 }
 
-export type DoctorsearchResponse = {
+export type DoctorSearchResponse = {
     id: number;
     name: string;
     surname: string;
     experience: number;
+    avatarUrl: string;
     category: {
         id: number;
         title: string;
-    }
+    },
+    office: {
+        id: number,
+        building_id: number,
+        address: string,
+        title: string
+  }
 }
 
 export type DoctorsSearchResourcesRequest = {
@@ -36,7 +41,10 @@ export type DoctorsSearchResourcesResponse = {
         id: number;
         title: string;
     }[],
-    offices: string[]
+    offices: {
+        id: number;
+        address: string;
+    }[]
 }
 
 export type ResponseMessage = {
