@@ -10,6 +10,11 @@ const response = [
         category: {
             id: 1,
             title: 'Front-end'
+        },
+        office: {
+            id: 1,
+            address: 'Abylay Han 1/1',
+            room: 'D212'
         }
     },
     {
@@ -23,6 +28,11 @@ const response = [
         category: {
             id: 1,
             title: 'Front-end'
+        },
+        office: {
+            id: 1,
+            address: 'Abylay Han 1/1',
+            room: 'D212'
         }
     },
     {
@@ -36,6 +46,11 @@ const response = [
         category: {
             id: 1,
             title: 'Front-end'
+        },
+        office: {
+            id: 1,
+            address: 'Abylay Han 1/1',
+            room: 'D212'
         }
     }
 ];

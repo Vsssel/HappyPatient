@@ -67,6 +67,7 @@ export type DatePickerField = {
 export type FormGroup = {
     class?: string
     style?: string
+    show?: boolean
     fields: FormFields[]
 }
 

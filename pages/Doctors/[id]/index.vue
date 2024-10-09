@@ -4,8 +4,7 @@
     import type { BookingFormDefault, GetProfileResponse } from '~/core/Doctors/[id]/types';
     import BackgroundBlur from '~/shared/components/BackgroundBlur.vue';
     import response from './mock-response';
-    import { getDoctorProfile } from '~/core/Doctors/[id]/api';
-    import Loader from '~/shared/components/loader/Loader.vue';
+    import { getDoctorProfile } from '~/core/Doctors/[id]/api'
 
     const route = useRoute();
     const id = parseInt(route.params.id.toString());
