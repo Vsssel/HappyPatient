@@ -45,7 +45,7 @@ import type { FormGroup } from '~/shared/components/form/types'
 import FormField from '~/shared/components/form/FormField.vue'
 import { formNumber } from '../values'
 import InputOtp from 'primevue/inputotp'
-import { name, surname } from '../values'
+import { name, surname, iin } from '../values'
 import Toast from 'primevue/toast'
 import { postPatientAuthSignUp } from '../api';
 
@@ -64,6 +64,7 @@ const formValues = ref<PostPatientAuthSignUpRequest>({
   name: '',
   surname: '',
   email: '',
+  iin: '',
   gender: '',
   birthDate: '',
   emailVerificationCode: -1,
@@ -174,6 +175,7 @@ const onSubmit = async (fieldValues: Record<string, any>) => {
         name: name.value,
         surname: surname.value,
         email: fieldValues.email,
+        iin: iin.value,
         gender: selectedGender.value.toLowerCase(),
         birthDate: formatDate(fieldValues.dateOfBirth),
         emailVerificationCode: Number(verification.value),
@@ -184,7 +186,7 @@ const onSubmit = async (fieldValues: Record<string, any>) => {
         toast.add({ severity: 'success', summary: 'Account Created', life: 3000 });
         router.push('/auth/signin')
     }else {
-        toast.add({ severity: 'error', summary: 'Something went wrong', life: 3000 });
+        toast.add({ severity: 'error', summary: response.message, life: 3000 });
     }
   }
 }

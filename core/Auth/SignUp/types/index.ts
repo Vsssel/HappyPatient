@@ -2,6 +2,7 @@ export type PostPatientAuthSignUpRequest = {
     name: string;
     surname: string;
     email: string;
+    iin: string;
     gender: string;
     birthDate: string;
     emailVerificationCode: number;

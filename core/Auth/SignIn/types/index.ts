@@ -1,5 +1,5 @@
 export type PatientAuthSignInRequest = {
-    email: string;
+    login: string;
     password: string;
 }
 
