@@ -8,7 +8,7 @@
         <div class="d-flex gap-2 align-items-center">
             <NuxtLink
             to="/"
-            :class="[isActivePage('/') ? 'border border-primary' : '' ,'text-decoration-none rounded p-1 px-2 px-2']"
+            :class="[isActivePage('/') ? 'border border-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2 px-2']"
             >
             <div class="d-flex flex-row gap-2 align-items-center">
                 <i class="bi bi-person-workspace fs-5"></i>
@@ -17,7 +17,7 @@
             </NuxtLink>
             <NuxtLink
             to="/services"
-            :class="[isActivePage('/services') ? 'border border-primary' : '' ,'text-decoration-none rounded p-1 px-2']"
+            :class="[isActivePage('/services') ? 'border border-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2']"
             >
             <div class="d-flex flex-row gap-2 align-items-center">
                 <i class="bi bi-card-list fs-5"></i>
@@ -26,7 +26,7 @@
             </NuxtLink>
             <NuxtLink
             to="/settings"
-            :class="[isActivePage('/settings') ? 'border border-primary' : '' ,'text-decoration-none rounded p-1 px-2']"
+            :class="[isActivePage('/settings') ? 'border border-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2']"
             >
             <div class="d-flex flex-row gap-2 align-items-center">
                 <i class="bi bi-gear fs-5"></i>
@@ -35,7 +35,7 @@
             </NuxtLink>
             <NuxtLink
             to="/auth/signin"
-            :class="[isActivePage('/auth/signin') ? 'border border-primary' : '' ,'text-decoration-none rounded p-1 px-2']"
+            :class="[isActivePage('/auth/signin') ? 'border border-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2']"
             >
             <div class="d-flex flex-row gap-2 align-items-center">
                 <i class="bi bi-person-circle fs-5"></i>

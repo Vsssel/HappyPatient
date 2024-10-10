@@ -1,9 +1,9 @@
 <template>
-  <div class="h-100 p-2 pt-0">
+  <div class="h-100 p-2 pt-0" style="flex-grow: 1; display: flex; flex-direction: column;  max-height: calc(90vh - 100px);">
     <div 
       v-if="doctors.length > 0"
-      class="card w-100 p-2"
-      style="flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; max-height: calc(90vh - 100px);"
+      class="card w-100 p-2 h-100"
+      style="overflow-y: auto;"
     >
         <DoctorCard 
           :doctor="doctor" 
@@ -11,12 +11,11 @@
           :key="doctor.id" 
         />
     </div>
-    <div v-else>
+    <div v-else class="w-100 h-100">
       <div 
-        class="d-flex align-items-center flex-column justify-content-center card p-5"
+        class="h-100 w-100 d-flex flex-column align-items-center justify-content-center card p-5"
       >
-        <img src="../../../assets/no_data.avif">
-        <h3>{{ 'NO DATA' }}</h3>
+        <img src="../../../assets/no_data.jpg">
       </div>
     </div>
   </div>
