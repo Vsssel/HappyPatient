@@ -114,8 +114,8 @@ const onSubmit = async(fieldValues: Record<string, any>) => {
       router.push('/')
       load.value = false
     }else {
-      toast.add({ severity: 'error', summary: response.message, life: 3000 })
       load.value = false
+      toast.add({ severity: 'error', summary: response.message, life: 3000 })
     }
   }
 };

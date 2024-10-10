@@ -161,14 +161,10 @@ const onSubmit = async (fieldValues: Record<string, any>) => {
   validated.value = true;
   load.value = true
   errorEmail.value = isValidEmail(fieldValues.email)
-  if (!errorEmail.value) {
-    return; 
-  }
   if(fieldValues.password !== fieldValues.confirmPassword){
     toast.add({ severity: 'error', summary: 'Passwords dismatch', life: 3000 });
     return
   }
-  if (errorEmail.value) {
     formValues.value = {
         name: name.value,
         surname: surname.value,
@@ -188,7 +184,6 @@ const onSubmit = async (fieldValues: Record<string, any>) => {
       load.value = false
       toast.add({ severity: 'error', summary: response.message, life: 3000 });
     }
-  }
 }
 
 </script>
