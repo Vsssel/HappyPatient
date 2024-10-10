@@ -17,7 +17,11 @@
           v-model:values="values"
         >
           <template #button>
-            <button class="btn btn-primary px-3">Log in</button>
+            <button 
+              :class="['btn btn-primary px-3', load ? 'disabled' : '']">
+              <i v-if="load" class="pi pi-spin pi-spinner" style="font-size: 1rem"></i>
+              Log in
+            </button>
           </template>
           <template #error="{ field }">
             <label v-if="field.name === 'login' && (!errorEmail && !errorIIN) && validated" class="form-label text-danger">
@@ -49,6 +53,7 @@ import { useToast } from 'primevue/usetoast'
 const errorEmail = ref<boolean>(false)
 const errorIIN = ref<boolean>(false)
 const validated = ref(false);
+const load = ref<boolean>(false)
 
 const toast = useToast()
 const router = useRouter()
@@ -99,17 +104,18 @@ const onSubmit = async(fieldValues: Record<string, any>) => {
     return; 
   }
   if (errorEmail.value || errorIIN.value) {
+    load.value = true
     values.value = {
       login: fieldValues.login,
       password: fieldValues.password
     }
-    console.log(values.value)
     const response = await postPatientAuthSignIn(values.value)
-    console.log(response)
     if(response.status < 400){
       router.push('/')
+      load.value = false
     }else {
-      toast.add({ severity: 'error', summary: 'Something went wrong', life: 3000 });
+      toast.add({ severity: 'error', summary: response.message, life: 3000 })
+      load.value = false
     }
   }
 };

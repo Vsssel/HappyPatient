@@ -8,7 +8,11 @@
         <template #button>
             <div class="w-100 d-flex justify-content-between">
                 <button class="btn btn-primary px-3" @click="formNumber = 1"><i class="bi bi-arrow-left p-2" />Back</button>
-                <button class="btn btn-primary px-3">Sign up</button>
+                <button 
+                  :class="['btn btn-primary px-3', load ? 'disabled' : '']">
+                    <i v-if="load" class="pi pi-spin pi-spinner" style="font-size: 1rem" />
+                    Sign Up
+                </button>
             </div>
         </template>
         <template #gender>
@@ -45,9 +49,11 @@ import type { FormGroup } from '~/shared/components/form/types'
 import FormField from '~/shared/components/form/FormField.vue'
 import { formNumber } from '../values'
 import InputOtp from 'primevue/inputotp'
-import { name, surname, iin } from '../values'
+import { name, surname, iin, email } from '../values'
 import Toast from 'primevue/toast'
 import { postPatientAuthSignUp } from '../api';
+import { useToast } from 'primevue/usetoast';
+import { useRouter } from 'vue-router';
 
 const selectedGender = ref<string>('');
 const genders = ref([{ name: 'Male', key: 'male' }, { name: 'Female', key: 'female' }]);
@@ -56,6 +62,7 @@ const verification = ref()
 
 const errorEmail = ref<boolean>(false)
 const validated = ref(false);
+const load = ref<boolean>(false)
 
 const toast = useToast();
 const router = useRouter();
@@ -75,15 +82,6 @@ const secondFormField: FormGroup[] = [
   {
     class: 'column w-100',
     fields: [
-      {
-        name: 'email',
-        type: 'text',
-        required: true,
-        label: { text: 'Email: ' },
-        value: formValues.value.email,
-        placeholder: 'Enter your email',
-        class: 'col-12',
-      },
       {
         name: 'dateOfBirth',
         type: 'date',
@@ -152,7 +150,6 @@ const isValidEmail = (email: string): boolean => {
 
 const formatDate = (dateStr: string): string => {
   const date = new Date(dateStr);
-  
   const day = String(date.getDate()).padStart(2, '0')
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const year = date.getFullYear();
@@ -162,6 +159,7 @@ const formatDate = (dateStr: string): string => {
 
 const onSubmit = async (fieldValues: Record<string, any>) => {
   validated.value = true;
+  load.value = true
   errorEmail.value = isValidEmail(fieldValues.email)
   if (!errorEmail.value) {
     return; 
@@ -174,7 +172,7 @@ const onSubmit = async (fieldValues: Record<string, any>) => {
     formValues.value = {
         name: name.value,
         surname: surname.value,
-        email: fieldValues.email,
+        email: email.value,
         iin: iin.value,
         gender: selectedGender.value.toLowerCase(),
         birthDate: formatDate(fieldValues.dateOfBirth),
@@ -183,10 +181,12 @@ const onSubmit = async (fieldValues: Record<string, any>) => {
     }
     const response = await postPatientAuthSignUp(formValues.value)
     if(response.status < 400){
-        toast.add({ severity: 'success', summary: 'Account Created', life: 3000 });
-        router.push('/auth/signin')
+      load.value = false
+      toast.add({ severity: 'success', summary: 'Account Created', life: 3000 });
+      router.push('/auth/signin')
     }else {
-        toast.add({ severity: 'error', summary: response.message, life: 3000 });
+      load.value = false
+      toast.add({ severity: 'error', summary: response.message, life: 3000 });
     }
   }
 }

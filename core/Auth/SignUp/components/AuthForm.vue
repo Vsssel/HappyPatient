@@ -5,7 +5,11 @@
       :submit="onSubmit"
   >
     <template #button>
-       <button class="btn btn-primary px-3">Next</button>
+      <button 
+        :class="['btn btn-primary px-3', load ? 'disabled' : '']">
+          <i v-if="load" class="pi pi-spin pi-spinner" style="font-size: 1rem" />
+          Next
+      </button>
     </template>
     <template #error="{ field }">
       <label v-if="field.name === 'email' && !errorEmail && validated" class="form-label text-danger">
@@ -22,7 +26,7 @@
 import { ref } from 'vue'
 import FormField from '~/shared/components/form/FormField.vue'
 import type { PostPatientAuthRequest } from '../types'
-import { name, surname, formNumber, iin } from '../values'
+import { name, surname, formNumber, iin, email } from '../values'
 import { postPatientAuth } from '../api/postPatientAuth'
 import { useToast } from 'primevue/usetoast'
 
@@ -30,6 +34,7 @@ const errorEmail = ref<boolean>(false)
 const errorIIN = ref<boolean>(false)
 const validated = ref(false);
 const toast = useToast()
+const load = ref<boolean>(false)
 
 const values = ref<PostPatientAuthRequest>({
   email: ''
@@ -95,15 +100,19 @@ const onSubmit = async (fieldValues: Record<string, any>) => {
   name.value = fieldValues.name;
   surname.value = fieldValues.surname;
   iin.value = fieldValues.iin
+  email.value = fieldValues.email
   if (errorEmail.value) {
     values.value.email = fieldValues.email
+    load.value = true
     const response = await postPatientAuth(values.value)
     if(response.status < 400){
+      load.value = false
       formNumber.value = 2;
       toast.add({ severity: 'success', summary: "Email verification code sent to you email", life: 3000 })
     }
     else{
-        toast.add({ severity: 'error', summary: response.message, life: 3000 })
+      load.value = false
+      toast.add({ severity: 'error', summary: response.message, life: 3000 })
     }
   }
 }
