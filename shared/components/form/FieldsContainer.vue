@@ -91,7 +91,7 @@
               <slot :name="field.name"></slot>
             </template>
           </div>
-          <p v-if="!isValid(field) && validated || $slots.error" :class="['p-0 fs-7 text-danger w-100']">
+          <p v-if="!isValid(field) && validated || $slots.error" :class="['p-0 fs-7 text-danger d-flex flex-column w-100']">
             <slot name="error" v-bind="{ field }"></slot>
             <span v-if="!isValid(field) && validated">{{ 'This field is required' }}</span>
           </p>

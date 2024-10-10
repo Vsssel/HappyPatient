@@ -9,11 +9,47 @@
       </div>
       <div class="right-side">
         <div class="login-block w-50">
-          <h2>Registration</h2>
+          <h2>Sign up</h2>
+          <Stepper v-model:value="formNumber" class="w-50">
+            <StepList class="">
+              <Step 
+                v-slot="{ value }" asChild :value="1">
+                <button 
+                  class="bg-transparent border-0 p-2" 
+                >
+                  <span
+                    :class="[
+                      'rounded-circle',
+                      { 'bg-primary p-2 text-primary-contrast border-primary': value <= formNumber, 'border-surface-200': value > formNumber }
+                    ]"
+                    style="width: 8vw; height: 8vw; max-width: 50px; max-height: 50px;"
+                  >
+                    <i class="pi pi-at" style="font-size: 1rem;" />
+                  </span>
+                </button>
+                <Divider/>
+              </Step>
+              <Step v-slot="{ value }" asChild :value="2">
+                <button 
+                  class="bg-transparent border-0 gap-2"
+                >
+                  <span
+                    :class="[
+                      'p-2 rounded-circle',
+                      { 'bg-primary text-primary-contrast border-primary': value <= formNumber, 'bg-secondary': value > formNumber }
+                    ]"
+                    style="width: 8vw; height: 8vw; max-width: 50px; max-height: 50px;"
+                  >
+                    <i class="bi bi-person" style="font-size: 1rem;" />
+                  </span>
+                </button>
+              </Step>
+            </StepList>
+          </Stepper>
           <div class="w-100">
-                <AuthForm v-if="formNumber === 1" />
-                <SignUpForm v-if="formNumber === 2"/>
-            </div>
+            <AuthForm v-if="formNumber === 1" />
+            <SignUpForm v-if="formNumber === 2"/>
+          </div>
           <p>
             Already have an account?
             <NuxtLink to="/auth/signin" class="register-link">Login</NuxtLink>
@@ -24,11 +60,17 @@
     <Toast />
   </template>  
 <script setup lang="ts">
-import Toast from 'primevue/toast';
-import doctor from '~/assets/registration/doctor.png';
-import { formNumber } from './values';
-import AuthForm from './components/AuthForm.vue';
-import SignUpForm from './components/SignUpForm.vue';
+import Toast from 'primevue/toast'
+import doctor from '~/assets/registration/doctor.png'
+import AuthForm from './components/AuthForm.vue'
+import SignUpForm from './components/SignUpForm.vue'
+import Stepper from 'primevue/stepper'
+import StepList from 'primevue/steplist'
+import Step from 'primevue/step'
+import StepPanel from 'primevue/steppanel'
+import StepPanels from 'primevue/steppanels'
+import Divider from 'primevue/divider'
+import { formNumber } from './values'
 
 </script>
 

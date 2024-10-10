@@ -16,6 +16,7 @@ export type PostPatientAuthSignUpResponse = {
 
 export type PostPatientAuthRequest = {
     email: string
+    iin: string
 }
 
 export type PostPatientAuthResponse = {

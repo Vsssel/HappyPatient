@@ -26,17 +26,23 @@
                         <RadioButton v-model="selectedGender" :inputId="gender.key" name="dynamic" :value="gender.name" />
                         <label :for="gender.key" class="p-2">{{ gender.name }}</label>
                     </div>
+                    <label v-if="errorGender && validated" class="form-label text-danger">
+                      {{ 'This field is required' }}
+                    </label>
                 </div>
             </div>
         </template>
         <template #emailVerificationCode>
-            <div class="d-flex justify-content-center">
-                <InputOtp integerOnly mask v-model="verification"></InputOtp>
+            <div class="d-flex flex-column align-items-center">
+                <InputOtp integerOnly mask v-model="verification" />
+                <label v-if="errorCode && validated" class="form-label text-danger">
+                    {{ 'This field is required' }}
+                </label>
             </div>
         </template>
         <template #error="{ field }">
-            <label v-if="field.name === 'email' && !errorEmail && validated" class="form-label text-danger">
-                {{ 'Invalid email' }}
+            <label v-if="field.name === 'confirmPassword' && !errorPassword && validated" class="form-label text-danger">
+              {{ 'Password Dismatch' }}
             </label>
         </template>
     </FormField>
@@ -61,6 +67,9 @@ const passwordVerification = ref<string>('');
 const verification = ref()
 
 const errorEmail = ref<boolean>(false)
+const errorPassword = ref<boolean>(true)
+const errorGender = ref<boolean>(true)
+const errorCode = ref<boolean>(true)
 const validated = ref(false);
 const load = ref<boolean>(false)
 
@@ -137,16 +146,11 @@ const secondFormField: FormGroup[] = [
       {
         name: 'emailVerificationCode',
         type: 'slot',
-        class: 'w-100 p-0'
+        class: 'w-100 p-0',
       }
     ]
   }
 ];
-
-const isValidEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
 
 const formatDate = (dateStr: string): string => {
   const date = new Date(dateStr);
@@ -159,31 +163,48 @@ const formatDate = (dateStr: string): string => {
 
 const onSubmit = async (fieldValues: Record<string, any>) => {
   validated.value = true;
-  load.value = true
-  errorEmail.value = isValidEmail(fieldValues.email)
+  errorPassword.value = true
   if(fieldValues.password !== fieldValues.confirmPassword){
-    toast.add({ severity: 'error', summary: 'Passwords dismatch', life: 3000 });
+    errorPassword.value = false
     return
   }
+  if(selectedGender.value === '' || selectedGender.value === undefined || selectedGender.value === null){
+    errorGender.value = false
+    return
+  }
+  if(verification.value === undefined || verification.value === null){
+    errorCode.value = false
+    return 
+  }else{
     formValues.value = {
         name: name.value,
         surname: surname.value,
         email: email.value,
         iin: iin.value,
-        gender: selectedGender.value.toLowerCase(),
+        gender: selectedGender.value.toLowerCase() ?? undefined,
         birthDate: formatDate(fieldValues.dateOfBirth),
-        emailVerificationCode: Number(verification.value),
+        emailVerificationCode: Number(verification.value) ?? undefined,
         password: fieldValues.password
     }
-    const response = await postPatientAuthSignUp(formValues.value)
-    if(response.status < 400){
-      load.value = false
-      toast.add({ severity: 'success', summary: 'Account Created', life: 3000 });
-      router.push('/auth/signin')
-    }else {
-      load.value = false
-      toast.add({ severity: 'error', summary: response.message, life: 3000 });
+    load.value = true
+    try{
+      const response = await postPatientAuthSignUp(formValues.value)
+      if(response.status < 400){
+        load.value = false
+        toast.add({ severity: 'success', summary: 'Account Created', life: 3000 });
+        router.push('/auth/signin')
+      }else {
+        load.value = false
+        toast.add({ severity: 'error', summary: response.message, life: 3000 });
+      }
     }
+    catch (error) {
+      toast.add({ severity: 'error', summary: 'An error occurred', life: 3000 });
+    }
+    finally{
+      load.value = false
+    }
+  }
 }
 
 </script>

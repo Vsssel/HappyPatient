@@ -27,6 +27,9 @@
             <label v-if="field.name === 'login' && (!errorEmail && !errorIIN) && validated" class="form-label text-danger">
                 {{ 'Invalid login' }}
             </label>
+            <label v-for="message in errorPassword" v-if="field.name === 'password' && errorPassword.length > 0 && validated" class="form-label text-danger">
+                {{ message }}
+            </label>
         </template>
         </FormField>
         <p>
@@ -52,6 +55,7 @@ import { useToast } from 'primevue/usetoast'
 
 const errorEmail = ref<boolean>(false)
 const errorIIN = ref<boolean>(false)
+const errorPassword = ref<string[]>([])
 const validated = ref(false);
 const load = ref<boolean>(false)
 
@@ -96,29 +100,54 @@ const isValidIIN = (iin: string): boolean => {
   return (iin.length === 12 && iinRegex.test(iin))
 }
 
+function validatePassword(password: string): string[]{
+  const errors: string[] = [];
+  if (password.length < 8) {
+    errors.push("Password must be at least 8 characters long.");
+  }
+  if (!/[A-Z]/.test(password)) {
+    errors.push("Password must contain at least one uppercase letter.");
+  }
+  if (!/[a-z]/.test(password)) {
+    errors.push("Password must contain at least one lowercase letter.");
+  }
+  if (!/\d/.test(password)) {
+    errors.push("Password must contain at least one digit.");
+  }
+  if (/\s/.test(password)) {
+    errors.push("Password must not contain spaces.");
+  }
+
+  return errors
+}
+
+
 const onSubmit = async(fieldValues: Record<string, any>) => {
   validated.value = true;
   errorEmail.value = isValidEmail(fieldValues.login)
   errorIIN.value = isValidIIN(fieldValues.login)
-  if (!errorEmail.value && !errorIIN.value) {
+  errorPassword.value = validatePassword(fieldValues.password)
+  if ((errorEmail.value && errorIIN.value) || errorPassword.value.length > 0) {
     return; 
   }
-  if (errorEmail.value || errorIIN.value) {
+  values.value = {
+    login: fieldValues.login,
+    password: fieldValues.password
+  }
+  try{
     load.value = true
-    values.value = {
-      login: fieldValues.login,
-      password: fieldValues.password
-    }
     const response = await postPatientAuthSignIn(values.value)
     if(response.status < 400){
       router.push('/')
-      load.value = false
     }else {
-      load.value = false
-      toast.add({ severity: 'error', summary: response.message, life: 3000 })
+      toast.add({ severity: 'error', summary: response.message.detail, life: 3000 })
     }
-  }
-};
+    }catch(error){
+      toast.add({ severity: 'error', summary: "Something went wrong", life: 3000 })
+    }finally{
+      load.value = false
+    }
+}
 </script>
 <style scoped>
 .login-page {
