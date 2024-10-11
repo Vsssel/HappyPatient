@@ -21,10 +21,12 @@
                     Select your gender
                     <i style="font-size: 8px; color: red; margin-left: 4px;" class="bi-asterisk" />
                 </label>
-                <div class="d-flex flex-row">
-                    <div v-for="gender in genders" :key="gender.key" class="d-flex flex-row align-items-center">
-                        <RadioButton v-model="selectedGender" :inputId="gender.key" name="dynamic" :value="gender.name" />
-                        <label :for="gender.key" class="p-2">{{ gender.name }}</label>
+                <div class="d-flex flex-column">
+                    <div class="d-flex flex-row">
+                      <div v-for="gender in genders" :key="gender.key" class="d-flex flex-row align-items-center">
+                          <RadioButton v-model="selectedGender" :inputId="gender.key" name="dynamic" :value="gender.name" />
+                          <label :for="gender.key" class="p-2">{{ gender.name }}</label>
+                      </div>
                     </div>
                     <label v-if="errorGender && validated" class="form-label text-danger">
                       {{ 'This field is required' }}
@@ -35,14 +37,17 @@
         <template #emailVerificationCode>
             <div class="d-flex flex-column align-items-center">
                 <InputOtp integerOnly mask v-model="verification" />
-                <label v-if="errorCode && validated" class="form-label text-danger">
-                    {{ 'This field is required' }}
+                <label v-if="errorCode !== '' && validated" class="form-label text-danger">
+                    {{ errorCode }}
                 </label>
             </div>
         </template>
         <template #error="{ field }">
-            <label v-if="field.name === 'confirmPassword' && !errorPassword && validated" class="form-label text-danger">
+            <label v-if="field.name === 'confirmPassword' && !errorPasswordConfirmation && validated" class="form-label text-danger">
               {{ 'Password Dismatch' }}
+            </label>
+            <label v-for="message in errorPassword" v-if="field.name === 'password' && errorPassword.length > 0 && validated" class="form-label text-danger">
+                {{ message }}
             </label>
         </template>
     </FormField>
@@ -66,10 +71,10 @@ const genders = ref([{ name: 'Male', key: 'male' }, { name: 'Female', key: 'fema
 const passwordVerification = ref<string>('');
 const verification = ref()
 
-const errorEmail = ref<boolean>(false)
-const errorPassword = ref<boolean>(true)
+const errorPassword = ref<string[]>([])
+const errorPasswordConfirmation = ref<boolean>(true)
 const errorGender = ref<boolean>(true)
-const errorCode = ref<boolean>(true)
+const errorCode = ref<string>('')
 const validated = ref(false);
 const load = ref<boolean>(false)
 
@@ -158,22 +163,49 @@ const formatDate = (dateStr: string): string => {
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const year = date.getFullYear();
     return `${day}-${month}-${year}`;
-};
+}
+
+function validatePassword(password: string): string[]{
+  const errors: string[] = [];
+  if (password.length < 8) {
+    errors.push("Password must be at least 8 characters long.");
+  }
+  if (!/[A-Z]/.test(password)) {
+    errors.push("Password must contain at least one uppercase letter.");
+  }
+  if (!/[a-z]/.test(password)) {
+    errors.push("Password must contain at least one lowercase letter.");
+  }
+  if (!/\d/.test(password)) {
+    errors.push("Password must contain at least one digit.");
+  }
+  if (/\s/.test(password)) {
+    errors.push("Password must not contain spaces.");
+  }
+
+  return errors
+}
 
 
 const onSubmit = async (fieldValues: Record<string, any>) => {
-  validated.value = true;
-  errorPassword.value = true
+  validated.value = true
+  errorPassword.value = []
+  errorPasswordConfirmation.value = true
+  errorGender.value = false
+  errorPassword.value = validatePassword(fieldValues.password)
+  if(errorPassword.value.length > 0){
+    return;
+  }
   if(fieldValues.password !== fieldValues.confirmPassword){
-    errorPassword.value = false
+    errorPasswordConfirmation.value = false
     return
   }
   if(selectedGender.value === '' || selectedGender.value === undefined || selectedGender.value === null){
-    errorGender.value = false
+    errorGender.value = true
     return
   }
   if(verification.value === undefined || verification.value === null){
-    errorCode.value = false
+    errorCode.value = "This field is required"
     return 
   }else{
     formValues.value = {
@@ -193,9 +225,9 @@ const onSubmit = async (fieldValues: Record<string, any>) => {
         load.value = false
         toast.add({ severity: 'success', summary: 'Account Created', life: 3000 });
         router.push('/auth/signin')
-      }else {
+      }else if(response.status === 400){
         load.value = false
-        toast.add({ severity: 'error', summary: response.message, life: 3000 });
+        errorCode.value = response.message.detail
       }
     }
     catch (error) {

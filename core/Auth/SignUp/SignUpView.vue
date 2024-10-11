@@ -19,8 +19,8 @@
                 >
                   <span
                     :class="[
-                      'rounded-circle',
-                      { 'bg-primary p-2 text-primary-contrast border-primary': value <= formNumber, 'border-surface-200': value > formNumber }
+                      'rounded-circle text-white',
+                      { 'bg-primary p-2 border-primary': value <= formNumber, 'border-surface-200': value > formNumber }
                     ]"
                     style="width: 8vw; height: 8vw; max-width: 50px; max-height: 50px;"
                   >
@@ -35,8 +35,8 @@
                 >
                   <span
                     :class="[
-                      'p-2 rounded-circle',
-                      { 'bg-primary text-primary-contrast border-primary': value <= formNumber, 'bg-secondary': value > formNumber }
+                      'p-2 text-white rounded-circle',
+                      { 'bg-primary border-primary': value <= formNumber, 'bg-secondary': value > formNumber }
                     ]"
                     style="width: 8vw; height: 8vw; max-width: 50px; max-height: 50px;"
                   >
@@ -67,8 +67,6 @@ import SignUpForm from './components/SignUpForm.vue'
 import Stepper from 'primevue/stepper'
 import StepList from 'primevue/steplist'
 import Step from 'primevue/step'
-import StepPanel from 'primevue/steppanel'
-import StepPanels from 'primevue/steppanels'
 import Divider from 'primevue/divider'
 import { formNumber } from './values'
 
