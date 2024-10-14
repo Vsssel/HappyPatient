@@ -1,6 +1,8 @@
 <template>
-  <Header v-if="!isAuthPage" />
-  <NuxtPage />
+  <main class="d-flex flex-column" style="max-height: 100vh; overflow: hidden;">
+    <Header v-if="!isAuthPage" />
+    <NuxtPage class="d-flex flex-grow-1"/>
+  </main>
 </template>
 
 <script setup lang="ts">

@@ -5,11 +5,14 @@
       :submit="onSubmit"
   >
     <template #button>
-      <button 
+      <div class="w-100 d-flex justify-content-end pt-2 pb-2">
+        <button 
         :class="['btn btn-primary px-3', load ? 'disabled' : '']">
           <i v-if="load" class="pi pi-spin pi-spinner" style="font-size: 1rem" />
           Next
+          <i v-if="!load" class="pi pi-arrow-right p-2" style="font-size: 1rem" />
       </button>
+      </div>
     </template>
     <template #error="{ field }">
       <label v-if="field.name === 'email' && errorEmail && validated" class="form-label text-danger">
