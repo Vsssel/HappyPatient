@@ -1,58 +1,58 @@
 <template>
     <div class="w-100 d-flex flex-row p-2 card">
-      <div class="col-6 d-flex align-items-center">
-        <img src="../../../assets/logo.png" style="width: 45px; height: 45px;">
-        <h4 class="text-primary m-2">Zhanuya Med</h4>
-      </div>
-      <div class="col-6 d-flex justify-content-end">
+      <div class="col-4 d-flex justify-content-start">
         <div class="d-flex gap-2 align-items-center">
             <NuxtLink
-            to="/"
-            :class="[isActivePage('/') ? 'border border-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2 px-2']"
-            >
-            <div class="d-flex flex-row gap-2 align-items-center">
-                <i class="bi bi-person-workspace fs-5"></i>
-                <label v-if="isActivePage('/')" class="fw-bold">Dashboard</label>
-            </div>
+              to="/"
+              :class="[isActivePage('/about-us') ? 'text-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2 px-2']"
+              >
+              <div class="d-flex flex-row gap-2 align-items-center">
+                  <label class="fw-bold">About us</label>
+              </div>
             </NuxtLink>
             <NuxtLink
-            to="/services"
-            :class="[isActivePage('/services') ? 'border border-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2']"
-            >
-            <div class="d-flex flex-row gap-2 align-items-center">
-                <i class="bi bi-card-list fs-5"></i>
-                <label v-if="isActivePage('/services')" class="fw-bold">Another Page</label>
-            </div>
+              to="/services"
+              :class="[isActivePage('/services') ? 'text-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2']"
+              >
+              <div class="d-flex flex-row gap-2 align-items-center">
+                <label class="fw-bold">Services</label>
+              </div>
+            </NuxtLink>
+        </div>
+      </div>
+      <div class="col-4 d-flex align-items-center">
+        <h4 class="text-primary m-2 fw-bold text-center w-100">Zhanuya Med</h4>
+      </div>
+      <div class="col-4 d-flex justify-content-end">
+        <div class="d-flex gap-2 align-items-center">
+            <NuxtLink
+              to="/"
+              :class="[isActivePage('/') ? 'text-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2 px-2']"
+              >
+              <div class="d-flex flex-row gap-2 align-items-center">
+                  <label v-if="isActivePage('/')" class="fw-bold">Doctors</label>
+              </div>
             </NuxtLink>
             <NuxtLink
-            to="/settings"
-            :class="[isActivePage('/settings') ? 'border border-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2']"
-            >
-            <div class="d-flex flex-row gap-2 align-items-center">
-                <i class="bi bi-gear fs-5"></i>
-                <label v-if="isActivePage('/settings')" class="fw-bold">Third Page</label>
-            </div>
-            </NuxtLink>
-            <NuxtLink
-            to="/auth/signin"
-            :class="[isActivePage('/auth/signin') ? 'border border-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2']"
-            >
-            <div class="d-flex flex-row gap-2 align-items-center">
-                <i class="bi bi-person-circle fs-5"></i>
-                <label v-if="isActivePage('/auth/signin')" class="fw-bold">Third Page</label>
-            </div>
+              to="/auth/signup"
+              :class="[isActivePage('/auth/signup') ? 'text-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2']"
+              >
+              <div class="d-flex flex-row gap-2 align-items-center">
+                <i class="bi bi-person-circle" />
+              </div>
             </NuxtLink>
         </div>
       </div>
     </div>
   </template>
   
-  <script setup>
+  <script setup lang="ts">
   import { useRoute } from 'vue-router'
+  import ThemeSwitcher from '../theme/ThemeSwitcher.vue';
   
   const route = useRoute()
   
-  const isActivePage = (path) => {
+  const isActivePage = (path: string) => {
     return route.path === path
   }
   </script>

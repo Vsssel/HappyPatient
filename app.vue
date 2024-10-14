@@ -13,3 +13,8 @@ const isAuthPage = computed(() => {
   return route.path === '/auth/signin' || route.path === '/auth/signup'
 })
 </script>
+<style>
+body {
+  background-color: #F2F2F2;
+}
+</style>
