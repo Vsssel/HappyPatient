@@ -38,7 +38,7 @@
               :class="[isActivePage('/auth/signup') ? 'text-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2']"
               >
               <div class="d-flex flex-row gap-2 align-items-center">
-                <i class="bi bi-person-circle fs-3" />
+                <DefaultAvatar />
               </div>
             </NuxtLink>
         </div>
@@ -46,13 +46,14 @@
     </div>
   </template>
   
-  <script setup lang="ts">
-  import { useRoute } from 'vue-router'
+<script setup lang="ts">
+import { useRoute } from 'vue-router'
+import DefaultAvatar from './DefaultAvatar.vue'
   
-  const route = useRoute()
+const route = useRoute()
   
-  const isActivePage = (path: string) => {
-    return route.path === path
-  }
-  </script>
+const isActivePage = (path: string) => {
+  return route.path === path
+}
+</script>
   

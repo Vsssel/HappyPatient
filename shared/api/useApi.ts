@@ -1,6 +1,7 @@
 import type { ApiOption, ApiResponse } from "./type"
 import { useRuntimeConfig } from "#app"
 import me from "../stores/User"
+import axios from "axios"
 
 export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Promise<ApiResponse<T>> => {
     const config = useRuntimeConfig()
@@ -11,29 +12,32 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
             'Content-Type': 'application/json',
             ...options.headers
         }
-
         if (options.auth) {
             const token = me.getToken()
             if (token) {
                 headers['Auth'] = `Bearer ${token}`
-            } else {
-                throw new Error('No token available')
             }
         }
 
-        const response = await $fetch.raw<T>('http://localhost:2222/' + endpoint, {
-            method: options.methos,
+        const response = await axios({
+            url: 'http://localhost:2222/' + endpoint,
+            method: options.methos || 'GET',
             headers,
-            body: options.body,
+            data: options.body,
             params: options.params,
         })
 
-        const refreshedToken = response.headers.get('Auth')
+        const refreshedToken = response.headers['auth']
         if (!!refreshedToken) {
-            me.refreshToken(refreshedToken.replace('Bearer ', ''));
+            if (me.isAuthorized()){
+                me.refreshToken(refreshedToken.replace('Bearer ', ''));
+            }else {
+                me.authorize(response.data.id, response.data.name, response.data.surname ,refreshedToken.replace('Bearer ', ''))
+            }
         }
+        
 
-        const data = response._data
+        const data = response.data
 
 
         return { status: response.status, message: response.statusText, data: data }
