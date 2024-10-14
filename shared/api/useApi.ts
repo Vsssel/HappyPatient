@@ -1,6 +1,6 @@
 import type { ApiOption, ApiResponse } from "./type"
 import { useRuntimeConfig } from "#app"
-import { clearToken, getToken, setToken } from "../stores/userAuthStore"
+import me from "../stores/User"
 
 export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Promise<ApiResponse<T>> => {
     const config = useRuntimeConfig()
@@ -13,9 +13,11 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
         }
 
         if (options.auth) {
-            const token = getToken()
+            const token = me.getToken()
             if (token) {
-                headers['Authorization'] = `${token}`
+                headers['Auth'] = `Bearer ${token}`
+            } else {
+                throw new Error('No token available')
             }
         }
 
@@ -26,10 +28,9 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
             params: options.params,
         })
 
-        if (response.headers.get('Authorization')) {
-            clearToken()
-            setToken(response.headers.get('Authorization'))
-            console.log(response.headers.get('Authorization'), 'token')
+        const refreshedToken = response.headers.get('Auth')
+        if (!!refreshedToken) {
+            me.refreshToken(refreshedToken.replace('Bearer ', ''));
         }
 
         const data = response._data

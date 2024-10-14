@@ -1,3 +1,10 @@
+<script setup lang="ts">
+    import me from './shared/stores/User';
+
+    onMounted(() => me.sync());
+</script>
+
+
 <template>
   <main class="d-flex flex-column" style="max-height: 100vh; overflow: hidden;">
     <Header v-if="!isAuthPage" />
