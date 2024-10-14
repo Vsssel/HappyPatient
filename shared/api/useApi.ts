@@ -26,9 +26,10 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
             params: options.params,
         })
 
-        if (response.headers.get('auth')) {
+        if (response.headers.get('Authorization')) {
             clearToken()
-            setToken(response.headers.get('auth'))
+            setToken(response.headers.get('Authorization'))
+            console.log(response.headers.get('Authorization'), 'token')
         }
 
         const data = response._data

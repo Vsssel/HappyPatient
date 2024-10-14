@@ -1,6 +1,6 @@
 <template>
         <NuxtLink 
-            :to="`/doctors/${doctor.id}`"
+            :to="`/doctor/${doctor.id}`"
             class="doctor-card text-decoration-none text-dark pt-3 pb-3 p-0 rounded"
         >
             <div class="d-flex flex-column align-items-center">

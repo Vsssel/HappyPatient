@@ -30,7 +30,7 @@
               :class="[isActivePage('/') ? 'text-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2 px-2']"
               >
               <div class="d-flex flex-row gap-2 align-items-center">
-                  <label v-if="isActivePage('/')" class="fw-bold">Doctors</label>
+                  <label class="fw-bold">Doctors</label>
               </div>
             </NuxtLink>
             <NuxtLink
@@ -38,7 +38,7 @@
               :class="[isActivePage('/auth/signup') ? 'text-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2']"
               >
               <div class="d-flex flex-row gap-2 align-items-center">
-                <i class="bi bi-person-circle" />
+                <i class="bi bi-person-circle fs-3" />
               </div>
             </NuxtLink>
         </div>
@@ -48,7 +48,6 @@
   
   <script setup lang="ts">
   import { useRoute } from 'vue-router'
-  import ThemeSwitcher from '../theme/ThemeSwitcher.vue';
   
   const route = useRoute()
   

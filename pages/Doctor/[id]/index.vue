@@ -1,10 +1,10 @@
 <script setup lang="ts">
-    import BookingWindow from '~/core/Doctors/[id]/components/BookingWindow.vue';
-    import Schedule from '~/core/Doctors/[id]/components/Schedule.vue';
-    import type { BookingFormDefault, GetProfileResponse } from '~/core/Doctors/[id]/types';
+    import BookingWindow from '~/core/Doctor/[id]/components/BookingWindow.vue';
+    import Schedule from '~/core/Doctor/[id]/components/Schedule.vue';
+    import type { BookingFormDefault, GetProfileResponse } from '~/core/Doctor/[id]/types';
     import BackgroundBlur from '~/shared/components/BackgroundBlur.vue';
     import response from './mock-response';
-    import { getDoctorProfile } from '~/core/Doctors/[id]/api'
+    import { getDoctorProfile } from '~/core/Doctor/[id]/api'
 
     const route = useRoute();
     const id = parseInt(route.params.id.toString());

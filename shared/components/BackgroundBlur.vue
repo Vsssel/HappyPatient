@@ -10,7 +10,7 @@
 
 
 <script setup lang="ts">
-    import type { BookingFormDefault } from '~/core/Doctors/[id]/types';
+    import type { BookingFormDefault } from '~/core/Doctor/[id]/types';
 
     const openBookingFormEvent = inject<(bookingWindowProps: BookingFormDefault) => void>('toOpenBookingForm');
     const onEscape = (event: KeyboardEvent) => {
