@@ -91,8 +91,10 @@
               <slot :name="field.name"></slot>
             </template>
           </div>
-          <p v-if="!isValid(field) && validated" :class="['p-0 fs-7 text-danger w-100']">{{ 'This filed is required' }}</p>
-          <p v-else :class="['p-2 fs-7 text-danger w-100']"></p>
+          <p v-if="!isValid(field) && validated || $slots.error" :class="['p-0 fs-7 text-danger d-flex flex-column w-100']">
+            <slot name="error" v-bind="{ field }"></slot>
+            <span v-if="!isValid(field) && validated">{{ 'This field is required' }}</span>
+          </p>
         </div>
     </template>
   </template>
@@ -125,7 +127,7 @@
   const filteredSuggestions = ref()
   const search = (event: any, suggestions: string[] | number[]) => {
     if (!event.query.trim().length) {
-      filteredSuggestions.value = [...suggestions];
+      filteredSuggestions.value = [...suggestions]
     } else {
       filteredSuggestions.value = suggestions.filter((item) =>
         String(item).toLowerCase().startsWith(event.query.toLowerCase())

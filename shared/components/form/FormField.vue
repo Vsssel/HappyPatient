@@ -1,8 +1,8 @@
 <template>
   <div>
-    <form @submit.prevent="handleSubmit" @keydown="handleKeyPress" class="w-100 d-flex flex-column align-items-center">
+    <form @submit.prevent="handleSubmit" class="w-100 d-flex flex-column align-items-center">
       <template v-if="fields.length">
-        <FieldsContainer  :fields="fields" :validated="validated">
+        <FieldsContainer :fields="fields" :validated="validated">
           <template
                 v-for="(_, slot) of $slots"
                 #[slot]="scope"
@@ -16,7 +16,7 @@
       </template>
       <template v-else-if="groupFields.length">
         <div v-for="(group, index) in groupFields" :class="group.class" :key="index">
-          <FieldsContainer  :fields="group.fields" :validated="validated">
+          <FieldsContainer :fields="group.fields" :validated="validated">
             <template
                 v-for="(_, slot) of $slots"
                 #[slot]="scope"
@@ -25,7 +25,11 @@
                   :name="slot"
                   v-bind="scope"
                 ></slot>
-              </template>
+            </template>
+            <slot
+              v-if="('error' in $slots)"
+              name="error"
+            ></slot>
           </FieldsContainer>
         </div>
       </template>
@@ -50,6 +54,7 @@ const props = defineProps<{
   formFields?: FormFields[];
   formGroup?: FormGroup[];
   submit?: (fieldValues: Record<string, any>) => void;
+  onChange?: (fieldValues: Record<string, any>) => void;
 }>();
 
 const fields = reactive<FormFields[]>(props.formFields ?? []);
@@ -86,16 +91,27 @@ const handleSubmit = () => {
   }
 }
 
-const handleKeyPress = (event: KeyboardEvent) => {
-  if (event.key === 'Enter') {
-    handleSubmit()
+const handleFieldChange = () => {
+  if (props.onChange) {
+    props.onChange(getFieldValues());
   }
-}
+};
+
+watch(
+  () => fields.map(field => field.value),
+  handleFieldChange
+);
+
+watch(
+  () => groupFields.flatMap(group => group.fields.map(field => field.value)),
+  handleFieldChange
+);
 
 watch(
   () => props.formFields,
   (newFields) => {
     Object.assign(fields, newFields || []);
+    handleFieldChange();
   },
   { immediate: true }
 );
@@ -104,6 +120,7 @@ watch(
   () => props.formGroup,
   (newGroupFields) => {
     Object.assign(groupFields, newGroupFields || []);
+    handleFieldChange();
   },
   { immediate: true }
 );

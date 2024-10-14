@@ -1,7 +1,7 @@
 import { useApi } from "~/shared/api"
-import type { SearchRequest, ResponseMessage } from "../types"
+import type { DoctorSearchRequest, ResponseMessage } from "../types"
 
-export const getDoctors = async (params: SearchRequest): Promise<ResponseMessage> => {
+export const getDoctors = async (params: DoctorSearchRequest): Promise<ResponseMessage> => {
   try {
       const response = await useApi<any>('patient/doctors', {
       methos: "GET",

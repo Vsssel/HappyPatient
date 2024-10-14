@@ -7,6 +7,7 @@ export type ApiOption = {
 }
 
 export type ApiResponse<T> = {
+    status: number;
+    message: string;
     data: T | undefined;
-    error: string | null;
 }

@@ -6,25 +6,24 @@
 
 
 <template>
-    <NuxtPage></NuxtPage>
+  <main class="d-flex flex-column" style="max-height: 100vh; overflow: hidden;">
+    <Header v-if="!isAuthPage" />
+    <NuxtPage class="d-flex flex-grow-1"/>
+  </main>
 </template>
 
-<style>
-    /* :root {
-        --p-primary-50: var(--p-blue-50);
-        --p-primary-100: var(--p-blue-100);
-        --p-primary-200: var(--p-blue-200);
-        --p-primary-300: var(--p-blue-300);
-        --p-primary-400: var(--p-blue-400);
-        --p-primary-500: var(--p-blue-500);
-        --p-primary-600: var(--p-blue-600);
-        --p-primary-700: var(--p-blue-700);
-        --p-primary-800: var(--p-blue-800);
-        --p-primary-900: var(--p-blue-900);
-        --p-primary-950: var(--p-blue-950);
-    } */
+<script setup lang="ts">
+import Header from './shared/components/header/Header.vue'
+import { useRoute } from 'vue-router'
 
-    body {
-        position: relative;
-    }
+const route = useRoute()
+
+const isAuthPage = computed(() => {
+  return route.path === '/auth/signin' || route.path === '/auth/signup'
+})
+</script>
+<style>
+body {
+  background-color: #F2F2F2;
+}
 </style>
