@@ -14,11 +14,11 @@
                 style="color: #888;"
             />
         </div>
-        <Table v-if="schedule && schedule.length > 0" :week="weekDates">
-            <template v-for="slot in slots" >
+        <Table v-if="schedule && schedule.length > 0" :week="weekDates" :worktime="worktime">
+            <template v-for="slot in slots" #[slotKey(slot)] >
                 <NotAvailableSlot :slot="slot" />
             </template>
-            <template v-for="emptySlot in whereNoSlots" >
+            <template v-for="emptySlot in whereNoSlots" #[emptySlotKey(emptySlot)] >
                 <FreeSlot v-if="emptySlot.status == WorkingStatus.AVAILABLE"
                     :day-index="emptySlot.dayIndex" :slot-index="emptySlot.slotIndex"
                     :date="weekDates[emptySlot.dayIndex]" :now="now"
@@ -32,18 +32,16 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
 import { SlotStatus, WorkingStatus, type EmptySlot, type SingleDoctorScheduleResponse, type SlotInfo } from '../types';
-import { SLOTS_COUNT, timeToSlotIndex, slotKey, emptySlotKey } from '../values';
+import { timeToSlotIndex, slotKey, emptySlotKey } from '../values';
 import Table from './Table.vue';
 import NotAvailableSlot from './NotAvailableSlot.vue';
 import FreeSlot from './FreeSlot.vue';
 import RoundButton from '~/shared/components/button/RoundButton.vue';
 import { getDoctorSchedule } from '../api'
-import { getWeekDates } from '~/shared/values'
+import { getWeekDates, SLOTS_PER_HOUR } from '~/shared/values'
 import { MAX_WEEKS_AHEAD } from '~/shared/values'
 
-const props = defineProps<{ 
-    id: number
-}>();
+const props = defineProps<{ id: number }>();
 
 const whereNoSlots = ref<EmptySlot[]>([]);
 const weekDates = ref<string[]>([]);
@@ -57,9 +55,7 @@ const worktime = ref<SingleDoctorScheduleResponse['worktime']>({
 });
 const schedule = ref<SingleDoctorScheduleResponse['schedule']>([]);
 
-const isWorkingTime: WorkingStatus[][] = new Array(7).fill(null).map(
-    () => new Array(SLOTS_COUNT).fill(WorkingStatus.NOT_WORKING)
-)
+const isWorkingTime = ref<WorkingStatus[][]>([]);
 
 onMounted(async () => await updateSchedule());
 watch(weekNumber, async () => await updateSchedule());
@@ -72,7 +68,12 @@ const updateSchedule = async () => {
     weekDates.value =  getWeekDates(weekNumber.value);
     try {
         whereNoSlots.value = [];  
-        slots.value = [];  
+        slots.value = [];
+
+        const slotsCount = SLOTS_PER_HOUR * (worktime.value.endHours - worktime.value.startHours);
+        isWorkingTime.value = new Array(7).fill(null).map(
+            () => new Array(slotsCount).fill(WorkingStatus.NOT_WORKING)
+        );
         
         schedule.value.forEach(day => {
             const dayAtWeek = day.dayAtWeek;
@@ -104,7 +105,7 @@ const updateSchedule = async () => {
                     slots.value.push({ status: SlotStatus.SOME_APPOINTMENT, dayAtWeek, indexes });
             }
 
-            for (let [slotIndex, slotWorkingStatus] of isWorkingTime[dayAtWeek].entries()) {
+            for (let [slotIndex, slotWorkingStatus] of isWorkingTime.value[dayAtWeek].entries()) {
                 if (slotWorkingStatus !== WorkingStatus.UNAVAILABLE) {
                     whereNoSlots.value.push({ dayIndex: dayAtWeek, slotIndex, status: slotWorkingStatus });
                 }
@@ -113,10 +114,6 @@ const updateSchedule = async () => {
     } catch (error) {
         console.error("Failed to fetch schedule", error);
     }
-    console.log(weekNumber.value);
-    console.log(schedule.value);
-    console.log(whereNoSlots.value);
-    console.log(slots.value);
     loading.value = false;
 };
 
@@ -126,7 +123,7 @@ const setWorkingStatus = (
     status: WorkingStatus
 ) => {
     for (let slotIndex = indexes.start; slotIndex < indexes.end; slotIndex++) {
-        isWorkingTime[weekDayIndex][slotIndex] = status;
+        isWorkingTime.value[weekDayIndex][slotIndex] = status;
     }
 };
 </script>
