@@ -2,6 +2,7 @@
         <NuxtLink 
             :to="`/doctor/${doctor.id}`"
             class="doctor-card text-decoration-none text-dark pt-3 pb-3 p-0 rounded"
+            @click="addBreadcrumb({name: `${doctor.name} ${doctor.surname}`, path: `/doctor/${doctor.id}`})"
         >
             <div class="d-flex flex-column align-items-center">
                 <Avatar 
@@ -30,6 +31,7 @@
 <script setup lang="ts">
 import Avatar from '~/shared/components/profile/Avatar.vue'
 import type { DoctorSearchResponse } from '../types'
+import { addBreadcrumb } from '~/shared/stores/useBreadCrumb';
 
 defineProps<{ doctor: DoctorSearchResponse }>();
 
@@ -37,11 +39,6 @@ const avatarTitleOf = (doctor: DoctorSearchResponse) => (
     `${doctor.name} ${doctor.surname}'s avatar`
 );
 
-const calculateYearAndMonth = (months: number): string => {
-    const years = Math.floor(months / 12);
-    const monthsInYear = years * 12
-    return `${years} years and ${months - monthsInYear} months`
-}
 </script>
 
 <style scoped>

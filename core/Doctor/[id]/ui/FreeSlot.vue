@@ -9,16 +9,15 @@
 
 <script setup lang="ts">
     import { SLOTS_PER_HOUR } from '~/shared/values';
-    import type { BookingFormDefault } from '../types';
     import { slotIndexToDatetime } from '../values';
+    import type { SingleDoctorScheduleResponse } from '../types';
 
-    const { date, dayIndex, slotIndex, now } = defineProps<{
+    const { date, worktime, slotIndex, now } = defineProps<{
         date: string,
-        dayIndex: number,
         slotIndex: number,
-        now: Date
+        now: Date,
+        worktime: SingleDoctorScheduleResponse['worktime']
     }>();
-    const openBookingFormEvent = inject<(bookingWindowValues: BookingFormDefault) => void>('toOpenBookingForm');
 
     const margin = 2;
     const color = '#8bcfcc';
@@ -32,13 +31,9 @@
 
     }));
 
-    const isActual = computed(() => now < slotIndexToDatetime(date, slotIndex));
+    const isActual = computed(() => now < slotIndexToDatetime(worktime, date, slotIndex));
 
-    const onClick = () => {
-        if (openBookingFormEvent)
-            return openBookingFormEvent({ dayIndex, slotStartIndex: slotIndex });
-        console.error();
-    }
+    const onClick = () => console.log('Ассель тут make appointment надо добавить');
 </script>
 
 

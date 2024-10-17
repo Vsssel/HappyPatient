@@ -22,6 +22,7 @@
                 <FreeSlot v-if="emptySlot.status == WorkingStatus.AVAILABLE"
                     :day-index="emptySlot.dayIndex" :slot-index="emptySlot.slotIndex"
                     :date="weekDates[emptySlot.dayIndex]" :now="now"
+                    :worktime="worktime"
                 />
             </template>
         </Table>
@@ -50,53 +51,61 @@ const slots = ref<SlotInfo[]>([]);
 const weekNumber = ref(0);
 const loading = ref(false);
 const now = computed(() => new Date());
-const schedule = ref<SingleDoctorScheduleResponse>()
+const worktime = ref<SingleDoctorScheduleResponse['worktime']>({
+    startHours: 6,
+    endHours: 20
+});
+const schedule = ref<SingleDoctorScheduleResponse['schedule']>([]);
 
 const isWorkingTime: WorkingStatus[][] = new Array(7).fill(null).map(
     () => new Array(SLOTS_COUNT).fill(WorkingStatus.NOT_WORKING)
 )
 
-onMounted(async() => {
-    schedule.value = (await getDoctorSchedule({id: props.id, week_num: weekNumber.value})).data
-    weekDates.value = computed(() => getWeekDates(schedule.value?.schedule)).value || [];
-    updateSchedule();
-});
-
-watch(weekNumber, async () => {
-    loading.value = true;
-    schedule.value = (await getDoctorSchedule({id: props.id, week_num: weekNumber.value})).data
-    weekDates.value = computed(() => getWeekDates(schedule.value?.schedule)).value || [];
-    loading.value = false;
-});
+onMounted(async () => await updateSchedule());
+watch(weekNumber, async () => await updateSchedule());
 
 const updateSchedule = async () => {
+    loading.value = true;
+    const responseData = (await getDoctorSchedule({id: props.id, week_num: weekNumber.value})).data;
+    worktime.value = responseData.worktime;
+    schedule.value = responseData.schedule;
+    weekDates.value =  getWeekDates(weekNumber.value);
     try {
-        const response = await getDoctorSchedule({ id: props.id, week_num: weekNumber.value });
-        
         whereNoSlots.value = [];  
         slots.value = [];  
         
-        response.schedule.forEach(day => {
+        schedule.value.forEach(day => {
             const dayAtWeek = day.dayAtWeek;
-            let indexes = { start: timeToSlotIndex(day.startTime), end: timeToSlotIndex(day.endTime) };
+            let indexes = {
+                start: timeToSlotIndex(worktime.value, day.startTime),
+                end: timeToSlotIndex(worktime.value, day.endTime)
+            };
             setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.AVAILABLE);
 
-            indexes = { start: timeToSlotIndex(day.lunch.startTime), end: timeToSlotIndex(day.lunch.endTime) };
-            setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.NOT_AVAILABLE);
-            slots.value.push({ status: SlotStatus.LUNCH, dayAtWeek, indexes, toShow: null });
-
+            if (day.lunch) {
+                indexes = {
+                    start: timeToSlotIndex(worktime.value, day.lunch.startTime),
+                    end: timeToSlotIndex(worktime.value, day.lunch.endTime)
+                };
+                setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.UNAVAILABLE);
+                slots.value.push({ status: SlotStatus.LUNCH, dayAtWeek, indexes });
+            }
+            
             for (let slot of day.slots) {
-                const indexes = { start: timeToSlotIndex(slot.startTime), end: timeToSlotIndex(slot.endTime) };
-                setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.NOT_AVAILABLE);
+                const indexes = {
+                    start: timeToSlotIndex(worktime.value, slot.startTime),
+                    end: timeToSlotIndex(worktime.value, slot.endTime)
+                };
+                setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.UNAVAILABLE);
 
                 if (slot.mine)
-                    slots.value.push({ status: SlotStatus.MY_APPOINTMENT, dayAtWeek, indexes, toShow: null });
+                    slots.value.push({ status: SlotStatus.MY_APPOINTMENT, dayAtWeek, indexes });
                 else
-                    slots.value.push({ status: SlotStatus.SOME_APPOINTMENT, dayAtWeek, indexes, toShow: null });
+                    slots.value.push({ status: SlotStatus.SOME_APPOINTMENT, dayAtWeek, indexes });
             }
 
             for (let [slotIndex, slotWorkingStatus] of isWorkingTime[dayAtWeek].entries()) {
-                if (slotWorkingStatus !== WorkingStatus.NOT_AVAILABLE) {
+                if (slotWorkingStatus !== WorkingStatus.UNAVAILABLE) {
                     whereNoSlots.value.push({ dayIndex: dayAtWeek, slotIndex, status: slotWorkingStatus });
                 }
             }
@@ -104,6 +113,11 @@ const updateSchedule = async () => {
     } catch (error) {
         console.error("Failed to fetch schedule", error);
     }
+    console.log(weekNumber.value);
+    console.log(schedule.value);
+    console.log(whereNoSlots.value);
+    console.log(slots.value);
+    loading.value = false;
 };
 
 const setWorkingStatus = (

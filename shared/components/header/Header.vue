@@ -5,7 +5,15 @@
           to="/"
           class="text-primary text-decoration-none rounded"
           >
-          <h5 class="text-primary m-2 fw-bold text-center w-100">Happy Patient</h5>
+          <h6 class="text-primary d-flex align-items-center m-2 gap-2 fw-bold text-center w-100">
+            Happy Patient
+            <div v-for="(crumb, index) in breadcrumbs" :key="index" @click.prevent="navigateToBreadcrumb(crumb)" class=" d-flex flex-row align-items-center justify-content-center gap-2">
+              <span class="text-secondary fs-5 fw-light">/</span>
+              <a href="#" :class="[isActivePage(crumb.path) ? 'text-primary' : 'text-secondary', 'text-decoration-none fw-medium']" style="font-size: 14px;">
+                {{ `${crumb.name}` }}
+              </a>
+            </div>
+          </h6>
       </NuxtLink>
       </div>
       <div class="col-6 d-flex justify-content-end">
@@ -40,10 +48,19 @@
   </template>
   
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
+import { useRoute , useRouter} from 'vue-router'
 import DefaultAvatar from './DefaultAvatar.vue'
-  
+import {breadcrumbs, removeBreadcrumbsAfter } from '~/shared/stores/useBreadCrumb'
+import type { BreadCrumb } from '~/shared/stores/useBreadCrumb';
+
 const route = useRoute()
+const router = useRouter()
+
+ 
+function navigateToBreadcrumb(crumb: BreadCrumb) {
+  removeBreadcrumbsAfter(crumb.path)
+  router.push(crumb.path)
+}
   
 const isActivePage = (path: string) => {
   return route.path === path

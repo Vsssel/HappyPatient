@@ -47,10 +47,10 @@ export type DoctorsSearchResourcesResponse = {
     }[]
 }
 
-export type ResponseMessage = {
+export type ResponseMessage<T> = {
     status: boolean,
     message: string,
-    data: any
+    data: T
 }
 
 export type SearchSubResponseCategory = {

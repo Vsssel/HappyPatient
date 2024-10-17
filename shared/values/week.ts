@@ -1,5 +1,3 @@
-import type { SingleDoctorScheduleResponse } from "~/core/Doctor/[id]/types";
-
 export const weekDayTitles = [
     { index: 0, short: 'Mon', default: 'Monday' },
     { index: 1, short: 'Tue', default: 'Tuesday' },
@@ -10,7 +8,22 @@ export const weekDayTitles = [
     { index: 6, short: 'Sun', default: 'Sunday' }
 ];
 
-export const getWeekDates = (dateStr: SingleDoctorScheduleResponse['schedule']): string[] => {
-    let res: string[] = dateStr.map(day => day.date)
-    return res
+export const getWeekDates = (weekNum: number = 0): string[] => {
+    const current = new Date();
+    const firstDayOfWeek = current.getDate() - current.getDay() + 1;
+    const startOfWeek = new Date(current.setDate(firstDayOfWeek + (weekNum * 7)));
+
+    const dates = [];
+    for (let i = 0; i < 7; i++) {
+        const date = new Date(startOfWeek);
+        date.setDate(startOfWeek.getDate() + i);
+
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+
+        dates.push(`${day}.${month}.${year}`);
+    }
+    
+    return dates;
 }

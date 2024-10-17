@@ -13,4 +13,5 @@ import Skeleton from 'primevue/skeleton';
 
 const route = useRoute()
 const id = parseInt(route.params.id.toString())
+
 </script>

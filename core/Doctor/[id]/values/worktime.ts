@@ -1,4 +1,4 @@
-import { SLOTS_PER_HOUR, WORKDAY } from '~/shared/values';
+import { SLOTS_PER_HOUR } from '~/shared/values';
 import type { HourSlotsIndexRelation } from '../types';
 
 

@@ -1,6 +1,6 @@
 export enum WorkingStatus {
     NOT_WORKING = -1,
-    NOT_AVAILABLE = 0,
+    UNAVAILABLE = 0,
     AVAILABLE = 1
 };
 

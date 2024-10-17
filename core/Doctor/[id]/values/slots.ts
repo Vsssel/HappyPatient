@@ -1,17 +1,21 @@
-import { SLOTS_PER_HOUR, WORKDAY } from '~/shared/values';
+import { SLOTS_PER_HOUR } from '~/shared/values';
 import { MIN_SLOT_DURATION } from './worktime';
-import type { EmptySlot, Indexes, SlotInfo } from '../types';
+import type { EmptySlot, Indexes, SlotInfo, SingleDoctorScheduleResponse } from '../types';
 
-export const timeToSlotIndex = (time: string): number => {
+export const timeToSlotIndex = (worktime: SingleDoctorScheduleResponse['worktime'], time: string): number => {
     const [ hoursStr, minutesStr ] = time.split(':');
-    return SLOTS_PER_HOUR * (parseInt(hoursStr) - WORKDAY.START) + Math.floor(parseInt(minutesStr)/MIN_SLOT_DURATION);
+    return SLOTS_PER_HOUR * (parseInt(hoursStr) - worktime.startHours) + Math.floor(parseInt(minutesStr)/MIN_SLOT_DURATION);
 };
 
-export const slotIndexToDatetime = (date: string, index: number): Date => {
+export const slotIndexToDatetime = (
+    worktime: SingleDoctorScheduleResponse['worktime'],
+    date: string,
+    index: number
+): Date => {
     const [day, month, year] = date.split('-').map(Number);
     return new Date(
         year, month - 1, day,
-        WORKDAY.START + Math.floor(index / SLOTS_PER_HOUR),
+        worktime.startHours + Math.floor(index / SLOTS_PER_HOUR),
         MIN_SLOT_DURATION * (index % SLOTS_PER_HOUR), 0
     );
 }

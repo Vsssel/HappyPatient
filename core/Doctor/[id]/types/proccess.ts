@@ -4,11 +4,8 @@ import type { SlotStatus, WorkingStatus } from './enums';
 export type SlotInfo = {
     status: SlotStatus,
     dayAtWeek: number,
-    indexes: Indexes,
-    toShow: SlotInfoToShow
+    indexes: Indexes
 };
-
-export type SlotInfoToShow = null | { type: string };
 
 export type EmptySlot = {
     dayIndex: number,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { SlotStatus, type SlotInfo, type SlotInfoToShow } from '../types';
+    import { SlotStatus, type SlotInfo } from '../types';
     import { slotHeight } from '../values';
 
     const { slot } = defineProps<{ slot: SlotInfo }>();

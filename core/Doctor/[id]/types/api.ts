@@ -52,7 +52,7 @@ export type SingleDoctorScheduleResponse = {
         dayAtWeek: number,
         startTime: string,
         endTime: string,
-        lunch: {
+        lunch?: {
             startTime: string,
             endTime: string
         },
