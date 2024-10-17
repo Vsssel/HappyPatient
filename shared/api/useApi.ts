@@ -14,6 +14,7 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
         }
         if (options.auth) {
             const token = me.getToken()
+            console.log(token, 'token')
             if (token) {
                 headers['Auth'] = `Bearer ${token}`
             }

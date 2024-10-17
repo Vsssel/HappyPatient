@@ -1,0 +1,27 @@
+.content-container {
+    width: 100%;
+  }
+  
+  @media (min-width: 1024px) and (max-width: 1199px) {
+    .content-container { 
+      max-width: 800px;
+    }
+  }
+  
+  @media (min-width: 1200px) and (max-width: 1499px) {
+    .content-container { 
+      max-width: 1000px;
+    }
+  }
+  
+  @media (min-width: 1500px) and (max-width: 1799px) {
+    .content-container { 
+      max-width: 1000px;
+    }
+  }
+  
+  @media (min-width: 1800px) {
+    .content-container { 
+      max-width: 1200px;
+    }
+  }

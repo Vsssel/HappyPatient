@@ -8,7 +8,7 @@
     const slotInfo = computed(() => {
         switch (slot.status) {
             case SlotStatus.MY_APPOINTMENT:
-                return { bg: '#539092', color: '#fff', title: 'mine' };
+                return { bg: '#0D6EFD', color: '#fff', title: 'mine' };
             case SlotStatus.SOME_APPOINTMENT:
                 return { bg: '#8bcfcc', color: '#539092', title: 'busy' };
             default:

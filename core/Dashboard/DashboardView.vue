@@ -1,11 +1,9 @@
 <template>
   <div class="d-flex justify-content-center w-100 h-100" style="height: 100%;">
-    <div class="d-flex flex-column h-100 content-container"> 
-      <DashboardFilter />
-      <div v-if="loader" class="p-2"> 
-        <Skeleton width="100%" height="35rem"/>
-      </div>
-      <DashboardBody v-else class="d-flex" />
+    <div class="d-flex pt-2 gap-1 flex-row h-100 content-container"> 
+      <DashboardFilter  class="col-3" />
+      <Skeleton v-if="loader" width="70%" height="35rem"/>
+      <DashboardBody v-else class="d-flex col-9" />
     </div>
   </div>
 </template>
@@ -24,13 +22,14 @@ import type { DoctorSearchRequest } from './types'
 const loader = ref<boolean>(true)
 
 const debouncedFetchDoctors = debounce(async (filteredValue: DoctorSearchRequest) => {
-  try{
-    doctors.value = (await getDoctors(filteredValue)).data
+  try {
+    doctors.value = (await getDoctors(filteredValue)).data;
+  } finally {
+    loader.value = false;
   }
-  finally{
-    loader.value = false
-  }
-}, 500)
+}, 500);
+
+
 
 const removeEmptyParams = (params: Record<string, any>) => {
   return Object.fromEntries(
@@ -45,32 +44,6 @@ watch(values, () => {
 })
 </script>
 <style scoped>
-.content-container {
-  width: 100%;
-}
 
-@media (min-width: 1024px) and (max-width: 1199px) {
-  .content-container { 
-    max-width: 800px;
-  }
-}
-
-@media (min-width: 1200px) and (max-width: 1499px) {
-  .content-container { 
-    max-width: 1000px;
-  }
-}
-
-@media (min-width: 1500px) and (max-width: 1799px) {
-  .content-container { 
-    max-width: 1000px;
-  }
-}
-
-@media (min-width: 1800px) {
-  .content-container { 
-    max-width: 1200px;
-  }
-}
 
 </style>

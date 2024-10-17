@@ -1,16 +1,11 @@
 <template>
-  <div class="d-flex flex-column align-items-end p-2">
+  <div class="d-flex flex-column align-items-end">
     <div v-if="loader" class="w-100">
       <Skeleton width="100%" height="8rem"></Skeleton>
     </div>
-    <div v-else class="card w-100 p-2" >
-      <i 
-        :class="[isVisible ? 'bi bi-chevron-up' : 'bi bi-chevron-down', 'd-flex align-self-end fs-4']" 
-        @click="toggleFilter()" 
-        style="cursor: pointer;"
-      />
+    <div v-else class="card w-100 p-3" >
       <ShownFormField :data="data" />
-      <ToggleFormField v-if="isVisible" />
+      <span v-if="doctors">{{ `Found ${doctors.length} doctors` }}</span>
     </div>
   </div>
 </template>
@@ -18,18 +13,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import ShownFormField from './components/ShownFormField.vue'
-import ToggleFormField from './components/ToggleFormField.vue'
 import Skeleton from 'primevue/skeleton'
-import { getDoctorsResourses } from '../api';
+import { getDoctorsResourses } from '../api'
+import { doctors } from '../values';
 
-const isVisible = ref<boolean>(false)
 const loader = ref<boolean>(true)
 const data = ref()
-
-const toggleFilter = () => {
-  isVisible.value = !isVisible.value
-  console.log(isVisible.value)
-}
 
 onMounted(async() => {
   try{

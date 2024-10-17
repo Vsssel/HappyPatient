@@ -1,16 +1,16 @@
 <template>
-  <div class="card p-3 d-flex flex-column" style="max-height: calc(90vh - 100px);">
+  <div class="card pt-2 pb-2 d-flex flex-column" style="max-height: calc(100vh - 70px);">
     <div 
       v-if="doctors.length > 0"
       class="d-flex flex-grow-1 w-100  flex-column"
       style="overflow-y: auto;"
     >
-      <div class="d-flex flex-wrap justify-content-around">
+      <div class="d-flex flex-wrap gap-1 justify-content-center">
         <DoctorCard 
           :doctor="doctor" 
           v-for="doctor in doctors" 
           :key="doctor.id" 
-          class="mb-2 mt-2"
+          class="mt-1 mb-1"
         />
       </div>
     </div>

@@ -1,6 +1,6 @@
 <template>
     <FormField 
-        :formGroup="FormFields" 
+        :formFields="FormFields" 
         :onChange="handleFieldChange"
         v-model:values="values" 
         class="w-100"
@@ -18,7 +18,7 @@
     </template>
     <template #offices>
         <div class="d-flex flex-column">
-            <span class="mb-2">
+            <span class="mb-2" style="font-size: 15px;">
                 {{ 'Select offices' }}
             </span>
             <MultiSelect 
@@ -33,7 +33,7 @@
     </template>
     <template #categories>
         <div class="d-flex flex-column">
-            <span class="mb-2">
+            <span class="mb-2" style="font-size: 15px;">
                 {{ 'Select categories' }}
             </span>
             <MultiSelect 
@@ -46,10 +46,74 @@
             />
         </div>
       </template>
+      <template #min_exp_years>
+          <InputNumber 
+            v-model="minExp"
+            class="w-100"
+          />
+        </template>
+        <template #sort_by>
+            <label class="form-label" style="font-size: 15px;">Sort by</label>
+            <div class="d-flex flex-column gap-2">
+                <div class="d-flex gap-1 align-items-center">
+                    <RadioButton 
+                        v-model="selectedSortBy" 
+                        inputId="ingredient1" value="name" 
+                    />
+                    <label 
+                        for="ingredient1" 
+                        class="ml-2"
+                        style="font-size: 13px;"
+                    >
+                        {{ 'Name' }}
+                    </label>
+                </div>
+                <div class="d-flex gap-1 align-items-center">
+                    <RadioButton 
+                        v-model="selectedSortBy" 
+                        inputId="ingredient3" 
+                        value="experience" 
+                    />
+                    <label 
+                        for="ingredient3" 
+                        class="ml-2"
+                        style="font-size: 13px;"
+                    >
+                        {{ 'Experience' }}
+                    </label>
+                </div>
+                <div class="d-flex gap-1 align-items-center">
+                    <RadioButton 
+                        v-model="selectedSortBy" 
+                        inputId="ingredient4" 
+                        value="category" 
+                    />
+                    <label 
+                        for="ingredient4" 
+                        class="ml-2"
+                        style="font-size: 13px;"
+                    >
+                        {{ 'Category' }}
+                    </label>
+                </div>
+            </div>
+        </template>
+        <template #asc_order>
+            <div class="d-flex w-100 justify-content-center p-2">
+                <ToggleButton 
+                    v-model="checked" 
+                    onLabel="Ascending" 
+                    offLabel="Descending" 
+                    onIcon="pi pi-arrow-up" 
+                    offIcon="pi pi-arrow-down" 
+                    style="font-size: 13px;"
+                />
+            </div>
+        </template>
     </FormField>
 </template>
 <script setup lang="ts">
-import type { FormGroup } from '~/shared/components/form/types'
+import type { FormFields } from '~/shared/components/form/types'
 import type { DoctorsSearchResourcesResponse } from '../../types'
 import { categoriesToOption, officesToOption, getDoctorsSuggestions } from '../../utils'
 import { defineProps } from 'vue'
@@ -67,30 +131,49 @@ const categoriesOption = ref<{ label: string, value: number }[]>([]);
 const doctorsOption = ref<string[]>([])
 const filteredSuggestions = ref<any[]>([])
 const selectedName = ref(undefined)
+const checked = ref<boolean>(true)
+const selectedSortBy = ref(undefined)
+const minExp = ref(undefined)
 
-
-const FormFields = ref<FormGroup[]>([
-  {
-    class: 'row w-100',
-    fields: [
+const FormFields = ref<FormFields[]>([
       {
         name: 'fullname',
         type: 'slot',
-        class: 'col-4',
-        label: { text: 'Search doctor by name' }
+        class: 'col-12 mt-2 mb-2',
+        label: { 
+          text: 'Search doctor by name' ,
+          style: 'font-size: 15px;'
+        }
       },
       {
         name: 'categories',
         type: 'slot',
-        class: 'col-4',
+        class: 'col-12 mt-2 mb-2',
       },
       {
         name: 'offices',
         type: 'slot',
-        class: 'col-4',
+        class: 'col-12 mt-2 mb-2',
+      },
+      {
+        name: 'min_exp_years',
+        type: 'slot',
+        label: { 
+          text: 'Minimum experience in years',
+          style: 'font-size: 15px;'
+        },
+        class: 'col-12 mt-2 mb-2',
+      },
+      {
+        name: 'sort_by',
+        type: 'slot',
+        class: 'col-12 mt-2 mb-2',
+      },
+      {
+        name: 'asc_order',
+        type: 'slot',
+        class: 'col-12 mt-2 mb-2',
       }
-    ]
-  }
 ])
 
 const handleFieldChange = (submittedValues: Record<string, any>) => {
@@ -142,4 +225,24 @@ watch(selectedName, () => {
   };
 })
 
+watch(minExp, () => {
+  values.value = {
+    ...values.value,
+    min_exp_years: minExp.value
+  }
+})
+
+watch(selectedSortBy, () => {
+  values.value = {
+    ...values.value,
+    sort_by: selectedSortBy.value,
+  }
+})
+
+watch(checked, () => {
+  values.value = {
+    ...values.value,
+    asc_order: checked.value,
+  }
+})
 </script>
