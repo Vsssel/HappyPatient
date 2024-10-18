@@ -5,7 +5,7 @@
       class="d-flex flex-grow-1 w-100  flex-column"
       style="overflow-y: auto;"
     >
-      <div class="d-flex flex-wrap gap-1 justify-content-center">
+      <div class="d-flex flex-wrap gap-2 justify-content-center">
         <DoctorCard 
           :doctor="doctor" 
           v-for="doctor in doctors" 

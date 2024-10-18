@@ -1,23 +1,3 @@
-<script setup lang="ts">
-    import { SlotStatus, type SlotInfo } from '../types';
-    import { slotHeight } from '../values';
-
-    const { slot } = defineProps<{ slot: SlotInfo }>();
-    const margin = 1;
-
-    const slotInfo = computed(() => {
-        switch (slot.status) {
-            case SlotStatus.MY_APPOINTMENT:
-                return { bg: '#0D6EFD', color: '#fff', title: 'mine' };
-            case SlotStatus.SOME_APPOINTMENT:
-                return { bg: '#8bcfcc', color: '#539092', title: 'busy' };
-            default:
-                return { bg: '#aee8e6', color: '#539092', title: 'lunch' }
-        }
-    });
-</script>
-
-
 <template>
     <div
         :class="`
@@ -33,11 +13,28 @@
             backgroundColor: slotInfo.bg
         }"
     >
+        <i :class="[`${slotInfo.icon} fw-bolder`]"/>
         {{ slotInfo.title }}
     </div>
 </template>
+<script setup lang="ts">
+    import { SlotStatus, type SlotInfo } from '../types';
+    import { slotHeight } from '../values';
 
+    const { slot } = defineProps<{ slot: SlotInfo }>();
+    const margin = 1;
 
+    const slotInfo = computed(() => {
+        switch (slot.status) {
+            case SlotStatus.MY_APPOINTMENT:
+                return { bg: '#0D6EFD', color: '#fff', title: 'mine' };
+            case SlotStatus.SOME_APPOINTMENT:
+                return { bg: '#AAAAAA', color: '#FFFFFF', title: null, icon: 'bi bi-ban' };
+            default:
+                return { bg: '#AAAAAA', color: '#FFFFFF', title: 'Lunch time' }
+        }
+    });
+</script>
 <style scoped>
     div {
         font-size: 12px;

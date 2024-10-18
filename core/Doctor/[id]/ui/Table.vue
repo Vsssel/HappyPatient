@@ -6,7 +6,7 @@
         week: string[],
         worktime: SingleDoctorScheduleResponse['worktime']
     }>();
-    const hoursSlotsRelation = ref<HourSlotsIndexRelation[]>([]);
+    const hoursSlotsRelations = ref<HourSlotsIndexRelation[]>([]);
 
     onMounted(() => {
         for (let hour = worktime.startHours; hour < worktime.endHours; hour++) {
@@ -14,7 +14,7 @@
             const startIndex = SLOTS_PER_HOUR * (hour -worktime.startHours);
             for (let slotIndex = 0; slotIndex < SLOTS_PER_HOUR; slotIndex++)
                 currHourSlots.slotIndexes.push(startIndex + slotIndex);
-            hoursSlotsRelation.value.push(currHourSlots)
+            hoursSlotsRelations.value.push(currHourSlots)
         }
     });
 </script>
@@ -33,7 +33,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="hourSlotsRelation in hoursSlotsRelation" :key="hourSlotsRelation.hour">
+            <tr v-for="hourSlotsRelation in hoursSlotsRelations" :key="hourSlotsRelation.hour">
                 <th class="text-center">
                     <span class="fw-semibold">{{ `${hourSlotsRelation.hour}:00` }}</span>
                     <br>

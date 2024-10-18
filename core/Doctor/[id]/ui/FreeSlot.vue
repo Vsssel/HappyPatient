@@ -20,7 +20,7 @@
     }>();
 
     const margin = 2;
-    const color = '#8bcfcc';
+    const color = '#0D6EFD';
     const buttonStyle = computed(() => ({
         width: `calc(100% - ${2 * margin}px)`,
         height: `calc(100% - ${2 * margin}px)`,

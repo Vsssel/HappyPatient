@@ -14,7 +14,7 @@ import DashboardBody from './ui/DashboardBody.vue'
 import { values } from './values'
 import { getDoctors } from './api'
 import { doctors } from './values'
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted, onActivated } from 'vue'
 import { debounce } from './utils'
 import Skeleton from 'primevue/skeleton'
 import type { DoctorSearchRequest } from './types'
@@ -28,8 +28,6 @@ const debouncedFetchDoctors = debounce(async (filteredValue: DoctorSearchRequest
     loader.value = false;
   }
 }, 500);
-
-
 
 const removeEmptyParams = (params: Record<string, any>) => {
   return Object.fromEntries(

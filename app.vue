@@ -9,6 +9,7 @@
 import Header from './shared/components/header/Header.vue'
 import { useRoute } from 'vue-router'
 import me from './shared/stores/User'
+import { addBreadcrumb, breadcrumbs, clearBreadcrumbs } from './shared/stores/useBreadCrumb';
 
 onMounted(() => {
   me.sync()

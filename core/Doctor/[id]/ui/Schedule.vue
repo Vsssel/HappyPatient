@@ -28,7 +28,6 @@
         </Table>
     </div>
 </template>
-
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
 import { SlotStatus, WorkingStatus, type EmptySlot, type SingleDoctorScheduleResponse, type SlotInfo } from '../types';
@@ -42,7 +41,6 @@ import { getWeekDates, SLOTS_PER_HOUR } from '~/shared/values'
 import { MAX_WEEKS_AHEAD } from '~/shared/values'
 
 const props = defineProps<{ id: number }>();
-
 const whereNoSlots = ref<EmptySlot[]>([]);
 const weekDates = ref<string[]>([]);
 const slots = ref<SlotInfo[]>([]);
@@ -125,7 +123,7 @@ const setWorkingStatus = (
     for (let slotIndex = indexes.start; slotIndex < indexes.end; slotIndex++) {
         isWorkingTime.value[weekDayIndex][slotIndex] = status;
     }
-};
+}
 </script>
 
 <style scoped>

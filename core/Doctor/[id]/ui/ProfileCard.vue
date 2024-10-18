@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="doctor?.education.length > 0" class="d-flex align-items-center justify-content-center mt-3 mb-3 flex-row">
+        <div v-if="doctor && doctor?.education.length > 0" class="d-flex align-items-center justify-content-center mt-3 mb-3 flex-row">
             <div class="card-text d-flex justify-content-start flex-column w-100">
                 <h6 class="card-title text-secondary">Education</h6>
                 <div v-for="education in doctor?.education" :key="education.id" class="d-flex flex-row flex-wrap gap-2">
@@ -40,7 +40,7 @@
                         {{ education.organization }}
                     </span> 
                     <span style="font-size: 14px;">
-                        {{ `GPA: ${parseFloat(education.gpa).toFixed(2)}/${education.gpaFrom}` }}
+                        {{ `GPA: ${(education.gpa)}/${education.gpaFrom}` }}
                     </span>
                     <span style="font-size: 14px;">
                         {{ education.endYear }}
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="doctor?.experience.length > 0" class="d-flex align-items-center justify-content-center mt-3 mb-3 flex-row">
+        <div v-if="doctor && doctor?.experience.length > 0" class="d-flex align-items-center justify-content-center mt-3 mb-3 flex-row">
             <div class="card-text d-flex justify-content-start flex-column w-100">
                 <h6 class="card-title text-secondary">Experience</h6>
                 <div v-for="experience in doctor?.experience" :key="experience.id" class="d-flex flex-row flex-wrap gap-2">
@@ -64,7 +64,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="doctor?.price_list.length > 0" class="d-flex mt-3 mb-3 flex-row">
+        <div v-if="doctor && doctor?.price_list.length > 0" class="d-flex mt-3 mb-3 flex-row">
             <div class="d-flex justify-content-start flex-column w-100">
                 <h6 class="text-secondary">Price list</h6>
                 <div v-for="price in doctor?.price_list" :key="price.typeId" class="d-flex w-100 flex-row justify-content-between gap-2">
@@ -86,7 +86,10 @@ import { getDoctorProfile } from '../api'
 import { ref, onMounted, defineProps } from 'vue'
 import type { SingleDoctorProfileResponse } from '../types'
 import Skeleton from 'primevue/skeleton'
+import { useRoute } from 'vue-router'
+import { addBreadcrumb } from '~/shared/stores/useBreadCrumb'
 
+const route = useRoute()
 const props = defineProps<{
     id: number;
 }>();
@@ -97,8 +100,10 @@ const doctor = ref<SingleDoctorProfileResponse | null>(null);
 onMounted(async () => {
     try {
         doctor.value = (await getDoctorProfile({ id: props.id })).data;
+        addBreadcrumb({name: `${doctor.value?.name} ${doctor.value?.surname}`, path: route.fullPath})
     } finally {
         loader.value = false;
     }
-});
+})
+
 </script>

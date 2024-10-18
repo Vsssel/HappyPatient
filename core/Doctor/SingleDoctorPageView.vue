@@ -6,11 +6,10 @@
     </div>
 </template>
 <script setup lang="ts">
-import Schedule from './[id]/ui/Schedule.vue';
-import ProfileCard from './[id]/ui/ProfileCard.vue';
-import Skeleton from 'primevue/skeleton';
+import Schedule from './[id]/ui/Schedule.vue'
+import ProfileCard from './[id]/ui/ProfileCard.vue'
+import Skeleton from 'primevue/skeleton'
 
 const route = useRoute()
 const id = parseInt(route.params.id.toString())
-
 </script>
