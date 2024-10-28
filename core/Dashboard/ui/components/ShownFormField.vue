@@ -177,7 +177,6 @@ const FormFields = ref<FormFields[]>([
 ])
 
 const handleFieldChange = (submittedValues: Record<string, any>) => {
-  console.log('changed', values.value)
   values.value = {
     ...values.value,
     fullname: submittedValues.fullname,

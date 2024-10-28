@@ -84,10 +84,10 @@
 <script setup lang="ts">
 import { getDoctorProfile } from '../api'
 import { ref, onMounted, defineProps } from 'vue'
-import type { SingleDoctorProfileResponse } from '../types'
 import Skeleton from 'primevue/skeleton'
 import { useRoute } from 'vue-router'
 import { addBreadcrumb } from '~/shared/stores/useBreadCrumb'
+import { doctor } from '../values'
 
 const route = useRoute()
 const props = defineProps<{
@@ -95,7 +95,6 @@ const props = defineProps<{
 }>();
 
 const loader = ref<boolean>(true);
-const doctor = ref<SingleDoctorProfileResponse | null>(null);
 
 onMounted(async () => {
     try {

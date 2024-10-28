@@ -48,7 +48,7 @@ export type DoctorsSearchResourcesResponse = {
 }
 
 export type ResponseMessage<T> = {
-    status: boolean,
+    status: number,
     message: string,
     data: T
 }

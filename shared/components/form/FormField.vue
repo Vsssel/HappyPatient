@@ -86,8 +86,6 @@ const handleSubmit = () => {
   const allValid = allFields.every(isValid);
   if (allValid && props.submit) {
     props.submit(getFieldValues());
-  } else {
-    console.log('Form is invalid');
   }
 }
 

@@ -61,7 +61,7 @@ export type DatePickerField = {
     minDate?: Date,
     maxDate?: Date,
     showButtonBar?: boolean,
-    dateFormat?: 'dd/mm/yy' | 'mm/dd/yy' | 'yy/mm/dd'
+    dateFormat?: 'dd.mm.yy' | 'mm.dd.yy' | 'yy.mm.dd' | 'HH:mm'
 }
 
 export type FormGroup = {

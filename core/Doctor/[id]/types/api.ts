@@ -69,3 +69,10 @@ export type SingleDoctorScheduleRequest = {
     id: number,
     week_num: number
 }
+
+export type PostAppointmentRequest = {
+    date: string;
+    type_id: number;
+    starts_at: string;
+    ends_at: string;
+}

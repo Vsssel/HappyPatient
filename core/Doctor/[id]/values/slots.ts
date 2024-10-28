@@ -1,5 +1,6 @@
 import { SLOTS_PER_HOUR } from '~/shared/values';
 import type { EmptySlot, Indexes, SlotInfo, SingleDoctorScheduleResponse } from '../types';
+import { ref } from 'vue'
 
 export const timeToSlotIndex = (worktime: SingleDoctorScheduleResponse['worktime'], time: string): number => {
     const [ hoursStr, minutesStr ] = time.split(':');
@@ -23,5 +24,4 @@ export const slotIndexToDatetime = (
 
 export const slotKey = (slot: SlotInfo) => `${slot.dayAtWeek}-${slot.indexes.start}`;
 export const emptySlotKey = (slot: EmptySlot) => `${slot.dayIndex}-${slot.slotIndex}`;
-
 export const slotHeight = (indexes: Indexes) => indexes.end - indexes.start;

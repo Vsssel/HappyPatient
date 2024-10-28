@@ -1,0 +1,91 @@
+@import './variables';
+
+body {
+    background-color: var(--primary-bg);
+    color: var(--primary-color);
+}
+
+.p-inputtext, .p-multiselect, .p-radiobutton-box, .p-togglebutton, .p-checkbox-box, .p-multiselect-overlay, .p-autocomplete-overlay, .p-select, .p-select-overlay   {
+    background: var(--inputtext-background) !important;
+    color: var(--inputtext-color) !important;
+    border: 1px solid var(--input-border-color) !important;
+}
+
+.p-autocomplete-option{
+    background: var(--inputtext-background) !important;
+    color: var(--inputtext-color) !important;
+}
+
+.p-checkbox-checked .p-checkbox-box, .p-radiobutton-checked .p-radiobutton-box .p-radiobutton-icon, .p-select-option.p-select-option-selected   {
+    background: rgb(13, 110, 253, 0.5) !important;
+}
+
+.p-multiselect-option:not(.p-multiselect-option-selected):not(.p-disabled).p-focus, .p-autocomplete-option:not(.p-autocomplete-option-selected):not(.p-disabled).p-focus, .p-select-option:not(.p-select-option-selected):not(.p-disabled).p-focus{
+    background-color: var(--option-focus-background) !important;
+}
+
+.p-togglebutton.p-togglebutton-checked::before{
+    background-color: var(--toggle-button-checked-background);
+    box-shadow: 0px 1px 2px 0px var(--shadow-border);
+}
+
+.p-skeleton {
+    background: var(--skeleton-background) !important;
+}
+
+.p-dialog, .p-datepicker-panel, .p-datepicker-header, .p-datepicker-select-month, .p-datepicker-select-year, .p-datepicker-dropdown {
+    background: var(--card-background) !important;
+    color: var(--text-color) !important;
+}
+
+.p-button-text.p-button-secondary{
+    background: transparent;
+    border: transparent;
+}
+
+.p-button-text.p-button-secondary:not(:disabled):active, .p-button-text.p-button-secondary:not(:disabled):hover {
+    background: var(--card-background) !important;
+    border: var(--card-background) !important;
+    color: var(--text-color) !important;
+}
+
+.card{
+    background-color: var(--card-background);
+}
+
+.login-block{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background-color: var(--card-background);
+    box-shadow: 0 4px 8px var(--shadow-border);
+}
+
+label, span, .p-select-label {
+    color: var(--text-color) !important;
+}
+
+.doctor-card{
+    width: 220px;
+    box-shadow: 0px 0px 3px var(--shadow-border);
+}
+
+.doctor-card:hover {
+    background-color: var(--card-hover-background);
+}
+
+.bg-white{
+    background: var(--background-white) !important;
+}
+
+.border-white {
+    border-color: var(--background-white) !important;
+}
+
+.text-dark{
+    color: var(--text-color) !important;
+}
+  

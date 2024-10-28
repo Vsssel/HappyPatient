@@ -111,17 +111,6 @@ import { formNumber } from './values'
   align-items: center;
 }
 
-.login-block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
 .login-block h2 {
   margin-bottom: 1.5rem;
 }

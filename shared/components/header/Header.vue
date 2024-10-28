@@ -20,18 +20,18 @@
         <div class="d-flex gap-2 align-items-center">
             <NuxtLink
               to="/"
-              :class="[isActivePage('/') ? 'text-primary' : 'text-secondary' ,'text-decoration-none rounded p-1 px-2']"
+              class="text-decoration-none rounded p-1"
               >
               <div class="d-flex flex-row gap-2 align-items-center">
-                  <label class="fw-bold">Doctors</label>
+                  <label :class="[isActivePage('/') ? 'text-primary' : 'text-secondary' ,'fw-bold']">Doctors</label>
               </div>
             </NuxtLink>
             <NuxtLink
               to="/services"
-              :class="[isActivePage('/services') ? 'text-primary' : 'text-secondary' ,'text-decoration-none rounded p-1']"
+              class="text-decoration-none rounded p-1"
               >
               <div class="d-flex flex-row gap-2 align-items-center">
-                <label class="fw-bold">Services</label>
+                <label :class="[isActivePage('/services') ? 'text-primary' : 'text-secondary' ,'fw-bold']">Services</label>
               </div>
             </NuxtLink>
             <NuxtLink
@@ -42,6 +42,7 @@
                 <DefaultAvatar />
               </div>
             </NuxtLink>
+            <ThemeComponent class="me-2"/>
         </div>
       </div>
     </div>
@@ -51,7 +52,8 @@
 import { useRoute , useRouter} from 'vue-router'
 import DefaultAvatar from './DefaultAvatar.vue'
 import {breadcrumbs, removeBreadcrumbsAfter } from '~/shared/stores/useBreadCrumb'
-import type { BreadCrumb } from '~/shared/stores/useBreadCrumb';
+import type { BreadCrumb } from '~/shared/stores/useBreadCrumb'
+import ThemeComponent from './ThemeComponent.vue'
 
 const route = useRoute()
 const router = useRouter()

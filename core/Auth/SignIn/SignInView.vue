@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="right-side">
-      <div class="login-block">
+      <div class="login-block w-50">
         <h2>Login</h2>
         <FormField
           class="w-100"
@@ -185,18 +185,6 @@ const onSubmit = async(fieldValues: Record<string, any>) => {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.login-block {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .login-block h2 {

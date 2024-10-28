@@ -2,13 +2,6 @@ import Aura from "@primevue/themes/aura";
 import { defineNuxtConfig } from "nuxt/config";
 
 export default defineNuxtConfig({
-  app: {
-    head: {
-      meta: [
-        { name: 'color-scheme', content: 'light' }
-      ]
-    }
-  },
 
   modules: [
     '@primevue/nuxt-module'
@@ -16,12 +9,14 @@ export default defineNuxtConfig({
 
   primevue: {
     options: {
+      ripple: true,
+      inputVariant: 'filled',
       theme: {
-        preset: Aura
-      },
+          preset: Aura 
+      }
     }
   },
-
+  
   runtimeConfig: {
     public: {
       API_BASE_URL: process.env.API_BASE_URL
@@ -32,18 +27,25 @@ export default defineNuxtConfig({
     'bootstrap/dist/css/bootstrap.min.css',
     'bootstrap-icons/font/bootstrap-icons.css',
     'primeicons/primeicons.css',
-    '~/assets/css/container.css'
+    '~/assets/css/container.css',
+    '~/assets/scss/global.scss'
   ],
 
+  build: {
+    transpile: ["bootstrap"],
+  },
 
   vite: {
     define: {
       "process.env.DEBUG": false,
     },
-  },
-
-  build: {
-    transpile: ["bootstrap"],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "~/assets/scss/variables.scss";'
+        },
+      },
+    },
   },
 
   plugins: [

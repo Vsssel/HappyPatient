@@ -14,8 +14,6 @@
 
     const openBookingFormEvent = inject<(bookingWindowProps: BookingFormDefault) => void>('toOpenBookingForm');
     const onEscape = (event: KeyboardEvent) => {
-        console.log('efkefkefk');
-        
         if (event.key == 'escape' && openBookingFormEvent)
             return openBookingFormEvent(undefined);
     };

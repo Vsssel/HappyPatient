@@ -1,6 +1,7 @@
 <script setup lang="ts">
-    import { SLOTS_PER_HOUR, weekDayTitles } from '~/shared/values';
-    import type { HourSlotsIndexRelation, SingleDoctorScheduleResponse } from '../types';
+import { SLOTS_PER_HOUR, weekDayTitles } from '~/shared/values';
+import type { HourSlotsIndexRelation, SingleDoctorScheduleResponse } from '../types';
+import { onMounted, ref } from 'vue';
 
     const { worktime } = defineProps<{
         week: string[],

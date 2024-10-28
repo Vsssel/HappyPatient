@@ -14,7 +14,6 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
         }
         if (options.auth) {
             const token = me.getToken()
-            console.log(token, 'token')
             if (token) {
                 headers['Auth'] = `Bearer ${token}`
             }
@@ -43,6 +42,7 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
 
         return { status: response.status, message: response.statusText, data: data }
     } catch (error: any) {
-        return { status: error.response.status, message: error.response._data, data: error.response.detail }
+        console.log(error.response)
+        return { status: error.response.status, message: error.response.data.detail, data: error.response.detail }
     }
 }

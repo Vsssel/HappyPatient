@@ -4,7 +4,6 @@ export type BreadCrumb = {
     name: string,
     path: string
 }
-
 export const breadcrumbs = ref<BreadCrumb[]>([
     {
         name: 'Doctors',
@@ -16,8 +15,9 @@ export const addBreadcrumb = (crumb: BreadCrumb) => {
     const exists = breadcrumbs.value.find(b => b.path === crumb.path)
     if(!exists) {
         breadcrumbs.value.push(crumb)
+    }else {
+        removeBreadcrumbsAfter(crumb.path)
     }
-    console.log(breadcrumbs.value)
 }
 
 export function removeBreadcrumbsAfter(path: string) {

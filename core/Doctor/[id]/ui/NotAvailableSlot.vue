@@ -18,7 +18,8 @@
     </div>
 </template>
 <script setup lang="ts">
-    import { SlotStatus, type SlotInfo } from '../types';
+    import { computed } from 'vue';
+import { SlotStatus, type SlotInfo } from '../types';
     import { slotHeight } from '../values';
 
     const { slot } = defineProps<{ slot: SlotInfo }>();

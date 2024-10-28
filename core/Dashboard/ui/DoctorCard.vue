@@ -40,14 +40,3 @@ const avatarTitleOf = (doctor: DoctorSearchResponse) => (
 );
 
 </script>
-
-<style scoped>
-.doctor-card {
-    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
-    border-radius: 10%;
-    width: 220px;
-}
-.doctor-card:hover {
-    background-color: rgba(225, 225, 225, 0.3);
-}
-</style>
