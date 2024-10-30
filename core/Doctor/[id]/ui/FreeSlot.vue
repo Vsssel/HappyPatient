@@ -1,6 +1,6 @@
 <template>
     <div class="btn-container position-absolute w-100 h-100 bg-white">
-        <button @click="onClick" v-if="isActual" :style="buttonStyle"
+        <button @click="onClick" v-if="isActual && me.isAuthorized()" :style="buttonStyle"
             class="bi bi-calendar-plus-fill p-0 d-flex justify-content-center align-items-center rounded"
         ></button>
     </div>
@@ -10,6 +10,7 @@ import { SLOTS_PER_HOUR } from '~/shared/values';
 import { isVisible, selectedSlot, slotIndexToDatetime } from '../values';
 import type { SingleDoctorScheduleResponse } from '../types';
 import { computed } from 'vue';
+import me from '~/shared/stores/User';
 
 const { date, worktime, slotIndex, now } = defineProps<{
     date: string,
@@ -35,6 +36,7 @@ const onClick = () => {
     const seledtedDate= slotIndexToDatetime(worktime, date, slotIndex);
     const endTime = new Date(seledtedDate.getTime() + 30 * 60 * 1000)
 
+    
     isVisible.value = true
     selectedSlot.value = seledtedDate
 };

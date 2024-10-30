@@ -4,7 +4,7 @@ import type { DoctorsSearchResourcesRequest, DoctorsSearchResourcesResponse, Res
 export const getDoctorsResourses = async(params: DoctorsSearchResourcesRequest): Promise<ResponseMessage<DoctorsSearchResourcesResponse>> => {
 
 const response = await useApi<DoctorsSearchResourcesResponse>('patient/resources', {
-    methos: 'GET',
+    method: 'GET',
     auth: false,
     params: params
 })

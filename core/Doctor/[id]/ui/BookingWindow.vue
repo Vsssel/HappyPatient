@@ -5,27 +5,24 @@
                 <h5>Make Appointment</h5>
             </div>
         </template>
-        <table class="table table-striped">
-            <tbody>
-                <tr>
-                    <td>Patient</td>
-                    <td>{{ me.data.value.name }} {{ me.data.value.surname }}</td>
-                </tr>
-                <tr>
-                    <td>Doctor</td>
-                    <td>{{ doctor.name }} {{ doctor.surname }}</td>
-                </tr>
-                <tr>
-                    <td>Category</td>
-                    <td>{{ doctor.category.title }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <AppointmentCard :doctor="doctor"/>
         <FormField :formGroup="formGroup" v-model:values="values" :submit="onSubmit" :onChange="onHandleChange">
             <template #button>
                 <div class="w-100 d-flex mt-3 justify-content-between">
-                    <button type="button" class="btn btn-sm btn-danger" @click="isVisible = false">Cancel</button>
+                    <button type="button" class="btn btn-sm btn-danger" @click="() => {isVisible = false}">Cancel</button>
                     <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                </div>
+            </template>
+            <template #footer>
+                <div class="d-flex m-2 w-100 gap-2 flex-column">
+                    <span>
+                        <i class="bi bi-geo-alt fs-5 text-secondary"/>
+                        {{ doctor?.office?.address || 'Address not available' }}
+                    </span>
+                    <span>
+                        <i class="bi bi-coin fs-5" style="color: #FFD700;"/>
+                        {{ totalPrice }}
+                    </span>
                 </div>
             </template>
         </FormField>
@@ -36,36 +33,37 @@
 <script setup lang="ts">
 import { ref, watch, nextTick } from 'vue';
 import { selectedSlot, isVisible, doctor, weekNumber } from '../values';
-import me from '~/shared/stores/User';
+import AppointmentCard from '~/shared/components/AppointmentCard/AppointmentCard.vue';
 import Dialog from 'primevue/dialog';
-import FormField from '~/shared/components/form/FormField.vue';
 import type { FormGroup } from '~/shared/components/form/types';
 import { postAppointment } from '../api'
 import { updateSchedule } from '../functions';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
+import type { CardValuesType } from '~/shared/components/AppointmentCard/types';
+import FormField from '~/shared/components/form/FormField.vue';
 
 const toast = useToast()
-
 const values = ref({
-    type_id: 1,
+    typeId: 1,
     date: new Date(selectedSlot.value),
-    starts_at: new Date(selectedSlot.value),
-    ends_at: new Date(selectedSlot.value)
-});
+    startsAt: selectedSlot.value,
+    endsAt: selectedSlot.value
+})
 
+const totalPrice = ref(doctor.value?.price_list.filter(price => price.typeId === values.value.typeId)[0].halfHourPrice)
 const formGroup = ref<FormGroup[]>([
     {
         class: 'd-flex w-100',
         fields: [
             {
-                name: 'type_id',
+                name: 'typeId',
                 type: 'select',
                 label: { text: "Appointment type" },
                 required: true,
                 class: 'col-12',
                 options: [{ label: 'Visit', value: 1 }, { label: 'Treatment', value: 2 }],
-                value: values.value.type_id
+                value: values.value.typeId
             }
         ]
     },
@@ -79,6 +77,7 @@ const formGroup = ref<FormGroup[]>([
                 required: true,
                 class: 'col-12 mt-2',
                 value: values.value.date,
+                showIcon: true,
                 minDate: new Date(),
                 maxDate: new Date(new Date().getTime() + 3 * 7 * 24 * 60 * 60 * 1000),
                 dateFormat: 'dd.mm.yy'
@@ -89,23 +88,25 @@ const formGroup = ref<FormGroup[]>([
         class: 'row mt-2',
         fields: [
             {
-                name: 'starts_at',
+                name: 'startsAt',
                 type: 'date',
                 label: { text: "Start Time" },
                 required: true,
                 class: 'col-6',
-                value: values.value.starts_at,
+                value: new Date(values.value.startsAt),
+                stepMinute: 30,
                 showIcon: true,
                 timeOnly: true,
                 dateFormat: 'HH:mm'
             },
             {
-                name: 'ends_at',
+                name: 'endsAt',
                 type: 'date',
                 label: { text: "End Time" },
                 required: true,
                 class: 'col-6',
-                value: values.value.ends_at,
+                value: new Date(values.value.endsAt),
+                stepMinute: 30,
                 showIcon: true,
                 timeOnly: true,
                 dateFormat: 'HH:mm'
@@ -120,49 +121,48 @@ const calculateEndTime = (startTime: Date, typeId: number): Date => {
     return new Date(startTime.getTime() + duration * 60 * 1000)
 }
 
-const calculateStartTime = (endTime: Date, type_id: number): Date => {
+const calculateStartTime = (endTime: Date, typeId: number): Date => {
     if (!endTime) return new Date()
-    const duration = type_id === 1 ? 30 : 60
+    const duration = typeId === 1 ? 30 : 60
     return new Date(endTime.getTime() - duration * 60 * 1000)
 }
 
 const onSubmit = async(fieldValues: Record<string, any>) => {
     const date = fieldValues.date.toLocaleDateString("en-GB").replace(/\//g, ".")
-    const starts_at = fieldValues.starts_at.toLocaleTimeString("en-GB")
-    const ends_at = fieldValues.ends_at.toLocaleTimeString("en-GB")
-    const response = await postAppointment(doctor.value.id, weekNumber.value, {date: date, type_id: fieldValues.type_id, starts_at: starts_at, ends_at: ends_at})
-    if(response.status < 400){
-        toast.add({severity: 'success', summary: "Success", detail: response.message, life: 4000})
-        console.log(response.status)
+    const startsAt = fieldValues.startsAt.toLocaleTimeString("en-GB")
+    const endsAt = fieldValues.endsAt.toLocaleTimeString("en-GB")
+    const response = doctor.value && await postAppointment(doctor.value.id, weekNumber.value, {doctorId: doctor.value.id, date: date, typeId: fieldValues.typeId, startsAt: startsAt, endsAt: endsAt})
+    if(response && response.status < 400){
+        toast.add({severity: 'success', summary: "Success", detail: response.data.detail, life: 4000})
+        isVisible.value = false
     }else {
-        console.log(response.status)
-        toast.add({severity: 'error', summary: "Error", detail: response.message, life: 4000})
+        toast.add({severity: 'error', summary: "Error", detail: response?.message, life: 4000})
     }
     await updateSchedule()
-    isVisible.value = false
 }
 
 let isUpdating = false
 
 const updateStartTime = () => {
-    if (!isUpdating && values.value.starts_at) {
+    if (!isUpdating && values.value.startsAt) {
         isUpdating = true
-        values.value.ends_at = calculateEndTime(values.value.starts_at, values.value.type_id)
+        values.value.endsAt = calculateEndTime(values.value.startsAt, values.value.typeId)
         isUpdating = false
     }
 };
 
 const updateEndTime = () => {
-    if (!isUpdating && values.value.ends_at) {
+    if (!isUpdating && values.value.endsAt) {
         isUpdating = true
-        values.value.starts_at = calculateStartTime(values.value.ends_at, values.value.type_id)
+        values.value.startsAt = calculateStartTime(values.value.endsAt, values.value.typeId)
         isUpdating = false
     }
 };
 
 const onHandleChange = (fieldValues: Record<string, any>) => {
-    if (fieldValues.type_id !== values.value.type_id) {
-        values.value.type_id = fieldValues.type_id
+    if (fieldValues.typeId !== values.value.typeId) {
+        values.value.typeId = fieldValues.typeId
+        totalPrice.value = doctor.value ? doctor.value.price_list.filter(price => price.typeId === values.value.typeId)[0].halfHourPrice : 0
         updateEndTime()
     }
 
@@ -170,11 +170,11 @@ const onHandleChange = (fieldValues: Record<string, any>) => {
         values.value.date = fieldValues.date
     }
 
-    if (fieldValues.starts_at !== values.value.starts_at) {
-        values.value.starts_at = fieldValues.starts_at
+    if (fieldValues.startsAt !== values.value.startsAt) {
+        values.value.startsAt = fieldValues.startsAt
         updateStartTime()
-    } else if (fieldValues.ends_at !== values.value.ends_at) {
-        values.value.ends_at = fieldValues.ends_at
+    } else if (fieldValues.endsAt !== values.value.endsAt) {
+        values.value.endsAt = fieldValues.endsAt
         updateEndTime()
     }
 
@@ -183,23 +183,27 @@ const onHandleChange = (fieldValues: Record<string, any>) => {
 
 const updateForm = () => {
     formGroup.value[1].fields[0].value = values.value.date;
-    formGroup.value[2].fields[0].value = values.value.starts_at;
-    formGroup.value[2].fields[1].value = values.value.ends_at;
+    formGroup.value[2].fields[0].value = values.value.startsAt;
+    formGroup.value[2].fields[1].value = values.value.endsAt;
 
 
     nextTick(() => {
         formGroup.value[1].fields[0].value = values.value.date;
-        formGroup.value[2].fields[0].value = values.value.starts_at;
-        formGroup.value[2].fields[1].value = values.value.ends_at;
+        formGroup.value[2].fields[0].value = values.value.startsAt;
+        formGroup.value[2].fields[1].value = values.value.endsAt;
     });
 };
 
 watch(() => selectedSlot.value, (newDate) => {
     if (newDate) {
         values.value.date = new Date(newDate);
-        values.value.starts_at = new Date(newDate);
-        values.value.ends_at = calculateEndTime(values.value.starts_at, values.value.type_id);
+        values.value.startsAt = new Date(newDate);
+        values.value.endsAt = calculateEndTime(values.value.startsAt, values.value.typeId);
         updateForm();
     }
 }, { immediate: true });
+
+watch(() => doctor.value, () => {
+    totalPrice.value = doctor.value ? doctor.value.price_list.filter(price => price.typeId === values.value.typeId)[0].halfHourPrice : 0
+})
 </script>

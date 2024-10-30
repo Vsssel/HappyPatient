@@ -11,7 +11,7 @@ export type DoctorSearchResponse = {
     id: number;
     name: string;
     surname: string;
-    experience: number;
+    expInMonthes: number;
     avatarUrl: string;
     category: {
         id: number;

@@ -11,6 +11,7 @@
               <InputIcon v-if="field.icon" :class="field.icon"></InputIcon>
               <InputText
                 v-model="field.value"
+                :disabled="field.disabled"
                 @input="handleInputChange"
                 :placeholder="field.placeholder"
                 class="w-100"
@@ -21,8 +22,9 @@
             <InputNumber
               v-model="field.value"
               @input="handleInputChange"
+              :disabled="field.disabled"
               :placeholder="field.placeholder"
-              class="w-100"  
+              class="w-100"
             />
           </div>
           <div v-if="field.type === 'password'">
@@ -31,8 +33,9 @@
               input-class="w-100"
               v-model="field.value"
               @input="handleInputChange"
+              :disabled="field.disabled"
               :placeholder="field.placeholder"
-              class="w-100"  
+              class="w-100"
               :feedback="field.feedback || false"
                />
           </div>
@@ -44,8 +47,11 @@
               :icon-display="field.iconDisplay"
               :time-only="field.timeOnly ?? false"
               :min-date="field.minDate"
+              :disabled="field.disabled"
+              :step-minute="field.stepMinute"
+              :step-hour="field.stepHour"
               :max-date="field.maxDate"
-              :date-format="field.dateFormat ?? 'dd/mm/yy'"
+              :date-format="field.dateFormat ?? 'dd.mm.yy'"
               :fluid="true"
               :placeholder="field.placeholder"
               :show-button-bar="field.showButtonBar ?? false"
@@ -61,6 +67,7 @@
                 v-model="field.value"
                 :suggestions="filteredSuggestions"
                 input-class="w-100"
+                :disabled="field.disabled"
                 @complete="search($event, field.suggestions)"
                 @change="handleInputChange"
                 :placeholder="field.placeholder"
@@ -73,6 +80,7 @@
                 @change="handleInputChange"
                 :options="field.options"
                 option-label="label"
+                :disabled="field.disabled"
                 option-value="value"
                 :placeholder="field.placeholder"
                 class="w-100"
@@ -83,6 +91,7 @@
                 v-model="field.value"
                 @change="handleInputChange"
                 class="w-100"
+                :disabled="field.disabled"
                 :rows="field.rows"
                 :cols="field.cols"
               />

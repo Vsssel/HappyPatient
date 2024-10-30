@@ -1,5 +1,5 @@
 export type ApiOption = {
-    methos?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+    method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
     headers?: Record<string, string>;
     body?: any;
     params?: Record<string, any>;
@@ -9,5 +9,5 @@ export type ApiOption = {
 export type ApiResponse<T> = {
     status: number;
     message: string;
-    data: T | undefined;
+    data: T;
 }

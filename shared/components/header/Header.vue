@@ -35,8 +35,8 @@
               </div>
             </NuxtLink>
             <NuxtLink
-              to="/auth/signup"
-              :class="[isActivePage('/auth/signup') ? 'text-primary' : 'text-secondary' ,'text-decoration-none rounded p-1']"
+              :to="me.isAuthorized() ? '/myprofile' : '/auth/signin'"
+              :class="[isActivePage('/services') ? 'text-primary' : 'text-secondary' ,'text-decoration-none rounded p-1']"
               >
               <div class="d-flex flex-row gap-2 align-items-center">
                 <DefaultAvatar />
@@ -54,6 +54,7 @@ import DefaultAvatar from './DefaultAvatar.vue'
 import {breadcrumbs, removeBreadcrumbsAfter } from '~/shared/stores/useBreadCrumb'
 import type { BreadCrumb } from '~/shared/stores/useBreadCrumb'
 import ThemeComponent from './ThemeComponent.vue'
+import me from '~/shared/stores/User'
 
 const route = useRoute()
 const router = useRouter()

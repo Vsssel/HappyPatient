@@ -58,6 +58,8 @@ export type DatePickerField = {
     showIcon?: boolean,
     iconDisplay?: 'input',
     timeOnly?: boolean,
+    stepMinute?: number,
+    stepHour?: number,
     minDate?: Date,
     maxDate?: Date,
     showButtonBar?: boolean,

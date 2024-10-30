@@ -2,6 +2,7 @@ import type { SlotStatus, WorkingStatus } from './enums';
 
 
 export type SlotInfo = {
+    id?: number
     status: SlotStatus,
     dayAtWeek: number,
     indexes: Indexes

@@ -25,7 +25,7 @@ const dataUrl2 = ref(null);
 const fetchFromUrl = async (url: string, dataRef: Ref<any>, loadingRef: Ref<boolean>) => {
   try {
     const response = await useApi<any>(url, {
-      methos: "GET",
+      method: "GET",
       auth: false,
       params: {userId: 1}
     });

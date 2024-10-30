@@ -153,6 +153,7 @@ const onSubmit = async(fieldValues: Record<string, any>) => {
 .login-page {
   display: flex;
   height: 100vh;
+  width: 100%;
 }
 
 .left-side {

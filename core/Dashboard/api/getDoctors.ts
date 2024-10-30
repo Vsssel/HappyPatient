@@ -3,7 +3,7 @@ import type { DoctorSearchRequest, DoctorSearchResponse, ResponseMessage } from 
 
 export const getDoctors = async (params: DoctorSearchRequest): Promise<ResponseMessage<DoctorSearchResponse>> => {
 const response = await useApi<DoctorSearchResponse>(`patient/doctors`, {
-  methos: "GET",
+  method: "GET",
   auth: false,
   params: params
 })

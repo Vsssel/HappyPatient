@@ -4,7 +4,7 @@ import type { ApiResponse } from "~/shared/api/type"
 
 export const postPatientAuth = async(body: PostPatientAuthRequest): Promise<ApiResponse<PostPatientAuthResponse>> => {
     const response = await useApi<PostPatientAuthResponse>('patient/auth' , {
-        methos: "POST",
+        method: "POST",
         auth: false,
         body: body
     })

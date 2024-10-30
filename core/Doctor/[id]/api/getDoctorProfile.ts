@@ -5,7 +5,7 @@ import type { ResponseMessage } from '~/core/Dashboard/types';
 export const getDoctorProfile = async (params: SingleDoctorProfileRequest): Promise<ResponseMessage<SingleDoctorProfileResponse | null>> => {
     try{
         const response = await useApi<SingleDoctorProfileResponse>(`patient/doctors/${params.id}`, {
-            methos: "GET",
+            method: "GET",
             auth: false,
         })
         return {

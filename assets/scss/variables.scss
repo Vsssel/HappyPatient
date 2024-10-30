@@ -12,6 +12,7 @@
     --card-hover-background: #f1f5f9;
     --option-focus-background: #f1f5f9;
     --background-white: #fff;
+    --disabled-background: #e2e8f0;
 }
   
 [data-theme='dark'] {
@@ -28,5 +29,6 @@
     --card-hover-background: rgba(0 0 0 / 0.60);
     --option-focus-background: #27272a;
     --background-white: #18181b;
+    --disabled-background: #3f3f46;
 }
   

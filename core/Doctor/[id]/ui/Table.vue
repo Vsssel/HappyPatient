@@ -73,6 +73,6 @@ import { onMounted, ref } from 'vue';
 
     div.min-slot {
         position: relative;
-        width: 80px;
+        width: 100%;
     }
 </style>

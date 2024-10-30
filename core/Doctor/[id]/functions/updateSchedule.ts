@@ -43,9 +43,9 @@ export const updateSchedule = async () => {
                 setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.UNAVAILABLE);
 
                 if (slot.mine)
-                    slots.value.push({ status: SlotStatus.MY_APPOINTMENT, dayAtWeek, indexes });
+                    slots.value.push({ id: slot.id, status: SlotStatus.MY_APPOINTMENT, dayAtWeek, indexes });
                 else
-                    slots.value.push({ status: SlotStatus.SOME_APPOINTMENT, dayAtWeek, indexes });
+                    slots.value.push({ id: slot.id, status: SlotStatus.SOME_APPOINTMENT, dayAtWeek, indexes });
             }
 
             for (let [slotIndex, slotWorkingStatus] of isWorkingTime.value[dayAtWeek].entries()) {

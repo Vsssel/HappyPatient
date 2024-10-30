@@ -77,6 +77,7 @@ import { formNumber } from './values'
   display: flex;
   flex-direction: row-reverse;
   height: 100vh;
+  width: 100%;
 }
 
 .left-side {

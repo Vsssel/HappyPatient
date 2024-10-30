@@ -5,7 +5,7 @@ import me from '~/shared/stores/User'
 
 export const getDoctorSchedule = async (params: SingleDoctorScheduleRequest): Promise<ResponseMessage<SingleDoctorScheduleResponse>> => {
     const response = await useApi<SingleDoctorScheduleResponse>(`patient/doctors/${params.id}/${params.week_num}`, {
-        methos: "GET",
+        method: "GET",
         auth: me.isAuthorized()
     })
     if(response.data){

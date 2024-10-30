@@ -11,6 +11,10 @@ body {
     border: 1px solid var(--input-border-color) !important;
 }
 
+.p-datepicker-dropdown{
+    border: 1px solid var(--input-border-color) !important; 
+}
+
 .p-autocomplete-option{
     background: var(--inputtext-background) !important;
     color: var(--inputtext-color) !important;
@@ -36,6 +40,29 @@ body {
 .p-dialog, .p-datepicker-panel, .p-datepicker-header, .p-datepicker-select-month, .p-datepicker-select-year, .p-datepicker-dropdown {
     background: var(--card-background) !important;
     color: var(--text-color) !important;
+}
+
+.p-tabpanels, .p-tablist-tab-list  {
+    background: transparent !important;
+    color: var(--text-color) !important;
+    border-color: #a1a1aa !important;
+}
+.p-tab{
+    font-size: 14px;
+    border-color: #a1a1aa !important;
+}
+
+.p-tab:not(.p-tab-active):not(.p-disabled):hover, .p-tab-active{
+    color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.p-tablist-active-bar{
+    background: var(--primary-color) !important;
+}
+
+.p-tab:not(.p-disabled):focus-visible {
+    outline: 0px none var(--primary-color) !important;
 }
 
 .p-button-text.p-button-secondary{
@@ -69,8 +96,13 @@ label, span, .p-select-label {
 }
 
 .doctor-card{
-    width: 220px;
+    width: 210px;
+    font-size: 14px;
     box-shadow: 0px 0px 3px var(--shadow-border);
+}
+
+.p-select.p-disabled, .p-inputtext:disabled, .p-datepicker-dropdown:disabled{
+    background: var(--disabled-background) !important;
 }
 
 .doctor-card:hover {
@@ -89,3 +121,6 @@ label, span, .p-select-label {
     color: var(--text-color) !important;
 }
   
+th {
+    font-weight: normal;
+}

@@ -33,10 +33,10 @@
           </FieldsContainer>
         </div>
       </template>
+      <slot v-if="('footer') in $slots" name="footer"/>
       <slot
         v-if="('button' in $slots)"
         name="button"
-        type="submit"
       ></slot>
       <button v-else type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
     </form>
