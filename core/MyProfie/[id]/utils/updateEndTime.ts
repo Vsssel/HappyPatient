@@ -7,9 +7,6 @@ export const updateEndTime = () => {
     if (!isUpdating.value && values.value.startsAt) {
         isUpdating.value = true
         values.value.endsAt = calculateEndTime(new Date(values.value.startsAt), values.value.typeId)
-        const endToString = values.value.endsAt.toLocaleTimeString("en-GB")
-        const matchingSlot = resource.value?.freeSlots.some(slot => slot.endTime === endToString)
-        errorEnd.value = matchingSlot ? '' : 'End time out of free slots'
         isUpdating.value = false
         updateForm()
     }

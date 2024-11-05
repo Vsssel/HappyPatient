@@ -1,4 +1,4 @@
-import { values, resource, totalPrice, errorStart, appointment } from "../values"
+import { values, resource, totalPrice, errorStart, appointment, errorEnd } from "../values"
 import { updateStartTime } from "./updateStartTime"
 import { updateEndTime } from "./updateEndTime"
 import { getMyAppointmentResources } from "../api"
@@ -19,9 +19,6 @@ export const onHandleChange = async(fieldValues: Record<string, any>) => {
 
     if (fieldValues.startsAt !== values.value.startsAt) {
         values.value.startsAt = fieldValues.startsAt
-        const startToString = values.value.startsAt.toLocaleTimeString("en-GB")
-        const matchingSlot = resource.value?.freeSlots.some(slot => slot.startTime === startToString)
-        errorStart.value = matchingSlot ? '' : 'Start time out of free slots'
         updateEndTime();
        
     } 
@@ -30,4 +27,11 @@ export const onHandleChange = async(fieldValues: Record<string, any>) => {
         values.value.endsAt = fieldValues.endsAt;
         updateStartTime();
     }
+
+    const startToString = values.value.startsAt.toLocaleTimeString("en-GB")
+    const matchingStart = resource.value?.freeSlots.some(slot => slot.startTime === startToString)
+    errorStart.value = matchingStart ? '' : 'Start time out of free slots'
+    const endToString = values.value.endsAt.toLocaleTimeString("en-GB")
+    const matchingEnd = resource.value?.freeSlots.some(slot => slot.endTime === endToString)
+    errorEnd.value = matchingEnd ? '' : 'End time out of free slots'
 }
