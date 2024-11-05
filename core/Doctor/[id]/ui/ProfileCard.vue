@@ -19,7 +19,7 @@
                     </span>
                     <span class="text-secondary d-flex align-items-center gap-1" style="font-size: 14px;">
                         <i class="bi bi-coin" style="font-size: 14px;" />
-                        {{ doctor?.price_list[0]?.halfHourPrice || 'Price not available' }}
+                        {{ doctor?.price_list[0]?.price || 'Price not available' }}
                     </span>
                     <span class="text-secondary align-items-center gap-1" style="font-size: 14px;">
                         <i class="pi pi-map-marker" style="font-size: 14px;" />
@@ -72,7 +72,7 @@
                         {{ price.typeName }}
                     </label>
                     <label style="font-size: 14px;">
-                        {{ `${price.halfHourPrice}₸` }}
+                        {{ `${price.price}₸` }}
                     </label>
                 </div>
             </div>

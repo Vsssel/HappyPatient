@@ -20,14 +20,6 @@ import { addBreadcrumb, clearBreadcrumbs, removeBreadcrumbsAfter } from '~/share
 
 const loader = ref<boolean>(true)
 
-const debouncedFetchDoctors = debounce(async (filteredValue: DoctorSearchRequest) => {
-  try {
-    doctors.value = (await getDoctors(filteredValue)).data
-  } finally {
-    loader.value = false;
-  }
-}, 500);
-
 const removeEmptyParams = (params: Record<string, any>) => {
   return Object.fromEntries(
     Object.entries(params)
@@ -41,9 +33,13 @@ onMounted(() => {
 })
 
 
-watch(values, () => {
+watch(values, async() => {
   const filteredValue = removeEmptyParams(values.value)
-  debouncedFetchDoctors(filteredValue)
+  try {
+    doctors.value = (await getDoctors(filteredValue)).data
+  } finally {
+    loader.value = false;
+  }
 })
 </script>
 <style scoped>

@@ -8,21 +8,23 @@ export type DoctorSearchRequest = {
 }
 
 export type DoctorSearchResponse = {
-    id: number;
-    name: string;
-    surname: string;
-    expInMonthes: number;
-    avatarUrl: string;
+    id: number,
+    name: string,
+    surname: string,
+    avatarUrl: string,
+    age: number,
+    visitPrice: number,
+    expInMonthes: number,
     category: {
-        id: number;
-        title: string;
+      id: number,
+      title: string
     },
     office: {
-        id: number,
-        building_id: number,
-        address: string,
-        title: string
-  }
+      id: number,
+      building_id: number,
+      address: string,
+      title: string
+    }
 }
 
 export type DoctorsSearchResourcesRequest = {

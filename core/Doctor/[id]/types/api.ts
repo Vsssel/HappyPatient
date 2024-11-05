@@ -18,7 +18,7 @@ export type SingleDoctorProfileResponse = {
     price_list: {
         typeId: number,
         typeName: string,
-        halfHourPrice: number
+        price: number
     }[],
     experience: {
         id: number,

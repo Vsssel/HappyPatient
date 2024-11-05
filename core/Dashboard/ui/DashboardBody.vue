@@ -7,8 +7,8 @@
     >
       <div class="d-flex flex-wrap gap-2 justify-content-center">
         <DoctorCard 
-          :doctor="doctor" 
           v-for="doctor in doctors" 
+          :doctor="doctor" 
           :key="doctor.id" 
           class="mt-1 mb-1"
         />

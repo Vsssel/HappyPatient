@@ -5,7 +5,7 @@
                 <h5>Make Appointment</h5>
             </div>
         </template>
-        <AppointmentCard :doctor="doctor"/>
+        <AppointmentCard :name="doctor?.name" :surname="doctor?.surname" :avatarURL="doctor?.avatarUrl" :category="doctor?.category.title"/>
         <FormField :formGroup="formGroup" v-model:values="values" :submit="onSubmit" :onChange="onHandleChange">
             <template #button>
                 <div class="w-100 d-flex mt-3 justify-content-between">
@@ -40,7 +40,6 @@ import { postAppointment } from '../api'
 import { updateSchedule } from '../functions';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import type { CardValuesType } from '~/shared/components/AppointmentCard/types';
 import FormField from '~/shared/components/form/FormField.vue';
 
 const toast = useToast()
@@ -51,7 +50,7 @@ const values = ref({
     endsAt: selectedSlot.value
 })
 
-const totalPrice = ref(doctor.value?.price_list.filter(price => price.typeId === values.value.typeId)[0].halfHourPrice)
+const totalPrice = ref(doctor.value?.price_list.filter(price => price.typeId === values.value.typeId)[0].price)
 const formGroup = ref<FormGroup[]>([
     {
         class: 'd-flex w-100',
@@ -77,6 +76,7 @@ const formGroup = ref<FormGroup[]>([
                 required: true,
                 class: 'col-12 mt-2',
                 value: values.value.date,
+                disabled: true,
                 showIcon: true,
                 minDate: new Date(),
                 maxDate: new Date(new Date().getTime() + 3 * 7 * 24 * 60 * 60 * 1000),
@@ -96,6 +96,7 @@ const formGroup = ref<FormGroup[]>([
                 value: new Date(values.value.startsAt),
                 stepMinute: 30,
                 showIcon: true,
+                disabled: true,
                 timeOnly: true,
                 dateFormat: 'HH:mm'
             },
@@ -108,6 +109,7 @@ const formGroup = ref<FormGroup[]>([
                 value: new Date(values.value.endsAt),
                 stepMinute: 30,
                 showIcon: true,
+                disabled: true,
                 timeOnly: true,
                 dateFormat: 'HH:mm'
             }
@@ -162,7 +164,7 @@ const updateEndTime = () => {
 const onHandleChange = (fieldValues: Record<string, any>) => {
     if (fieldValues.typeId !== values.value.typeId) {
         values.value.typeId = fieldValues.typeId
-        totalPrice.value = doctor.value ? doctor.value.price_list.filter(price => price.typeId === values.value.typeId)[0].halfHourPrice : 0
+        totalPrice.value = doctor.value ? doctor.value.price_list.filter(price => price.typeId === values.value.typeId)[0].price : 0
         updateEndTime()
     }
 
@@ -204,6 +206,6 @@ watch(() => selectedSlot.value, (newDate) => {
 }, { immediate: true });
 
 watch(() => doctor.value, () => {
-    totalPrice.value = doctor.value ? doctor.value.price_list.filter(price => price.typeId === values.value.typeId)[0].halfHourPrice : 0
+    totalPrice.value = doctor.value ? doctor.value.price_list.filter(price => price.typeId === values.value.typeId)[0].price : 0
 })
 </script>

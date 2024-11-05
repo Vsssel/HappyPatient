@@ -5,7 +5,7 @@
                 <DefaultAvatar width="150" height="150" font-size="70"/>
                 <h5>{{ me.data.value?.name }} {{ me.data.value?.surname }}</h5>
                 <span class="text-secondary">{{ me.data.value?.email }}</span>
-                <span @click="logOut" class="text-danger">Log out<i class="pi pi-sign-out ms-2" /></span>
+                <span @click="logOut" class="btn btn-sm btn-log-out d-flex align-items-center text-danger rounded">Log out<i class="pi pi-sign-out ms-2" /></span>
             </div>
             <div class="card col-8 p-2">
                 <table class="table table-striped">
@@ -44,9 +44,14 @@
             </div>
         </div>
         <div class="card p-4 w-100">
-            <h5>My Appointments</h5>
-            <div class="d-flex flex-row gap-2 flex-wrap">
-                <div v-for="appointment in appointments" class="card p-2 border-2 d-flex" style="width: 450px;">
+            <div class="d-flex flex-row justify-content-between">
+                <h5>My Appointments</h5>
+                <Select v-model="filterBy" :options="options" optionValue="value" optionLabel="label" class="col-3"></Select>
+            </div>
+            <span v-if="filteredAppointments?.length">Total {{ filteredAppointments.length }} appointments</span>
+            <div class="d-flex flex-row justify-content-center gap-2 flex-wrap">
+                <h5 v-if="appointments?.length === 0" class="p-5 text-secondary">{{ 'No Data' }}</h5>
+                <div v-else v-for="appointment in filteredAppointments" class="card appointment-card p-2 border-2 d-flex">
                     <div class="p-1 ps-3 w-100 d-flex">
                         <span class="col-6 text-start">Doctor's name</span>
                         <span class="col-6 text-start">{{ appointment.doctor.name }} {{ appointment.doctor.surname }}</span>
@@ -81,15 +86,18 @@ import me from '~/shared/stores/User'
 import { useRouter } from 'vue-router'
 import { getMyAppointments } from '../api'
 import { onMounted } from 'vue'
-import { appointments } from '../values'
+import { appointments, options, filterBy } from '../values'
 import type { GetMyAppointmentsResponse } from '../types'
+import Select from 'primevue/select'
+import { ref } from 'vue'
+import { filterAppointments } from '../utils/filterAppointments'
 
 const router = useRouter()
-
+const filteredAppointments = ref<GetMyAppointmentsResponse>()
 
 const logOut = () => {
     me.signOut()
-    router.push('/')
+    router.push('/auth/signin')
 }
 
 const addRoute = (appointment: GetMyAppointmentsResponse[0]) => {
@@ -98,5 +106,21 @@ const addRoute = (appointment: GetMyAppointmentsResponse[0]) => {
 
 onMounted(async() => {
     appointments.value = (await getMyAppointments()).data
+    filteredAppointments.value = filterAppointments()
+})
+
+watch(filterBy , ()=> {
+    filteredAppointments.value = filterAppointments()
 })
 </script>
+<style scoped>
+.btn-log-out{
+    background-color: transparent;
+    color: rgb(220 53 69 / 80%) !important;
+}
+
+.btn-log-out:hover{
+    background-color: rgb(220 53 69 / 80%);
+    color: white !important;
+}
+</style>

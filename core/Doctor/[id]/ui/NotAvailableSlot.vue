@@ -30,7 +30,7 @@ const router = useRouter()
 const margin = 1
 
 const openAppointment = () => {
-    router.push(`/myprofile/${slot.id}`)
+    slot.status === SlotStatus.MY_APPOINTMENT && router.push(`/myprofile/${slot.id}`)
 }
 
 const slotInfo = computed(() => {
