@@ -3,5 +3,5 @@ export const timeToString = (date: Date): string => {
 }
 
 export const dateToString = (date: Date): string => {
-    return date.toLocaleDateString("en-GB")
+    return date.toLocaleDateString("en-GB").replace(/\//g, ".")
 }

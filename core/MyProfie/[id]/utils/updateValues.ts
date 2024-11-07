@@ -5,7 +5,7 @@ export const updateValues = () => {
     const [day, month, year] = appointment.value?.date.split('.').map(Number);
     const [startHour, startMinute] = appointment.value?.startTime.split(':').map(Number);
     const [endHour, endMinute] = appointment.value?.endTime.split(':').map(Number);
-    resource.value.priceList?.forEach(price => { price.typeId === appointment.value?.type.id  ? totalPrice.value = price.price : 0 })
+    resource.value?.priceList?.forEach(price => { price.typeId === appointment.value?.type.id  ? totalPrice.value = price.price : 0 })
 
     isFuture.value = new Date(year, month-1, day, startHour, startMinute) > new Date()
     values.value = {

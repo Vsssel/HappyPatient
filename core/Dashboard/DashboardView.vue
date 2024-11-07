@@ -9,13 +9,10 @@
 <script setup lang="ts">
 import DashboardFilter from './ui/DashboardFilter.vue'
 import DashboardBody from './ui/DashboardBody.vue'
-import { values } from './values'
 import { getDoctors } from './api'
-import { doctors } from './values'
+import { doctors, values } from './values'
 import { ref, watch, onMounted } from 'vue'
-import { debounce } from './utils'
 import Skeleton from 'primevue/skeleton'
-import type { DoctorSearchRequest } from './types'
 import { addBreadcrumb, clearBreadcrumbs, removeBreadcrumbsAfter } from '~/shared/stores/useBreadCrumb'
 
 const loader = ref<boolean>(true)

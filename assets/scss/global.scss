@@ -5,10 +5,19 @@ body {
     color: var(--primary-color);
 }
 
-.p-inputtext, .p-multiselect, .p-radiobutton-box, .p-togglebutton, .p-checkbox-box, .p-multiselect-overlay, .p-autocomplete-overlay, .p-select, .p-select-overlay   {
+.p-inputtext, .p-multiselect, .p-radiobutton-box, .p-checkbox-box, .p-multiselect-overlay, .p-autocomplete-overlay, .p-select, .p-select-overlay   {
     background: var(--inputtext-background) !important;
     color: var(--inputtext-color) !important;
     border: 1px solid var(--input-border-color) !important;
+}
+
+.p-togglebutton{
+    background: var(--toggle-button-bg) !important;
+}
+
+.p-togglebutton.p-togglebutton-checked::before {
+    background-color: var(--inputtext-background) !important;
+    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.02), 0px 1px 2px 0px rgba(0, 0, 0, 0.04) !important;
 }
 
 .p-datepicker-dropdown{

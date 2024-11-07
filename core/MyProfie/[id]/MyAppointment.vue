@@ -2,7 +2,7 @@
     <Skeleton v-if="loading" class="w-25 h-100" />
     <div v-else class="d-flex flex-row align-self-center">
         <FreeSlots v-if="!disabled"></FreeSlots>
-        <div class="card p-3 m-3 d-flex flex-column justify-content-center w-100">
+        <div class="card p-3 m-3 d-flex flex-column gap-3 justify-content-center w-100">
             <h5 class="text-center">Appointment Information</h5>
             <AppointmentCard 
                 :name="appointment?.doctor.name" 

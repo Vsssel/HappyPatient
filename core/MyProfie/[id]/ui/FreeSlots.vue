@@ -1,22 +1,31 @@
 <template>
     <div class="col-3">
         <div class="card d-flex flex-column align-items-center mt-3 pt-3 pb-3">
-            <h6 class="fw-bold">{{ 'Free slots' }}</h6>
+            <h6 class="fw-bold">
+                {{ 'Free slots' }}
+            </h6>
             <div class="d-flex align-items-center gap-2 w-100 flex-column justify-content-center">
-                <span v-if="!freeSlots.length">{{ 'No free slots' }}</span>
-                <div v-else v-for="freeSlot in freeSlots" :key="freeSlot.startTime" :class="['col-10 text-center card border-0 p-1', formattedDate(freeSlot) === formattedDate({ startTime: dateToString(values.startsAt), endTime: dateToString(values.endsAt) }) ? 'bg-primary text-white' : 'secondary-bg secondary-text']" style="cursor: pointer;" @click="setTime(freeSlot)">
-                        {{ formattedDate(freeSlot) }}
+                <span v-if="!freeSlots.length">
+                    {{ 'No free slots' }}
+                </span>
+                <div 
+                  v-else 
+                  v-for="freeSlot in freeSlots"
+                  :key="freeSlot.startTime"
+                  :class="['col-10 text-center card border-0 p-1', formattedDate(freeSlot) === formattedDate({ startTime: timeToString(values.startsAt), endTime: timeToString(values.endsAt) }) ? 'bg-primary text-white' : 'secondary-bg secondary-text']" style="cursor: pointer;" @click="setTime(freeSlot)"
+                >
+                   {{ formattedDate(freeSlot) }}
                 </div>
             </div>
         </div>
     </div>
 </template>
-
 <script setup lang="ts">
 import type { GetMyAppointmentResourseResponse } from '../types'
 import { watch, ref } from 'vue'
 import { resource, values } from '../values'
-import { updateEndTime, updateForm } from '../utils';
+import { updateEndTime, updateForm } from '../utils'
+import { timeToString } from '~/shared/utils'
 
 const freeSlots = ref<GetMyAppointmentResourseResponse['freeSlots']>(resource.value?.freeSlots || [])
 
@@ -25,10 +34,6 @@ const formattedDate = (freeSlot: GetMyAppointmentResourseResponse['freeSlots'][0
     const [endHour, endMinute] = freeSlot.endTime.split(':')
     console.log(`${startHour}:${startMinute} - ${endHour}:${endMinute}`)
     return `${startHour}:${startMinute} - ${endHour}:${endMinute}`
-}
-
-const dateToString = (date: Date): string => {
-    return date.toLocaleTimeString("en-GB")
 }
 
 const setTime = (freeSlot: GetMyAppointmentResourseResponse['freeSlots'][0]) => {
