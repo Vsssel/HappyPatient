@@ -26,7 +26,7 @@ const removeEmptyParams = (params: Record<string, any>) => {
 
 onMounted(() => {
   clearBreadcrumbs()
-  addBreadcrumb({name: "Doctors", path: '/'})
+  addBreadcrumb({name: "Doctors", path: '/doctors'})
 })
 
 

@@ -7,7 +7,7 @@ export type BreadCrumb = {
 export const breadcrumbs = ref<BreadCrumb[]>([
     {
         name: 'Doctors',
-        path: '/'
+        path: '/doctors'
     }
 ])
 

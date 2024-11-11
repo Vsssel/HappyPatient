@@ -1,24 +1,19 @@
 <template>
-    <Dialog modal v-model:visible="isVisible" :draggable="false" style="width: 500px;">
+    <Popover ref="isVisible" class="col-2">
         <template #header>
             <div class="w-100 d-flex justify-content-center">
                 <h5>Make Appointment</h5>
             </div>
         </template>
-        <AppointmentCard :name="doctor?.name" :surname="doctor?.surname" :avatarURL="doctor?.avatarUrl" :category="doctor?.category.title"/>
         <FormField :formGroup="formGroup" v-model:values="values" :submit="onSubmit" :onChange="onHandleChange">
             <template #button>
-                <div class="w-100 d-flex mt-3 justify-content-between">
-                    <button type="button" class="btn btn-sm btn-danger" @click="() => {isVisible = false}">Cancel</button>
+                <div class="w-100 d-flex mt-3 gap-2 justify-content-end">
+                    <button type="button" class="btn btn-sm btn-danger" @click="() => {isVisible.toggle()}">Cancel</button>
                     <button type="submit" class="btn btn-sm btn-primary">Submit</button>
                 </div>
             </template>
             <template #footer>
                 <div class="d-flex m-2 w-100 gap-2 flex-column">
-                    <span>
-                        <i class="bi bi-geo-alt fs-5 text-secondary"/>
-                        {{ doctor?.office?.address || 'Address not available' }}
-                    </span>
                     <span>
                         <i class="bi bi-coin fs-5" style="color: #FFD700;"/>
                         {{ totalPrice }}
@@ -26,21 +21,20 @@
                 </div>
             </template>
         </FormField>
-    </Dialog>
+    </Popover>
     <Toast />
 </template>
 
 <script setup lang="ts">
 import { ref, watch, nextTick } from 'vue';
-import { selectedSlot, isVisible, doctor, weekNumber } from '../values';
-import AppointmentCard from '~/shared/components/AppointmentCard/AppointmentCard.vue';
-import Dialog from 'primevue/dialog';
+import { selectedSlot, isVisible, doctor, weekNumber } from '../values'
 import type { FormGroup } from '~/shared/components/form/types';
 import { postAppointment } from '../api'
 import { updateSchedule } from '../functions';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import FormField from '~/shared/components/form/FormField.vue';
+import Popover from 'primevue/popover';
 
 const toast = useToast()
 const values = ref({
@@ -73,7 +67,6 @@ const formGroup = ref<FormGroup[]>([
                 name: 'date',
                 type: 'date',
                 label: { text: "Date" },
-                required: true,
                 class: 'col-12 mt-2',
                 value: values.value.date,
                 disabled: true,
@@ -91,7 +84,6 @@ const formGroup = ref<FormGroup[]>([
                 name: 'startsAt',
                 type: 'date',
                 label: { text: "Start Time" },
-                required: true,
                 class: 'col-6',
                 value: new Date(values.value.startsAt),
                 stepMinute: 30,
@@ -104,7 +96,6 @@ const formGroup = ref<FormGroup[]>([
                 name: 'endsAt',
                 type: 'date',
                 label: { text: "End Time" },
-                required: true,
                 class: 'col-6',
                 value: new Date(values.value.endsAt),
                 stepMinute: 30,
@@ -136,7 +127,7 @@ const onSubmit = async(fieldValues: Record<string, any>) => {
     const response = doctor.value && await postAppointment(doctor.value.id, weekNumber.value, {doctorId: doctor.value.id, date: date, typeId: fieldValues.typeId, startsAt: startsAt, endsAt: endsAt})
     if(response && response.status < 400){
         toast.add({severity: 'success', summary: "Success", detail: response.data.detail, life: 4000})
-        isVisible.value = false
+        isVisible.value.toggle()
     }else {
         toast.add({severity: 'error', summary: "Error", detail: response?.message, life: 4000})
     }

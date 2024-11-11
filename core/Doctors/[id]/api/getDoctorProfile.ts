@@ -9,13 +9,13 @@ export const getDoctorProfile = async (params: SingleDoctorProfileRequest): Prom
             auth: false,
         })
         return {
-            status: true,
+            status: response.status,
             message: 'Doctor schedule returned successfully',
             data: response.data ? response.data : null
         }
     }catch(error){
         return {
-            status: false,
+            status: 500,
             message: 'Error while returning doctor`s schedule',
             data: null
         }

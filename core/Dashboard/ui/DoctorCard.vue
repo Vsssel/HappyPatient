@@ -1,8 +1,8 @@
 <template>
         <NuxtLink 
-            :to="`/doctor/${props.doctor?.id}`"
+            :to="`/doctors/${props.doctor?.id}`"
             class="doctor-card text-decoration-none text-dark pt-3 pb-3 p-0 rounded"
-            @click="addBreadcrumb({name: `${props.doctor?.name} ${props.doctor?.surname}`, path: `/doctor/${props.doctor.id}`})"
+            @click="addBreadcrumb({name: `${props.doctor?.name} ${props.doctor?.surname}`, path: `/doctors/${props.doctor.id}`})"
         >
             <div class="d-flex flex-column align-items-center">
                 <Avatar 

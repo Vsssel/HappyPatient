@@ -32,12 +32,13 @@ const buttonStyle = computed(() => ({
 }));
 
 const isActual = computed(() => now < slotIndexToDatetime(worktime, date, slotIndex))
-const onClick = () => {
+
+const onClick = (event: any) => {
     const seledtedDate= slotIndexToDatetime(worktime, date, slotIndex);
     const endTime = new Date(seledtedDate.getTime() + 30 * 60 * 1000)
 
     
-    isVisible.value = true
+    isVisible.value.toggle(event)
     selectedSlot.value = seledtedDate
 };
 

@@ -138,7 +138,7 @@ const onSubmit = async(fieldValues: Record<string, any>) => {
     load.value = true
     const response = await postPatientAuthSignIn(values.value)
     if(response.status < 400){
-      router.push('/')
+      router.push('/doctors')
     }else {
       toast.add({ severity: 'error', summary: response.message.detail, life: 3000 })
     }

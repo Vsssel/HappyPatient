@@ -1,7 +1,7 @@
 import type { EmptySlot, SingleDoctorProfileResponse, SingleDoctorScheduleResponse, SlotInfo, WorkingStatus } from '../types'
 
 export * from './slots'
-export const isVisible = ref<boolean>(false)
+export const isVisible = ref()
 export const selectedSlot = ref<Date>(new Date())
 export const doctor = ref<SingleDoctorProfileResponse | null>(null)
 export const weekNumber = ref<number>(0)

@@ -2,7 +2,7 @@
     <div class="w-100 d-flex flex-row card">
       <div class="col-6 d-flex align-items-center">
         <NuxtLink
-          to="/"
+          to="/doctors"
           class="text-primary text-decoration-none rounded"
           >
           <h6 class="text-primary d-flex align-items-center m-2 gap-2 fw-bold text-center w-100">
@@ -19,11 +19,11 @@
       <div class="col-6 d-flex justify-content-end">
         <div class="d-flex gap-2 align-items-center">
             <NuxtLink
-              to="/"
+              to="/doctors"
               class="text-decoration-none rounded p-1"
               >
               <div class="d-flex flex-row gap-2 align-items-center">
-                  <label :class="[isActivePage('/') ? 'text-primary' : 'text-secondary' ,'fw-bold']">Doctors</label>
+                  <label :class="[isActivePage('/doctors') ? 'text-primary' : 'text-secondary' ,'fw-bold']">Doctors</label>
               </div>
             </NuxtLink>
             <NuxtLink
@@ -66,7 +66,7 @@ function navigateToBreadcrumb(crumb: BreadCrumb) {
 }
   
 const isActivePage = (path: string) => {
-  return route.path === path
+  return route.fullPath.includes(path)
 }
 </script>
   

@@ -7,15 +7,17 @@
 
 <script setup lang="ts">
 import Header from './shared/components/header/Header.vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import me from './shared/stores/User'
 import { onBeforeMount } from 'vue'
 
+const route = useRoute()
+const router = useRouter()
+
 onBeforeMount(() => {
   me.sync()
+  router.push('/doctors')
 })
-
-const route = useRoute()
 
 const isAuthPage = computed(() => {
   return route.path === '/auth/signin' || route.path === '/auth/signup'

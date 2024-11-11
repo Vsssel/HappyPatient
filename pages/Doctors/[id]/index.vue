@@ -2,5 +2,5 @@
     <SingleDoctorPageView />
 </template>
 <script setup lang="ts">
-import SingleDoctorPageView from '~/core/Doctor/SingleDoctorPageView.vue'
+import SingleDoctorPageView from '~/core/Doctors/SingleDoctorPageView.vue'
 </script>
