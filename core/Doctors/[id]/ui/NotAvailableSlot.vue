@@ -2,9 +2,9 @@
     <div
         @click="openAppointment"
         :class="`
-            position-absolute p-1 rounded overflow-hidden
+            position-absolute p-md-1 p-0 rounded overflow-hidden
             d-flex align-items-center justify-content-center
-            text-center fw-semibold text-break
+            text-center fw-medium text-break table-text
         `"
         :style="[
             `width: calc(100% - ${2 * margin}px)`,
@@ -15,8 +15,8 @@
             slot.status === SlotStatus.MY_APPOINTMENT ? 'cursor: pointer' : ''
         ]"
     >
-        <i :class="[`${slotInfo.icon} fw-bolder`]"/>
-        {{ slotInfo.title }}
+        <i :class="[`${slotInfo.icon} fw-bolder table-text`]"/>
+        <span class="table-text text-white">{{ slotInfo.title }}</span>
     </div>
 </template>
 <script setup lang="ts">
@@ -45,8 +45,8 @@ const slotInfo = computed(() => {
 });
 </script>
 <style scoped>
-    div {
-        font-size: 12px;
-        z-index: 2;
-    }
+div {
+    font-size: 12px;
+    z-index: 2;
+}
 </style>

@@ -1,35 +1,42 @@
 export type GetMySingleAppointmentResponse = {
-  id: number;
-  date: string;
-  index: number;
-  startTime: string;
-  endTime: string;
-  price: number;
-  isFinished: true;
+  id: number,
+  date: string,
+  index: number,
+  startTime: string,
+  endTime: string,
+  price: number,
+  isFinished: boolean,
   type: {
-    id: number;
+    id: number,
     name: string
-  };
+  },
   category: {
-    id: number;
+    id: number,
     title: string
-  };
+  },
   room: {
-    id: number;
-    building_id: number;
-    address: string;
+    id: number,
+    building_id: number,
+    address: string,
     title: string
-  };
+  },
   doctor: {
-    id: number;
-    name: string;
-    surname: string;
+    id: number,
+    name: string,
+    surname: string,
     avatarUrl: string
-  };
+  },
   patient: {
-    id: number;
-    name: string;
+    id: number,
+    name: string,
     surname: string
+  },
+  receipt: {
+    id: number,
+    timestamp: string,
+    method: string,
+    provider: string,
+    amount: number
   }
 }
 
@@ -93,4 +100,9 @@ export type GetMyAppointmentResourseResponse = {
 export type GetMyAppointmentResourseRequest = {
   except_slot_id: number;
   duration: number;
+}
+
+export type PaymentInfo = {
+  title: string;
+  info: string;
 }

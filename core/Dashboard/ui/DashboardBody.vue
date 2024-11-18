@@ -1,5 +1,5 @@
 <template>
-  <div class="card pt-2 pb-2 d-flex flex-column" style="max-height: calc(100vh - 70px);">
+  <div class="card pt-2 pb-2 d-flex flex-column" style="max-height: calc(100vh);">
     <div 
       v-if="doctors && doctors.length > 0"
       class="d-flex flex-grow-1 w-100  flex-column"

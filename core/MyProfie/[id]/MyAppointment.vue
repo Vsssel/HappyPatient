@@ -1,21 +1,38 @@
 <template>
     <Skeleton v-if="loading" class="w-25 h-100" />
-    <div v-else class="d-flex flex-row align-self-center">
-        <FreeSlots v-if="!disabled"></FreeSlots>
-        <div class="card p-3 m-3 d-flex flex-column gap-3 justify-content-center w-100">
-            <h5 class="text-center">Appointment Information</h5>
-            <AppointmentCard 
-                :name="appointment?.doctor.name" 
-                :surname="appointment?.doctor.surname" 
-                :avatar-u-r-l="appointment?.doctor.avatarUrl" 
-                :category="appointment?.category.title" 
-            />
-            <FormView 
-                :delete-appointment="deleteAppointment" 
-                :onSubmit="onSubmit" 
-                :onHandleChange="onHandleChange"
-            />
+    <div v-else class="d-flex flex-column flex-md-row p-3 content-container m-3 gap-2 flex-row align-self-center justify-content-center">
+        <div :class="['d-flex flex-column flex-md-row gap-2 ', (appointment.isFinished) ? '': `${!disabled ? 'col-8' : 'col-12 col-md-6'}`]">
+            <FreeSlots v-if="!disabled && !appointment.isFinished"></FreeSlots>
+            <div class="card p-3 d-flex flex-column gap-3 justify-content-center">
+                <h5 class="text-center">Appointment Information</h5>
+                <AppointmentCard 
+                    :name="appointment?.doctor.name" 
+                    :surname="appointment?.doctor.surname" 
+                    :avatar-u-r-l="appointment?.doctor.avatarUrl" 
+                    :category="appointment?.category.title" 
+                />
+                <FormView 
+                    :delete-appointment="deleteAppointment" 
+                    :onSubmit="onSubmit" 
+                    :onHandleChange="onHandleChange"
+                />
+            </div>
         </div>
+        <div v-if="appointment.receipt" class="d-flex card p-2 border-none gap-2 flex-column">
+          <div ref="element" class="d-flex w-100 align-self-center justify-self-center">
+            <Receipt />
+          </div>
+          <button @click="downloadPDF" class="w-100 btn btn-print border border-2 rounded d-flex justify-content-center gap-2">
+            <i class="bi bi-filetype-pdf" />
+            Get PDF Receipt
+          </button>
+        </div>
+       
+        <iframe v-if="!appointment.receipt && disabled" src="https://storage.googleapis.com/maps-solutions-t3g4duark7/locator-plus/kaht/locator-plus.html"
+          width="180%"
+          style="border:0;"
+        >
+        </iframe>
     </div>
     <ConfirmDialog />
     <Toast />
@@ -30,10 +47,12 @@ import ConfirmDialog from 'primevue/confirmdialog'
 import { useConfirm } from 'primevue/useconfirm'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
-import { values, disabled, formGroup, resource,  appointment, totalPrice } from './values'
-import { updateValues, onHandleChange } from './utils'
+import { values, disabled, formGroup, resource,  appointment, totalPrice, element } from './values'
+import { updateValues, onHandleChange, downloadPDF } from './utils'
 import FreeSlots from './ui/FreeSlots.vue'
 import FormView from './ui/FormView.vue'
+import Skeleton from 'primevue/skeleton'
+import Receipt from './ui/Receipt.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -133,3 +152,14 @@ watch(appointment,() => {
     updateValues()
 })
 </script>
+<style scoped>
+.btn-print{
+    background-color: rgb(255 255 255 / 30%);
+    color: rgb(61 61 61 / 50%);
+}
+
+.btn-print:hover{
+    background-color: rgb(255 255 255 / 100%);
+    color: rgb(61 61 61 / 100%);
+}
+</style>

@@ -22,7 +22,7 @@ import { onMounted, ref } from 'vue';
 
 
 <template>
-    <table class="user-select-none">
+    <table>
         <thead>
             <tr>
                 <th class="text-center fw-semibold"> {{'Time'}} </th>
@@ -54,25 +54,25 @@ import { onMounted, ref } from 'vue';
     </table>
 </template>
 <style scoped>
-    table {
-        position: relative;
-        background-color: #F7F7FF;
-    }
+table {
+    position: relative;
+    background-color: #F7F7FF;
+}
 
-    th, td {
-        border: 1px solid #ddd;
-    }
+th, td {
+    border: 1px solid #ddd;
+}
 
-    th {
-        padding: 2px 5px;
-        font-size: 11px;
-    }
-    th span.add {
-        font-size: 10px;
-    }
+th {
+    padding: 2px 5px;
+    font-size: 7px;
+}
+th span.add {
+    font-size: 7px;
+}
 
-    div.min-slot {
-        position: relative;
-        width: 100%;
-    }
+div.min-slot {
+    position: relative;
+    width: 100%;
+}
 </style>

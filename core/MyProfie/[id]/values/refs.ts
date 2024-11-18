@@ -1,5 +1,5 @@
 import { ref } from "vue"
-import type { GetMyAppointmentResourseResponse, GetMySingleAppointmentResponse } from "../types"
+import type { GetMyAppointmentResourseResponse, GetMySingleAppointmentResponse, PaymentInfo } from "../types"
 
 export const values = ref({
     typeId: 0,
@@ -13,6 +13,7 @@ export const resource = ref<GetMyAppointmentResourseResponse>()
 export const errorStart = ref<string>('')
 export const errorEnd = ref<string>('')
 export const isFuture = ref<boolean>(false)
+export const element = ref<HTMLDivElement | null>(null)
 export const appointment = ref<GetMySingleAppointmentResponse>({
     id: 0,
     date: '',
@@ -20,7 +21,7 @@ export const appointment = ref<GetMySingleAppointmentResponse>({
     startTime: '',
     endTime: '',
     price: 0,
-    isFinished: true,
+    isFinished: true, 
     type: {
         id: 0,
         name: '',
@@ -46,6 +47,15 @@ export const appointment = ref<GetMySingleAppointmentResponse>({
         name: '',
         surname: '',
     },
+    receipt: {
+        id: 0,
+        timestamp: '',
+        method: '',
+        provider: '',
+        amount: 0
+      }
 })
 
 export const totalPrice = ref<number>()
+export const paymentInfo = ref<PaymentInfo[]>([])
+export const paymentInfo2 = ref<PaymentInfo[]>([])

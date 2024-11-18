@@ -1,6 +1,6 @@
 <template>
     <div id="schedule-container" class="d-flex flex-column">
-        <div class="d-flex col-4 align-self-right justify-content-between align-items-center" style="font-size: 13px;">
+        <div class="d-flex col-12 col-md-4 align-self-right justify-content-between align-items-center text">
             <RoundButton 
                 @click="weekNumber--" 
                 :disabled="weekNumber <= 0"
@@ -26,6 +26,20 @@
                 />
             </template>
         </Table>
+        <div class="d-flex flex-wrap w-100 justify-content-center flex-row gap-2">
+            <div class="d-flex flex-row gap-2 align-items-center">
+                <div class="btn btn-sm btn-primary fw-medium" style="font-size: 10px;">mine</div>
+                <span style="font-size: 10px;">- Your appointment</span>
+            </div>
+            <div class="d-flex flex-row gap-2 align-items-center">
+                <div class="btn d-flex align-items-center justify-content-center p-1 btn-secondary text fw-medium"><i class="bi bi-ban" style="font-size: 10px;" /></div>
+                <span style="font-size: 10px;">- Taken appointments</span>
+            </div>
+            <div class="d-flex flex-row gap-2 align-items-center">
+                <div class="btn d-flex align-items-center justify-content-center p-1 btn-warning text fw-medium"><i class="bi bi-ban" style="font-size: 10px;" /></div>
+                <span style="font-size: 10px;">- You have another appointment at this time</span>
+            </div>
+        </div>
     </div>
 </template>
 <script setup lang="ts">

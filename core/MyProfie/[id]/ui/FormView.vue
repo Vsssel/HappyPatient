@@ -17,13 +17,13 @@
                     <button 
                         @click="deleteAppointment"
                         type="button"
-                        class="btn btn-danger btn-sm col-2"
+                        class="btn btn-danger btn-sm"
                     >
                         Delete
                     </button>
                     <button 
                         @click="editAppointment"
-                        class="btn btn-primary btn-sm col-2"
+                        class="btn btn-primary btn-sm"
                     >
                         Edit
                     </button>
@@ -34,14 +34,14 @@
                 >
                     <button 
                         @click="async() => {disabled = true; updateValues();}"
-                        class="btn btn-danger btn-sm col-2"
+                        class="btn btn-danger btn-sm"
                         type="reset"
                     >
                         Cancel
                     </button>
                     <button 
                         type="submit"
-                        :class="['btn btn-primary btn-sm col-2', (errorEnd && errorStart) ? 'disabled' : '' ]"
+                        :class="['btn btn-primary btn-sm', (errorEnd && errorStart) ? 'disabled' : '' ]"
                     >
                         Save
                     </button>

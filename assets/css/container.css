@@ -6,13 +6,33 @@
   width: 100%;
 }
 
+@media (min-width: 200px) and (max-width: 600px) {
+  .content-container{
+    width: 100vw;
+  }
+  .text, .p-inputtext{
+    font-size: 12px !important;
+  }
+  .doctor-card{
+    width: 180px;
+  }
+  .table-text {
+    font-size: 7px;
+  }
+}
+
 @media (min-width: 1024px) and (max-width: 1199px) {
   .content-container { 
     max-width: 800px;
   }
   .appointment-card{
-    width: 350px;
+    width: 180px;
+  }
+  .text, .p-inputtext{
     font-size: 13px;
+  }
+  .doctor-card{
+    width: 220px;
   }
 }
 
@@ -21,8 +41,13 @@
     max-width: 1000px;
   }
   .appointment-card{
-    width: 450px;
-    font-size: 14px;
+    width: 210px;
+  }
+  .text, .p-inputtext{
+    font-size: 13px;
+  }
+  .doctor-card{
+    width: 260px;
   }
 }
 
@@ -31,8 +56,13 @@
     max-width: 1000px;
   }
   .appointment-card{
-    width: 450px;
+    width: 340px;
+  }
+  .text, .p-inputtext{
     font-size: 14px;
+  }
+  .doctor-card{
+    width: 210px;
   }
 }
 
@@ -41,7 +71,12 @@
     max-width: 1200px;
   }
   .appointment-card{
-    width: 550px;
-    font-size: 16px;
+    width: 400px;
+  }
+  .text, .p-inputtext{
+    font-size: 15px;
+  }
+  .doctor-card{
+    width: 210px;
   }
 }

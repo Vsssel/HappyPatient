@@ -5,7 +5,7 @@ body {
     color: var(--primary-color);
 }
 
-.p-inputtext, .p-multiselect, .p-radiobutton-box, .p-checkbox-box, .p-multiselect-overlay, .p-autocomplete-overlay, .p-select, .p-select-overlay   {
+.p-inputtext, .p-multiselect, .p-radiobutton-box, .p-checkbox-box, .p-multiselect-overlay, .p-autocomplete-overlay, .p-select, .p-select-overlay, .p-popover, .p-popover-flipped, .p-paginator {
     background: var(--inputtext-background) !important;
     color: var(--inputtext-color) !important;
     border: 1px solid var(--input-border-color) !important;
@@ -22,6 +22,10 @@ body {
 
 .p-datepicker-dropdown{
     border: 1px solid var(--input-border-color) !important; 
+}
+
+.p-paginator-page.p-paginator-page-selected {
+    background: #0D6EFD !important;
 }
 
 .p-autocomplete-option{
@@ -44,6 +48,10 @@ body {
 
 .p-skeleton {
     background: var(--skeleton-background) !important;
+}
+
+.p-popover.p-popover-flipped:after, .p-popover.p-popover-flipped:before {
+    border-top-color: var(--background-white) !important;
 }
 
 .p-dialog, .p-datepicker-panel, .p-datepicker-header, .p-datepicker-select-month, .p-datepicker-select-year, .p-datepicker-dropdown {
@@ -104,9 +112,17 @@ label, span, .p-select-label {
     color: var(--text-color) !important;
 }
 
+.p-datatable-header-cell, .p-datatable-tbody > tr, .p-datatable-tbody > tr > td {
+    background: transparent !important;
+    border-color: transparent !important;
+    color: var(--inputtext-color);
+}
+
+.p-datatable-tbody > tr > td {
+    padding: 0.5rem;
+}
+
 .doctor-card{
-    width: 210px;
-    font-size: 14px;
     box-shadow: 0px 0px 3px var(--shadow-border);
 }
 

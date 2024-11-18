@@ -8,12 +8,12 @@ export const filterAppointments = (): GetMyAppointmentsResponse | undefined => {
         const [day, month, year] = appointment.date.split('.').map(Number)
         const [startHour, startMinute] = appointment.startTime.split(':').map(Number)
         const isFuture = new Date(year, month-1, day, startHour, startMinute) > new Date()
-        if(filterBy.value === 0 && isFuture){
+        if(Number(filterBy.value) === 0 && isFuture){
             filteredAppointments.value?.push(appointment)
-        }else if(filterBy.value === 1 && !isFuture){
+        }else if(Number(filterBy.value) === 1 && !isFuture){
             filteredAppointments.value?.push(appointment)
         }
     })
 
-    return filterBy.value === 2 ? appointments.value : filteredAppointments.value
+    return Number(filterBy.value) === 2 ? appointments.value : filteredAppointments.value
 }

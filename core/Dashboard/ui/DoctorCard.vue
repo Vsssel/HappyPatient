@@ -10,18 +10,18 @@
                     :title="avatarTitleOf(props.doctor)" 
                 />
                 <div class="d-flex w-100 flex-column align-items-center">
-                    <span class="fs-6 fw-semibold">
+                    <span class="fs-7 fs-md-6 fw-medium">
                         {{ `${props.doctor?.name} ${props.doctor?.surname}` }}
                     </span>
                     <div class="d-flex flex-column align-items-center w-100">
                         <div class="d-flex flex-row w-100 justify-content-around">
-                            <label class="mt-1 mb-1"><i class="pi pi-user me-1"/>{{ props.doctor?.category.title }}</label> 
-                            <label class="mt-1 mb-1"><i class="pi pi-briefcase me-1"/>{{`${ Math.floor(props.doctor?.expInMonthes / 12)} years` }}</label> 
+                            <label class="mt-1 mb-1 text"><i class="pi pi-user me-1 text"/>{{ props.doctor?.category.title }}</label> 
+                            <label class="mt-1 mb-1 text"><i class="pi pi-briefcase me-1 text"/>{{`${ Math.floor(props.doctor?.expInMonthes / 12)} years` }}</label> 
                         </div>
-                       <label class="mt-1 mb-1"><i class="pi pi-map-marker me-1" />{{ `${props.doctor?.office.address.length > 10 ? `${props.doctor?.office.address.slice(0, 10)}...` : props.doctor?.office.address}`}}</label> 
-                       <label class="mt-1 mb-1"><i class="bi bi-coin me-1" />{{ `${ props.doctor?.visitPrice } ₸`}}</label> 
+                       <label class="mt-1 mb-1 text"><i class="pi pi-map-marker me-1 text" />{{ `${props.doctor?.office.address.length > 10 ? `${props.doctor?.office.address.slice(0, 10)}...` : props.doctor?.office.address}`}}</label> 
+                       <label class="mt-1 mb-1 text"><i class="bi bi-coin me-1 text" />{{ `${ props.doctor?.visitPrice } ₸`}}</label> 
                     </div>
-                    <button class="btn btn-sm btn-primary m-2">
+                    <button class="btn btn-sm text btn-primary m-2">
                         {{ "View doctor" }}
                     </button>
                 </div>

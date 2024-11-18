@@ -2,6 +2,9 @@ import type { ApiOption, ApiResponse } from "./type"
 import { useRuntimeConfig } from "#app"
 import me from "../stores/User"
 import axios from "axios"
+import { useRouter } from "vue-router"
+
+const router = useRouter()
 
 export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Promise<ApiResponse<T>> => {
     const config = useRuntimeConfig()
@@ -45,6 +48,7 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
 
         if(error.response.status === 401){
             me.signOut()
+            router.push('/auth/signin')
         }
         return { status: error.response.status, message: error.response.data.detail, data: error.response.detail }
     }

@@ -1,6 +1,6 @@
 <template>
     <FormField 
-        :formFields="FormFields" 
+        :formGroup="FormFields" 
         :onChange="handleFieldChange"
         v-model:values="values" 
         class="w-100"
@@ -18,7 +18,7 @@
     </template>
     <template #offices>
         <div class="d-flex flex-column">
-            <span class="mb-2" style="font-size: 15px;">
+            <span class="mb-2 text">
                 {{ 'Select offices' }}
             </span>
             <MultiSelect 
@@ -28,12 +28,13 @@
                 :options="officesOptions" 
                 optionLabel="label" 
                 optionValue="value"
+                size="small"
             />
         </div>
     </template>
     <template #categories>
         <div class="d-flex flex-column">
-            <span class="mb-2" style="font-size: 15px;">
+            <span class="mb-2 text">
                 {{ 'Select categories' }}
             </span>
             <MultiSelect 
@@ -43,18 +44,20 @@
                 :options="categoriesOption" 
                 optionLabel="label" 
                 optionValue="value"
+                class="p-0"
             />
         </div>
       </template>
       <template #min_exp_years>
           <InputNumber 
             v-model="minExp"
+            inputClass="w-100"
             class="w-100"
           />
         </template>
         <template #sort_by>
-            <label class="form-label" style="font-size: 15px;">Sort by</label>
-            <div class="d-flex flex-column gap-2">
+            <label class="form-label text">Sort by</label>
+            <div class="d-flex flex-row flex-md-column gap-2">
                 <div class="d-flex gap-1 align-items-center">
                     <RadioButton 
                         v-model="selectedSortBy" 
@@ -62,8 +65,7 @@
                     />
                     <label 
                         for="ingredient1" 
-                        class="ml-2"
-                        style="font-size: 13px;"
+                        class="ml-2 text"
                     >
                         {{ 'Name' }}
                     </label>
@@ -76,8 +78,7 @@
                     />
                     <label 
                         for="ingredient3" 
-                        class="ml-2"
-                        style="font-size: 13px;"
+                        class="ml-2 text"
                     >
                         {{ 'Experience' }}
                     </label>
@@ -90,8 +91,7 @@
                     />
                     <label 
                         for="ingredient4" 
-                        class="ml-2"
-                        style="font-size: 13px;"
+                        class="ml-2 text"
                     >
                         {{ 'Category' }}
                     </label>
@@ -120,6 +120,7 @@ import { defineProps } from 'vue'
 import FormField from '~/shared/components/form/FormField.vue'
 import { values } from '../../values'
 import AutoComplete from 'primevue/autocomplete'
+import type { FormGroup } from '~/shared/components/form/types'
 
 const props = defineProps<{ data: DoctorsSearchResourcesResponse }>();
 
@@ -135,45 +136,61 @@ const checked = ref<boolean>(true)
 const selectedSortBy = ref(undefined)
 const minExp = ref(undefined)
 
-const FormFields = ref<FormFields[]>([
+const FormFields = ref<FormGroup[]>([
+  {
+    class: 'd-flex flex-row gap-2 w-100 flex-md-column',
+    fields: [
       {
         name: 'fullname',
         type: 'slot',
-        class: 'col-12 mt-2 mb-2',
+        class: 'col-6 col-md-12 mt-2 mb-2',
         label: { 
           text: 'Search doctor by name' ,
-          style: 'font-size: 15px;'
+          class: 'text'
         }
       },
       {
         name: 'categories',
         type: 'slot',
-        class: 'col-12 mt-2 mb-2',
-      },
+        class:  'col-6 col-md-12 mt-2 mb-2',
+      }
+    ]
+  },
+  {
+    class: 'd-flex flex-row gap-2 w-100 flex-md-column',
+    fields: [
       {
         name: 'offices',
         type: 'slot',
-        class: 'col-12 mt-2 mb-2',
+        class:  'col-6 col-md-12 mt-2 mb-2',
       },
       {
         name: 'min_exp_years',
         type: 'slot',
         label: { 
           text: 'Minimum experience in years',
-          style: 'font-size: 15px;'
+          class: 'text'
         },
-        class: 'col-12 mt-2 mb-2',
-      },
+        class:  'col-6 col-md-12 mt-2 mb-2',
+      }
+    ]
+  },
+  {
+    class: 'd-flex flex-row gap-4 w-100 flex-md-column',
+    fields: [
       {
         name: 'sort_by',
         type: 'slot',
-        class: 'col-12 mt-2 mb-2',
+        class:  'col-7 col-md-12 mt-2 mb-2',
       },
       {
         name: 'asc_order',
+        label: { text: ''},
         type: 'slot',
-        class: 'col-12 mt-2 mb-2',
+        class: 'col-5 col-md-12 mt-3 mb-2',
       }
+    ]
+  }
 ])
 
 const handleFieldChange = (submittedValues: Record<string, any>) => {

@@ -1,8 +1,8 @@
 <template>
-    <div class="content-container d-flex align-self-center pt-2 gap-1 flex-row h-100"> 
-      <DashboardFilter  class="col-3" />
+    <div class="content-container d-flex align-self-center pt-2 p-2 gap-1 flex-column flex-md-row h-100"> 
+      <DashboardFilter  class="col-12 col-md-3" />
       <Skeleton v-if="loader" width="70%" height="35rem"/>
-      <DashboardBody v-else class="d-flex col-9" />
+      <DashboardBody v-else class="d-flex col-12 col-md-9" />
     </div>
 </template>
 
@@ -13,7 +13,7 @@ import { getDoctors } from './api'
 import { doctors, values } from './values'
 import { ref, watch, onMounted } from 'vue'
 import Skeleton from 'primevue/skeleton'
-import { addBreadcrumb, clearBreadcrumbs, removeBreadcrumbsAfter } from '~/shared/stores/useBreadCrumb'
+import { addBreadcrumb, clearBreadcrumbs } from '~/shared/stores/useBreadCrumb'
 
 const loader = ref<boolean>(true)
 

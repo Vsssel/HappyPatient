@@ -1,6 +1,6 @@
 <template>
-    <div class="col-3">
-        <div class="card d-flex flex-column align-items-center mt-3 pt-3 pb-3">
+    <div class="col-md-3 col-12">
+        <div class="card d-flex flex-column align-items-center pt-3 pb-3">
             <h6 class="fw-bold">
                 {{ 'Free slots' }}
             </h6>
