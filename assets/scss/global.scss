@@ -24,7 +24,7 @@ body {
     border: 1px solid var(--input-border-color) !important; 
 }
 
-.p-paginator-page.p-paginator-page-selected {
+.p-paginator-page.p-paginator-page-selected, .p-paginator-next:not(.p-disabled):hover, .p-paginator-prev:not(.p-disabled):hover {
     background: #0D6EFD !important;
 }
 

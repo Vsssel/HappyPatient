@@ -96,6 +96,6 @@ defineProps<{
 const editAppointment = () => {
     errorEnd.value = ''
     errorStart.value = ''
-    disabled.value = false
+    disabled.value = !disabled.value
 }
 </script>

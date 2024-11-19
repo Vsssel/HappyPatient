@@ -19,13 +19,23 @@
             </div>
             <div class="d-flex flex-row justify-content-center gap-1 flex-wrap">
                 <h5 v-if="appointments?.length === 0" class="p-5 text-secondary">{{ 'No Data' }}</h5>
-                <div v-else v-for="appointment in filteredAppointments" class="card appointment-card p- border-2 d-flex" style="background-color: rgba(255, 249, 150, 0.3);">
-                    <DataTable 
-                      :value="formatAppointmentInfoTable(appointment)"
-                    >
-                      <Column field="title" class="col-4 fw-medium"/>
-                      <Column field="data" class="col-7"/>
-                    </DataTable>
+                <div v-else v-for="appointment in filteredAppointments" class="card appointment-card p- border-2 d-flex">
+                    <table>
+                        <tbody class="d-flex flex-column gap-2 p-2">
+                            <tr v-for="data in formatAppointmentInfoTable(appointment)" class="d-flex flex-row justify-content-between">
+                                <th class="col-5">
+                                    <span class="text fw-bold">
+                                    {{ data.title }} 
+                                    </span>
+                                </th>
+                                <th class="col-7 text-end">
+                                    <span class="text">
+                                        {{ data.data }}
+                                    </span>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
                     <div class="p-1 ps-3 w-100 d-flex justify-content-between align-items-center p-2">
                         <span class="text">
                             <i class="pi pi-calendar" />

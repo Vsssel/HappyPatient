@@ -36,14 +36,14 @@ export const formGroup = ref<FormGroup[]>([
         ]
     },
     {
-        class: 'row mt-2',
+        class: 'row w-100 mt-2',
         fields: [
             {
                 name: 'startsAt',
                 type: 'date',
                 label: { text: "Start Time" },
                 required: true,
-                class: 'col-6',
+                class: 'col-6 ps-0',
                 stepMinute: 30,
                 value: values.value.startsAt,
                 showIcon: true,
@@ -56,7 +56,7 @@ export const formGroup = ref<FormGroup[]>([
                 type: 'date',
                 label: { text: "End Time" },
                 required: true,
-                class: 'col-6',
+                class: 'col-6 pe-0',
                 stepMinute: 30,
                 value: values.value.endsAt,
                 showIcon: true,

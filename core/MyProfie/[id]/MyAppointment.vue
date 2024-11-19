@@ -1,9 +1,9 @@
 <template>
     <Skeleton v-if="loading" class="w-25 h-100" />
     <div v-else class="d-flex flex-column flex-md-row p-3 content-container m-3 gap-2 flex-row align-self-center justify-content-center">
-        <div :class="['d-flex flex-column flex-md-row gap-2 ', (appointment.isFinished) ? '': `${!disabled ? 'col-8' : 'col-12 col-md-6'}`]">
-            <FreeSlots v-if="!disabled && !appointment.isFinished"></FreeSlots>
-            <div class="card p-3 d-flex flex-column gap-3 justify-content-center">
+        <div :class="['d-flex flex-column flex-md-row gap-2 ', (appointment.receipt) ? 'col-12 col-md-8': `${!disabled ? 'col-8' : 'col-12 col-md-6'}`]">
+            <FreeSlots v-if="!disabled && !appointment.receipt"></FreeSlots>
+            <div class="card p-3 w-100 d-flex flex-column gap-3 justify-content-center">
                 <h5 class="text-center">Appointment Information</h5>
                 <AppointmentCard 
                     :name="appointment?.doctor.name" 
@@ -16,9 +16,11 @@
                     :onSubmit="onSubmit" 
                     :onHandleChange="onHandleChange"
                 />
+                <div v-if="appointment.medicalRecords" class="w-10 p-2 border-top"></div>
+                <Record v-if="appointment.medicalRecords" />
             </div>
         </div>
-        <div v-if="appointment.receipt" class="d-flex card p-2 border-none gap-2 flex-column">
+        <div v-if="appointment.receipt" class="d-flex card p-2 col-12 col-md-4 border-none gap-2 flex-column">
           <div ref="element" class="d-flex w-100 align-self-center justify-self-center">
             <Receipt />
           </div>
@@ -53,6 +55,7 @@ import FreeSlots from './ui/FreeSlots.vue'
 import FormView from './ui/FormView.vue'
 import Skeleton from 'primevue/skeleton'
 import Receipt from './ui/Receipt.vue'
+import Record from './ui/Record.vue'
 
 const route = useRoute()
 const router = useRouter()

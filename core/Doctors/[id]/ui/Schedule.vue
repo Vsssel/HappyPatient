@@ -1,6 +1,6 @@
 <template>
     <div id="schedule-container" class="d-flex flex-column">
-        <div class="d-flex col-12 col-md-4 align-self-right justify-content-between align-items-center text">
+        <div class="d-flex col-12 col-md-6 col-xl-4 align-self-right justify-content-between align-items-center text">
             <RoundButton 
                 @click="weekNumber--" 
                 :disabled="weekNumber <= 0"

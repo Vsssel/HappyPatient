@@ -5,7 +5,6 @@ export type GetMySingleAppointmentResponse = {
   startTime: string,
   endTime: string,
   price: number,
-  isFinished: boolean,
   type: {
     id: number,
     name: string
@@ -37,7 +36,13 @@ export type GetMySingleAppointmentResponse = {
     method: string,
     provider: string,
     amount: number
-  }
+  },
+  medicalRecords: {
+      title: string,
+      type: string,
+      addedTime: string,
+      content: string
+  }[]
 }
 
 export type DeleteMySingleAppointmentResponse = {
@@ -53,36 +58,50 @@ export type PutMySingleAppointementRequest = {
 }
 
 export type PutMySingleAppointementResponse = {
-  id: number;
-  date: string;
-  startTime: string;
-  endTime: string;
-  isFinished: boolean;
+  id: number,
+  date: string,
+  index: number,
+  startTime: string,
+  endTime: string,
+  price: number,
   type: {
-    id: number;
+    id: number,
     name: string
-  };
+  },
   category: {
-    id: number;
+    id: number,
     title: string
-  };
+  },
   room: {
-    id: number;
-    building_id: number;
-    address: string;
+    id: number,
+    building_id: number,
+    address: string,
     title: string
-  };
+  },
   doctor: {
-    id: number;
-    name: string;
-    surname: string;
+    id: number,
+    name: string,
+    surname: string,
     avatarUrl: string
-  };
+  },
   patient: {
-    id: number;
-    name: string;
+    id: number,
+    name: string,
     surname: string
-  }
+  },
+  receipt: {
+    id: number,
+    timestamp: string,
+    method: string,
+    provider: string,
+    amount: number
+  },
+  medicalRecords: {
+      title: string,
+      type: string,
+      addedTime: string,
+      content: string
+  }[]
 }
 
 export type GetMyAppointmentResourseResponse = {

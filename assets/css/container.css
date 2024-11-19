@@ -16,7 +16,7 @@
   .doctor-card{
     width: 180px;
   }
-  .table-text {
+  .table-text, .add {
     font-size: 7px;
   }
 }
@@ -34,6 +34,9 @@
   .doctor-card{
     width: 220px;
   }
+  .table-text, .add {
+    font-size: 10px;
+  }
 }
 
 @media (min-width: 1200px) and (max-width: 1499px) {
@@ -48,6 +51,9 @@
   }
   .doctor-card{
     width: 260px;
+  }
+  .table-text, .add {
+    font-size: 12px;
   }
 }
 
@@ -64,6 +70,9 @@
   .doctor-card{
     width: 210px;
   }
+  .table-text, .add {
+    font-size: 12px;
+  }
 }
 
 @media (min-width: 1800px) {
@@ -78,5 +87,8 @@
   }
   .doctor-card{
     width: 210px;
+  }
+  .table-text, .add {
+    font-size: 13px;
   }
 }

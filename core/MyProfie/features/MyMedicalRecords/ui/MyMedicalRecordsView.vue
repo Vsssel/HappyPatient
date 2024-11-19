@@ -23,18 +23,31 @@
                     v-else 
                     v-for="record in records.page" 
                     :key="record.content" 
-                    class="card appointment-card p- border-2 d-flex" 
-                    style="background-color: rgba(0, 149, 255, 0.1);"
+                    class="card appointment-card p-2 ps-3 border-2 gap-3 d-flex"
                 >
-                    <DataTable :value="formatRecordTable(record)">
-                        <Column field="title" class="col-4 fw-medium" />
-                        <Column field="data" class="col-7" />
-                    </DataTable>
-                    <div class="p-1 ps-3 w-100 d-flex justify-content-between align-items-center p-2">
+                    <div class="d-flex flex-row align-items-center justify-content-between">
+                        <div class="d-flex gap-1 flex-column">
+                            <span class="text">
+                                <span class="fw-bold">
+                                    {{ capitalizeFirstLetter(record.type) }}
+                                </span> 
+                                by {{ record.doctor.name }} {{ record.doctor.surname }}
+                            </span>
+                            <span class="text">
+                                {{ record.addedTime }}
+                            </span>
+                        </div>
+                        <div class="btn btn-sm" style="background-color: #FEE2E2; color: #7F1D1D;">
+                            <i class="bi bi-emoji-angry text" />
+                            Report
+                        </div>
+                    </div>
+                    <div class="d-flex">
                         <span class="text">
-                            <i class="pi pi-calendar" />
-                            {{ record.addedTime }}
+                            {{ record.content }}
                         </span>
+                    </div>
+                    <div class="w-100 d-flex justify-content-end align-items-center">
                         <button 
                             @click="addRoute(record)" 
                             class="btn btn-sm text btn-primary" 
@@ -64,9 +77,9 @@ import type { GetMyMedicalRecordsResponse } from '../types';
 import RadioButton from 'primevue/radiobutton';
 import { RecordType } from '../types';
 import { formatRecordTable } from '../utils';
+import { capitalizeFirstLetter } from '~/shared/utils';
 import { records } from '../values';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
+
 import Paginator, { type PageState } from 'primevue/paginator';
 
 const router = useRouter();

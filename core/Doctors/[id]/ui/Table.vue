@@ -25,9 +25,9 @@ import { onMounted, ref } from 'vue';
     <table>
         <thead>
             <tr>
-                <th class="text-center fw-semibold"> {{'Time'}} </th>
+                <th class="text-center fw-semibold add"> {{'Time'}} </th>
                 <th v-for="weekDay in weekDayTitles" :key="weekDay.index" class="text-center">
-                    <span class="fw-semibold">{{ weekDay.default }}</span>
+                    <span class="fw-semibold add">{{ weekDay.default }}</span>
                     <br>
                     <span class="add fw-normal">{{ week[weekDay.index] }}</span>
                 </th>
@@ -36,7 +36,7 @@ import { onMounted, ref } from 'vue';
         <tbody>
             <tr v-for="hourSlotsRelation in hoursSlotsRelations" :key="hourSlotsRelation.hour">
                 <th class="text-center">
-                    <span class="fw-semibold">{{ `${hourSlotsRelation.hour}:00` }}</span>
+                    <span class="add fw-semibold">{{ `${hourSlotsRelation.hour}:00` }}</span>
                     <br>
                     <span class="add fw-normal">{{ `${hourSlotsRelation.hour + 1}:00` }}</span>
                 </th>
@@ -61,14 +61,6 @@ table {
 
 th, td {
     border: 1px solid #ddd;
-}
-
-th {
-    padding: 2px 5px;
-    font-size: 7px;
-}
-th span.add {
-    font-size: 7px;
 }
 
 div.min-slot {
