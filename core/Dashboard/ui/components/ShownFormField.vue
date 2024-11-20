@@ -1,19 +1,19 @@
 <template>
     <FormField 
-        :formGroup="FormFields" 
-        :onChange="handleFieldChange"
-        v-model:values="values" 
-        class="w-100"
+      :formGroup="FormFields" 
+      :onChange="handleFieldChange"
+      v-model:values="values" 
+      class="w-100"
     >
     <template #button></template>
     <template #fullname>
       <AutoComplete
-          type="text"
-          v-model="selectedName"
-          :suggestions="filteredSuggestions"
-          inputClass="w-100"
-          class="w-100"
-          @complete="search"
+        type="text"
+        v-model="selectedName"
+        :suggestions="filteredSuggestions"
+        inputClass="w-100"
+        class="w-100"
+        @complete="search"
         />
     </template>
     <template #offices>
@@ -22,13 +22,12 @@
                 {{ 'Select offices' }}
             </span>
             <MultiSelect 
-                filter
-                v-model="selectedOffices" 
-                display="chip" 
-                :options="officesOptions" 
-                optionLabel="label" 
-                optionValue="value"
-                size="small"
+              filter
+              v-model="selectedOffices" 
+              display="chip" 
+              :options="officesOptions" 
+              optionLabel="label" 
+              optionValue="value"
             />
         </div>
     </template>
@@ -38,13 +37,13 @@
                 {{ 'Select categories' }}
             </span>
             <MultiSelect 
-                filter
-                v-model="selectedCategories" 
-                display="chip" 
-                :options="categoriesOption" 
-                optionLabel="label" 
-                optionValue="value"
-                class="p-0"
+              filter
+              v-model="selectedCategories" 
+              display="chip" 
+              :options="categoriesOption" 
+              optionLabel="label" 
+              optionValue="value"
+              class="p-0"
             />
         </div>
       </template>
@@ -60,40 +59,40 @@
             <div class="d-flex flex-row flex-md-column gap-2">
                 <div class="d-flex gap-1 align-items-center">
                     <RadioButton 
-                        v-model="selectedSortBy" 
-                        inputId="ingredient1" value="name" 
+                      v-model="selectedSortBy" 
+                      inputId="ingredient1" value="name" 
                     />
                     <label 
-                        for="ingredient1" 
-                        class="ml-2 text"
+                      for="ingredient1" 
+                      class="ml-2 text"
                     >
-                        {{ 'Name' }}
+                      {{ 'Name' }}
                     </label>
                 </div>
                 <div class="d-flex gap-1 align-items-center">
                     <RadioButton 
-                        v-model="selectedSortBy" 
-                        inputId="ingredient3" 
-                        value="experience" 
+                      v-model="selectedSortBy" 
+                      inputId="ingredient3" 
+                      value="experience" 
                     />
                     <label 
-                        for="ingredient3" 
-                        class="ml-2 text"
+                      for="ingredient3" 
+                      class="ml-2 text"
                     >
-                        {{ 'Experience' }}
+                      {{ 'Experience' }}
                     </label>
                 </div>
                 <div class="d-flex gap-1 align-items-center">
                     <RadioButton 
-                        v-model="selectedSortBy" 
-                        inputId="ingredient4" 
-                        value="category" 
+                      v-model="selectedSortBy" 
+                      inputId="ingredient4" 
+                      value="category" 
                     />
                     <label 
-                        for="ingredient4" 
-                        class="ml-2 text"
+                      for="ingredient4" 
+                      class="ml-2 text"
                     >
-                        {{ 'Category' }}
+                      {{ 'Category' }}
                     </label>
                 </div>
             </div>
@@ -101,12 +100,11 @@
         <template #asc_order>
             <div class="d-flex w-100 justify-content-center p-2">
                 <ToggleButton 
-                    v-model="checked" 
-                    onLabel="Ascending" 
-                    offLabel="Descending" 
-                    onIcon="pi pi-arrow-up" 
-                    offIcon="pi pi-arrow-down" 
-                    style="font-size: 13px;"
+                  v-model="checked" 
+                  onLabel="Ascending" 
+                  offLabel="Descending" 
+                  onIcon="pi pi-arrow-up" 
+                  offIcon="pi pi-arrow-down" 
                 />
             </div>
         </template>
@@ -176,18 +174,18 @@ const FormFields = ref<FormGroup[]>([
     ]
   },
   {
-    class: 'd-flex flex-row gap-4 w-100 flex-md-column',
+    class: 'd-flex flex-row gap-2 w-100 flex-md-column',
     fields: [
       {
         name: 'sort_by',
         type: 'slot',
-        class:  'col-7 col-md-12 mt-2 mb-2',
+        class:  'col-8 col-md-12 mt-2 mb-2',
       },
       {
         name: 'asc_order',
         label: { text: ''},
         type: 'slot',
-        class: 'col-5 col-md-12 mt-3 mb-2',
+        class: 'col-4  col-md-12 mt-3 mb-2',
       }
     ]
   }

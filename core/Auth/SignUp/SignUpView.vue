@@ -1,14 +1,14 @@
 <template>
     <div class="login-page">
-      <div class="left-side">
+      <div class="left-side d-none d-md-flex col-md-5">
         <div class="title">
           <h1>Create account on Zhanuya Med</h1>
           <p>Become our patient and get fast and easy treatment!</p>
           <img :src="doctor" alt="Doctor" width="250" />
         </div>
       </div>
-      <div class="right-side">
-        <div class="login-block w-50">
+      <div class="right-side col-12 p-3 col-md-7">
+        <div class="login-block col-12 col-md-6">
           <h2>Sign up</h2>
           <Stepper v-model:value="formNumber" class="w-50">
             <StepList class="">
@@ -50,7 +50,7 @@
             <AuthForm v-if="formNumber === 1" />
             <SignUpForm v-if="formNumber === 2"/>
           </div>
-          <p>
+          <p class="text">
             Already have an account?
             <NuxtLink to="/auth/signin" class="register-link">Login</NuxtLink>
           </p>
@@ -69,7 +69,6 @@ import StepList from 'primevue/steplist'
 import Step from 'primevue/step'
 import Divider from 'primevue/divider'
 import { formNumber } from './values'
-
 </script>
 
 <style scoped>
@@ -106,7 +105,6 @@ import { formNumber } from './values'
 }
 
 .right-side {
-  width: 60%;
   display: flex;
   justify-content: center;
   align-items: center;

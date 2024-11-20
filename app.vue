@@ -1,5 +1,5 @@
 <template>
-  <main class="d-flex w-100 flex-column align-items-center" style="max-height: 100vh;">
+  <main class="d-flex w-100 flex-column align-items-center" style="height: 100vh;">
     <Header v-if="!isAuthPage" />
     <NuxtPage class="d-flex flex-grow-1" />
   </main>

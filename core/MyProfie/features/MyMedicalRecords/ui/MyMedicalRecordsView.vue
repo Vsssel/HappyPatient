@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex w-100 gap-2 flex-column">
+    <div class="d-flex w-100 h-100 flex-column justify-content-between">
         <div class="p-1 d-flex align-items-center flex-column gap-4 w-100">
             <div class="d-flex flex-row justify-content-between align-items-center">
                 <div class="d-flex gap-2">
@@ -18,7 +18,9 @@
                 </div>
             </div>
             <div class="d-flex flex-row justify-content-center gap-1 flex-wrap">
-                <h5 v-if="!records?.page.length" class="p-5 text-secondary">{{ 'No Data' }}</h5>
+                <div v-if="!records?.page.length" class="d-flex align-items-center justify-content-center">
+                    <img src="../../../../../assets/no_data.jpg" class="col-6 col-md-12">
+                </div>
                 <div 
                     v-else 
                     v-for="record in records.page" 
@@ -58,15 +60,15 @@
                     </div>
                 </div>
             </div>
-            <Paginator 
-                :rows="6" 
-                class="w-100"
-                :totalRecords="records?.total"
-                template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" 
-                @page="updatePage"
-            />
         </div>
+        <Paginator 
+            :rows="6" 
+            class="w-100"
+            :totalRecords="records?.total"
+            template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" 
+            @page="updatePage"
+        />
     </div>
 </template>
 <script setup lang="ts">
@@ -76,7 +78,6 @@ import { ref, onMounted, watch } from 'vue';
 import type { GetMyMedicalRecordsResponse } from '../types';
 import RadioButton from 'primevue/radiobutton';
 import { RecordType } from '../types';
-import { formatRecordTable } from '../utils';
 import { capitalizeFirstLetter } from '~/shared/utils';
 import { records } from '../values';
 

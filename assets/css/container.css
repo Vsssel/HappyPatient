@@ -10,7 +10,7 @@
   .content-container{
     width: 100vw;
   }
-  .text, .p-inputtext{
+  .text, .p-inputtext, .p-multiselect, .p-multiselect-option, .p-togglebutton , .p-multiselect, .p-multiselect-option, .p-togglebutton, .p-paginator-content , .p-multiselect, .p-multiselect-option, .p-togglebutton, .p-paginator-content {
     font-size: 12px !important;
   }
   .doctor-card{
@@ -28,7 +28,7 @@
   .appointment-card{
     width: 180px;
   }
-  .text, .p-inputtext{
+  .text, .p-inputtext, .p-multiselect, .p-multiselect-option, .p-togglebutton , .p-multiselect, .p-multiselect-option, .p-togglebutton, .p-paginator-content {
     font-size: 13px;
   }
   .doctor-card{
@@ -46,7 +46,7 @@
   .appointment-card{
     width: 210px;
   }
-  .text, .p-inputtext{
+  .text, .p-inputtext, .p-multiselect, .p-multiselect-option, .p-togglebutton , .p-multiselect, .p-multiselect-option, .p-togglebutton, .p-paginator-content {
     font-size: 13px;
   }
   .doctor-card{
@@ -64,7 +64,7 @@
   .appointment-card{
     width: 340px;
   }
-  .text, .p-inputtext{
+  .text, .p-inputtext, .p-multiselect, .p-multiselect-option, .p-togglebutton , .p-multiselect, .p-multiselect-option, .p-togglebutton, .p-paginator-content {
     font-size: 14px;
   }
   .doctor-card{
@@ -82,7 +82,7 @@
   .appointment-card{
     width: 400px;
   }
-  .text, .p-inputtext{
+  .text, .p-inputtext, .p-multiselect, .p-multiselect-option, .p-togglebutton , .p-multiselect, .p-multiselect-option, .p-togglebutton, .p-paginator-content {
     font-size: 15px;
   }
   .doctor-card{

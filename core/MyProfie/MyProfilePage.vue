@@ -1,6 +1,6 @@
 <template>
-    <div class="content-container m-2 gap-2 d-flex align-self-center">
-        <div class="gap-1 col-3 flex-row">
+    <div class="content-container m-2 gap-2 p-2 d-flex flex-column flex-md-row align-self-center">
+        <div class="gap-1 col-12 col-md-3 flex-row">
             <div class="card p-3 d-flex justify-content-center align-items-center gap-2">
                 <DefaultAvatar width="100" height="100" font-size="50"/>
                 <h6>{{ me.data.value?.name }} {{ me.data.value?.surname }}</h6>
@@ -13,20 +13,20 @@
                 <span @click="logOut" class="btn btn-sm btn-log-out mt-3 w-100 text-center rounded">Log out<i class="pi pi-sign-out ms-2" /></span>
             </div>
         </div>
-        <Tabs value="0" class="col-9 card">
+        <Tabs :value="me.data.value.role === 'doctor' ? '0' : '1'" class="col-12 col-md-9 card">
             <TabList>
                 <Tab v-if="me.data.value.role === 'doctor'" value="0">My Schedule</Tab>
                 <Tab value="1">My Appointments</Tab>
                 <Tab value="2">My Medical Records</Tab>
             </TabList>
-            <TabPanels>
-                <TabPanel value="0">
+            <TabPanels class="h-100">
+                <TabPanel value="0" class="h-100">
 
                 </TabPanel>
-                <TabPanel value="1">
+                <TabPanel value="1" class="h-100">
                     <MyProfileView />
                 </TabPanel>
-                <TabPanel value="2">
+                <TabPanel value="2" class="h-100">
                     <MyMedicalRecordsView />
                 </TabPanel>
             </TabPanels>

@@ -5,27 +5,27 @@
       :submit="onSubmit"
   >
     <template #button>
-      <div class="w-100 d-flex justify-content-end pt-2 pb-2">
+      <div class="w-100 d-flex justify-content-end pt-1 pb-1">
         <button 
-        :class="['btn btn-primary px-3', load ? 'disabled' : '']">
-          <i v-if="load" class="pi pi-spin pi-spinner" style="font-size: 1rem" />
+        :class="['btn btn-sm text btn-primary px-1', load ? 'disabled' : '']">
+          <i v-if="load" class="pi pi-spin pi-spinner text" />
           Next
-          <i v-if="!load" class="pi pi-arrow-right p-2" style="font-size: 1rem" />
+          <i v-if="!load" class="pi pi-arrow-right p-2 text" />
       </button>
       </div>
     </template>
     <template #error="{ field }">
-      <label v-if="field.name === 'email' && errorEmail && validated" class="form-label text-danger">
+      <label v-if="field.name === 'email' && errorEmail && validated" class="form-label text text-danger">
         {{ errorEmail }}
       </label>
-      <label v-if="field.name === 'iin' && !errorIIN && validated" class="form-label text-danger">
+      <label v-if="field.name === 'iin' && !errorIIN && validated" class="form-label text text-danger">
         {{ 'Invalid IIN' }}
       </label>
       <label 
         v-if="validationErrors" 
         v-for="validationError in getErrorsForField(field.name)" 
         :key="validationError.detail"
-        class="form-label text-danger"
+        class="form-label text text-danger"
       >
         {{ validationError.detail }}
       </label>
@@ -36,7 +36,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import FormField from '~/shared/components/form/FormField.vue'
-import type { PostPatientAuthRequest } from '../types'
 import { name, surname, formNumber, iin, email } from '../values'
 import { postPatientAuth } from '../api/postPatientAuth'
 import { useToast } from 'primevue/usetoast'
@@ -57,7 +56,7 @@ const firstFormField = ref<FormGroup[]>([
         name: 'name',
         type: 'text',
         required: true,
-        label: { text: 'Name: ' },
+        label: { text: 'Name: ', class: 'text' },
         value: name.value,
         placeholder: 'John',
         class: 'col-6 ps-0',
@@ -66,7 +65,7 @@ const firstFormField = ref<FormGroup[]>([
         name: 'surname',
         type: 'text',
         required: true,
-        label: { text: 'Surname: ' },
+        label: { text: 'Surname: ', class: 'text' },
         value: surname.value,
         placeholder: 'Doe',
         class: 'col-6 pe-0',
@@ -80,7 +79,7 @@ const firstFormField = ref<FormGroup[]>([
         name: 'iin',
         type: 'text',
         required: true,
-        label: { text: 'IIN: ' },
+        label: { text: 'IIN: ', class: 'text'  },
         value: iin.value,
         placeholder: '999999999999',
         class: 'col-12',
@@ -89,7 +88,7 @@ const firstFormField = ref<FormGroup[]>([
         name: 'email',
         type: 'text',
         required: true,
-        label: { text: 'Email: ' },
+        label: { text: 'Email: ', class: 'text'  },
         value: email.value,
         placeholder: 'example@mail.com',
         class: 'col-12',

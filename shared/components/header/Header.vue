@@ -7,14 +7,14 @@
           >
           <h6 class="text-primary d-flex align-items-center m-2 gap-2 fw-bold text-center w-100">
             Happy Patient
-            <div v-for="(crumb, index) in breadcrumbs" :key="index" @click.prevent="navigateToBreadcrumb(crumb)" class=" d-flex flex-row align-items-center justify-content-center gap-2">
+            <div v-for="(crumb, index) in breadcrumbs" :key="index" @click.prevent="navigateToBreadcrumb(crumb)" class="d-none d-md-flex flex-row align-items-center justify-content-center gap-2">
               <span class="text-secondary fs-5 fw-light">/</span>
               <a href="#" :class="[isActivePage(crumb.path) ? 'text-primary' : 'text-secondary', 'text-decoration-none fw-medium']" style="font-size: 14px;">
                 {{ `${crumb.name}` }}
               </a>
             </div>
           </h6>
-      </NuxtLink>
+        </NuxtLink>
       </div>
       <div class="col-6 d-flex justify-content-end">
         <div class="d-flex gap-2 align-items-center">

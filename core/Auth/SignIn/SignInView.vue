@@ -1,15 +1,17 @@
 <template>
-  <div class="login-page">
-    <div class="left-side">
-      <div class="title">
-        <h1>Welcome to Zhanuya Med!</h1>
-        <p>We are want to Automize process of giving treatment</p>
-        <img :src="doctor" alt="Doctor" />
+  <div class="d-flex flex-column flex-md-row w-100 vh-100">
+    <div class="d-none d-md-flex bg-primary col-md-5 align-items-end justify-content-center">
+      <div class="title text-center">
+        <h1 class=" text-white mb-3">Welcome to Zhanuya Med!</h1>
+        <p class="text-white mb-4">
+          We want to automate the process of providing treatment.
+        </p>
+        <img :src="doctor" alt="Doctor" class="img-fluid w-50" />
       </div>
     </div>
-    <div class="right-side">
-      <div class="login-block w-50">
-        <h2>Login</h2>
+    <div class="col-12 h-100 col-md-7 d-flex justify-content-center align-items-center p-3">
+      <div class="login-block col-12 col-md-6">
+        <h2 class="text-center mb-4">Login</h2>
         <FormField
           class="w-100"
           :formFields="fields"
@@ -18,25 +20,30 @@
         >
           <template #button>
             <button 
-              :class="['btn btn-primary px-3', load ? 'disabled' : '']">
-              <i v-if="load" class="pi pi-spin pi-spinner" style="font-size: 1rem"></i>
+              :class="['btn btn-sm text btn-primary px-4 py-2 w-100', load ? 'disabled' : '']">
+              <i v-if="load" class="pi pi-spin pi-spinner me-2 text"></i>
               Log in
             </button>
           </template>
           <template #error="{ field }">
-            <label v-if="field.name === 'login' && (!errorEmail && !errorIIN) && validated" class="form-label text-danger">
-                {{ 'Invalid login' }}
+            <label
+              v-if="field.name === 'login' && (!errorEmail && !errorIIN) && validated"
+              class="form-label text text-danger"
+            >
+              {{ 'Invalid login' }}
             </label>
-            <label v-for="message in errorPassword" v-if="field.name === 'password' && errorPassword.length > 0 && validated" class="form-label text-danger">
-                {{ message }}
+            <label
+              v-for="message in errorPassword"
+              v-if="field.name === 'password' && errorPassword.length > 0 && validated"
+              class="form-label text text-danger"
+            >
+              {{ message }}
             </label>
-        </template>
+          </template>
         </FormField>
-        <p>
-          Don't have account?
-          <NuxtLink to="/auth/signup" class="register-link"
-            >Register</NuxtLink
-          >
+        <p class="mt-3 text-center text">
+          Don't have an account? 
+          <NuxtLink to="/auth/signup" class="register-link">Register</NuxtLink>
         </p>
       </div>
     </div>
@@ -73,7 +80,7 @@ const fields: FormFields[] = [
     name: 'login',
     type: 'text',
     required: true,
-    label: { text: 'Login: ' },
+    label: { text: 'Login: ', class: 'text' },
     value: values.value.login,
     placeholder: 'Enter your IIN or Email',
     icon: 'pi pi-user',
@@ -83,7 +90,7 @@ const fields: FormFields[] = [
     name: 'password',
     type: 'password',
     required: true,
-    label: { text: 'Password:' },
+    label: { text: 'Password:', class: 'text' },
     value: values.value.password,
     placeholder: 'Enter password',
     class: 'w-100',
@@ -150,18 +157,9 @@ const onSubmit = async(fieldValues: Record<string, any>) => {
 }
 </script>
 <style scoped>
-.login-page {
-  display: flex;
-  height: 100vh;
-  width: 100%;
-}
 
 .left-side {
   background-color: #0d6efd;
-  width: 40%;
-  display: flex;
-  align-items: end;
-  justify-content: center;
 }
 
 .title {
@@ -179,13 +177,6 @@ const onSubmit = async(fieldValues: Record<string, any>) => {
 
 .title p {
   font-size: 20px;
-}
-
-.right-side {
-  width: 60%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .login-block h2 {
