@@ -15,14 +15,18 @@
         </div>
         <Tabs value="0" class="col-9 card">
             <TabList>
-                <Tab value="0">My Appointments</Tab>
-                <Tab value="1">My Medical Records</Tab>
+                <Tab v-if="me.data.value.role === 'doctor'" value="0">My Schedule</Tab>
+                <Tab value="1">My Appointments</Tab>
+                <Tab value="2">My Medical Records</Tab>
             </TabList>
             <TabPanels>
                 <TabPanel value="0">
-                    <MyProfileView />
+
                 </TabPanel>
                 <TabPanel value="1">
+                    <MyProfileView />
+                </TabPanel>
+                <TabPanel value="2">
                     <MyMedicalRecordsView />
                 </TabPanel>
             </TabPanels>
