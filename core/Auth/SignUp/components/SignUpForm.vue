@@ -7,8 +7,9 @@
     >
         <template #button>
             <div class="w-100 d-flex justify-content-between">
-                <button class="btn btn-primary px-3" @click="formNumber = 1"><i class="bi bi-arrow-left p-2" />Back</button>
-                <button 
+                <button type="button" class="btn btn-primary px-3" @click="formNumber = 1"><i class="bi bi-arrow-left p-2" />Back</button>
+                <button
+                  type="submit" 
                   :class="['btn btn-primary px-3', load ? 'disabled' : '']">
                     <i v-if="load" class="pi pi-spin pi-spinner" style="font-size: 1rem" />
                     Sign Up
