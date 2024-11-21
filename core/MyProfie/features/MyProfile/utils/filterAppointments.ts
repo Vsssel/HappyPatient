@@ -1,16 +1,14 @@
 import type { GetMyAppointmentsResponse } from "../types"
 import { filterBy, appointments } from "../values"
 import { ref } from "vue"
+import { isFuture } from "./isFuture"
 
 export const filterAppointments = (): GetMyAppointmentsResponse | undefined => {
     const filteredAppointments = ref<GetMyAppointmentsResponse>([])
     appointments.value?.forEach(appointment => {
-        const [day, month, year] = appointment.date.split('.').map(Number)
-        const [startHour, startMinute] = appointment.startTime.split(':').map(Number)
-        const isFuture = new Date(year, month-1, day, startHour, startMinute) > new Date()
-        if(Number(filterBy.value) === 0 && isFuture){
+        if(Number(filterBy.value) === 0 && isFuture(appointment)){
             filteredAppointments.value?.push(appointment)
-        }else if(Number(filterBy.value) === 1 && !isFuture){
+        }else if(Number(filterBy.value) === 1 && !isFuture(appointment)){
             filteredAppointments.value?.push(appointment)
         }
     })

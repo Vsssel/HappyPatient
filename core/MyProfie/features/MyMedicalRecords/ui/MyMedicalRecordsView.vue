@@ -17,8 +17,9 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-row justify-content-center gap-1 flex-wrap">
-                <div v-if="!records?.page.length" class="d-flex align-items-center justify-content-center">
+            <div class="d-flex w-100 flex-row justify-content-center gap-1 flex-wrap">
+                <Skeleton v-if="loader" v-for="num in [1, 2, 3, 4, 5, 6]" style="width: 49%; height: 100px;"></Skeleton>
+                <div v-else-if="!records?.page.length" class="d-flex align-items-center justify-content-center">
                     <img src="../../../../../assets/no_data.jpg" class="col-6 col-md-12">
                 </div>
                 <div 
@@ -80,23 +81,30 @@ import RadioButton from 'primevue/radiobutton';
 import { RecordType } from '../types';
 import { capitalizeFirstLetter } from '~/shared/utils';
 import { records } from '../values';
-
+import Skeleton from 'primevue/skeleton'
 import Paginator, { type PageState } from 'primevue/paginator';
 
 const router = useRouter();
 const filterBy = ref<RecordType>(RecordType.TEST);
 const offset = ref<number>(0)
+const loader = ref<boolean>(false)
 
 const addRoute = (record: GetMyMedicalRecordsResponse['page'][0]) => {
      router.push(`myprofile/${record.appointment.id}`);
 };
 
 const fetchRecords = async () => {
-    records.value = (await getMyMedicalRecords({
+    try{
+      loader.value = true
+      records.value = (await getMyMedicalRecords({
         record_type: filterBy.value,
         limit: 6,
         offset: offset.value,
-    })).data;
+      })).data;
+    }
+    finally{
+      loader.value = false
+    }
 };
 
 const updatePage = async (event: PageState) => {
