@@ -23,7 +23,7 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
         }
 
         const response = await axios({
-            url: 'http://localhost:2222/' + endpoint,
+            url: 'http://64.225.71.203:2222/' + endpoint,
             method: options.method || 'GET',
             headers,
             data: options.body,
