@@ -35,13 +35,12 @@
     </Popover>
     <Toast />
 </template>
-
 <script setup lang="ts">
 import { ref, watch, nextTick } from 'vue';
 import { selectedSlot, isVisible, doctor, weekNumber } from '../values'
 import type { FormGroup } from '~/shared/components/form/types'
 import { postAppointment } from '../api'
-import { updateSchedule } from '../functions';
+import { updateSchedule } from '../utils';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import FormField from '~/shared/components/form/FormField.vue'

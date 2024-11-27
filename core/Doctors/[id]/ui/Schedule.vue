@@ -46,12 +46,12 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { WorkingStatus } from '../types';
 import { slotKey, emptySlotKey, weekNumber, schedule, worktime, weekDates, whereNoSlots, slots, isWorkingTime } from '../values';
-import Table from './Table.vue';
+import Table from '~/shared/components/Table/Table.vue';
 import NotAvailableSlot from './NotAvailableSlot.vue';
 import FreeSlot from './FreeSlot.vue';
 import RoundButton from '~/shared/components/button/RoundButton.vue'
 import { MAX_WEEKS_AHEAD } from '~/shared/values'
-import { updateSchedule } from '../functions';
+import { updateSchedule } from '../utils';
 
 const loading = ref(false);
 const now = computed(() => new Date());

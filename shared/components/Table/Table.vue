@@ -1,26 +1,3 @@
-<script setup lang="ts">
-import { SLOTS_PER_HOUR, weekDayTitles } from '~/shared/values';
-import type { HourSlotsIndexRelation, SingleDoctorScheduleResponse } from '../types';
-import { onMounted, ref } from 'vue';
-
-    const { worktime } = defineProps<{
-        week: string[],
-        worktime: SingleDoctorScheduleResponse['worktime']
-    }>();
-    const hoursSlotsRelations = ref<HourSlotsIndexRelation[]>([]);
-
-    onMounted(() => {
-        for (let hour = worktime.startHours; hour < worktime.endHours; hour++) {
-            const currHourSlots: HourSlotsIndexRelation = { hour, slotIndexes: [] };
-            const startIndex = SLOTS_PER_HOUR * (hour -worktime.startHours);
-            for (let slotIndex = 0; slotIndex < SLOTS_PER_HOUR; slotIndex++)
-                currHourSlots.slotIndexes.push(startIndex + slotIndex);
-            hoursSlotsRelations.value.push(currHourSlots)
-        }
-    });
-</script>
-
-
 <template>
     <table>
         <thead>
@@ -53,6 +30,26 @@ import { onMounted, ref } from 'vue';
         </tbody>
     </table>
 </template>
+<script setup lang="ts">
+import { SLOTS_PER_HOUR, weekDayTitles } from '~/shared/values';
+import { onMounted, ref } from 'vue';
+
+const { worktime } = defineProps<{
+    week: string[],
+    worktime: any
+}>();
+const hoursSlotsRelations = ref<any>([]);
+
+onMounted(() => {
+    for (let hour = worktime.startHours; hour < worktime.endHours; hour++) {
+        const currHourSlots: any = { hour, slotIndexes: [] };
+        const startIndex = SLOTS_PER_HOUR * (hour -worktime.startHours);
+        for (let slotIndex = 0; slotIndex < SLOTS_PER_HOUR; slotIndex++)
+            currHourSlots.slotIndexes.push(startIndex + slotIndex);
+        hoursSlotsRelations.value.push(currHourSlots)
+    }
+});
+</script>
 <style scoped>
 table {
     position: relative;

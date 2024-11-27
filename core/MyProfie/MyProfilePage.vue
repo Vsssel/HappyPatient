@@ -4,24 +4,24 @@
             <div class="card p-3 d-flex justify-content-center align-items-center gap-2">
                 <DefaultAvatar width="100" height="100" font-size="50"/>
                 <h6>{{ me.data.value?.name }} {{ me.data.value?.surname }}</h6>
-                <span class="text-secondary" style="font-size: 14px;">{{ me.data.value?.email }}</span>
-                <span class="text-secondary" style="font-size: 14px;">{{ me.data.value?.iin }}</span>
-                <span class="text-secondary" style="font-size: 14px;">
+                <span class="text-secondary text">{{ me.data.value?.email }}</span>
+                <span class="text-secondary text">{{ me.data.value?.iin }}</span>
+                <span class="text-secondary text">
                     <i class="bi bi-cake2"></i>
                     {{ me.data.value?.birthDate }}
                 </span>
                 <span @click="logOut" class="btn btn-sm btn-log-out mt-3 w-100 text-center rounded">Log out<i class="pi pi-sign-out ms-2" /></span>
             </div>
         </div>
-        <Tabs :value="me.data.value.role === 'doctor' ? '0' : '1'" class="col-12 col-md-9 card">
+        <Tabs :value="me.data.value?.role === UserRoles.Doctor ? '0' : '1'" class="col-12 col-md-9 card">
             <TabList>
-                <Tab v-if="me.data.value.role === 'doctor'" value="0">My Schedule</Tab>
+                <Tab value="0">My Schedule</Tab>
                 <Tab value="1">My Appointments</Tab>
                 <Tab value="2">My Medical Records</Tab>
             </TabList>
             <TabPanels class="h-100">
                 <TabPanel value="0" class="h-100">
-
+                    <MySchedule></MySchedule>
                 </TabPanel>
                 <TabPanel value="1" class="h-100">
                     <MyProfileView />
@@ -44,6 +44,8 @@ import MyMedicalRecordsView from './features/MyMedicalRecords/ui/MyMedicalRecord
 import me from '~/shared/stores/User'
 import DefaultAvatar from '~/shared/components/header/DefaultAvatar.vue'
 import { useRouter } from 'vue-router'
+import MySchedule from './features/MySchedule/ui/MySchedule.vue'
+import { UserRoles } from '~/shared/enum'
 
 const router = useRouter()
 

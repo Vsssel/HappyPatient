@@ -80,7 +80,6 @@ import RadioButton from 'primevue/radiobutton';
 import { RecordType } from '../types';
 import { capitalizeFirstLetter } from '~/shared/utils';
 import { records } from '../values';
-
 import Paginator, { type PageState } from 'primevue/paginator';
 
 const router = useRouter();

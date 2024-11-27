@@ -64,20 +64,18 @@ import type { GetMyAppointmentsResponse } from '../types'
 import { ref } from 'vue'
 import { filterAppointments } from '../utils/filterAppointments'
 import RadioButton from 'primevue/radiobutton'
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
 import { formatAppointmentInfoTable } from '../utils/formatAppointmentInfoTable'
 
 const router = useRouter()
 const filteredAppointments = ref<GetMyAppointmentsResponse>()
 
 const addRoute = (appointment: GetMyAppointmentsResponse[0]) => {
-    router.push(`myprofile/${appointment.id}`)
+  router.push(`myprofile/${appointment.id}`)
 }
 
 onMounted(async() => {
-    appointments.value = (await getMyAppointments()).data
-    filteredAppointments.value = filterAppointments()
+  appointments.value = (await getMyAppointments()).data
+  filteredAppointments.value = filterAppointments()
 })
 
 watch(filterBy , ()=> {
