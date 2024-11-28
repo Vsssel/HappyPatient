@@ -2,7 +2,7 @@
     <div class="content-container m-2 gap-2 p-2 d-flex flex-column flex-md-row align-self-center">
         <div class="gap-1 col-12 col-md-3 flex-row">
             <div class="card p-3 d-flex justify-content-center align-items-center gap-2">
-                <DefaultAvatar width="100" height="100" font-size="50"/>
+                <DefaultAvatar width="100" height="100" font-size="50" :name="me.data.value?.name" :surname="me.data.value?.surname"/>
                 <h6>{{ me.data.value?.name }} {{ me.data.value?.surname }}</h6>
                 <span class="text-secondary text">{{ me.data.value?.email }}</span>
                 <span class="text-secondary text">{{ me.data.value?.iin }}</span>

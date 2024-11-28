@@ -1,0 +1,5 @@
+export * from './getPatientInfo'
+export * from './getPatientRecords'
+export * from './postPatientRecord'
+export * from './putPatientRecord'
+export * from './deletePatientRecord'

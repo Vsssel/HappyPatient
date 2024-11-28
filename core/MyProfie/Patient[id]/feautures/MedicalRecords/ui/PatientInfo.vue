@@ -15,11 +15,27 @@
         {{ patient?.birth_date }}
       </span>
     </div>
+    <div class="w-100">
+      <button class="w-100 btn btn-sm btn-add-record" @click="openAddRecordModal">Add Record</button>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
-import { defineProps } from 'vue'
-import type { GetPatientInfoResponse } from '../types'
 import { patient } from '../values'
+import { addRecord } from '../values'
 
+const openAddRecordModal = () => {
+  addRecord.value = true
+}
 </script>
+<style scoped>
+.btn-add-record{
+  background-color: rgb(13 110 253 / 10%) !important;
+  color: rgb(13 110 253  / 80%) !important;
+}
+
+.btn-add-record:hover{
+  background-color: rgb(13 110 253) !important;
+  color: white !important;
+}
+</style>

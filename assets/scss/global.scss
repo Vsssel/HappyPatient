@@ -5,10 +5,10 @@ body {
     color: var(--primary-color);
 }
 
-.p-inputtext, .p-multiselect, .p-radiobutton-box, .p-checkbox-box, .p-multiselect-overlay, .p-autocomplete-overlay, .p-select, .p-select-overlay, .p-popover, .p-popover-flipped, .p-paginator {
-    background: var(--inputtext-background) !important;
-    color: var(--inputtext-color) !important;
-    border: 1px solid var(--input-border-color) !important;
+.p-inputtext, .p-multiselect, .p-radiobutton-box, .p-checkbox-box, .p-multiselect-overlay, .p-autocomplete-overlay, .p-select, .p-select-overlay, .p-popover, .p-popover-flipped, .p-paginator, .p-textarea.p-variant-filled, .p-textarea {
+  background: var(--inputtext-background) !important;
+  color: var(--inputtext-color) !important;
+  border: 1px solid var(--input-border-color) !important;
 }
 
 .p-togglebutton{

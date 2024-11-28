@@ -1,5 +1,5 @@
 <template>
-  <div class="card h-100 w-100 p-2 d-flex flex-column justify-content-between">
+  <div class="h-100 w-100 p-2 d-flex flex-column justify-content-between">
     <div class="w-100 d-flex flex-row gap-2 flex-wrap justify-content-center">
       <div class="d-flex flex-row gap-3 w-100 justify-content-center p-3">
         <div class="d-flex flex-row gap-2">
@@ -32,16 +32,14 @@
 </template>
 <script setup lang="ts">
 import PatientSingleRecord from './PatientSingleRecord.vue'
-import { records } from '../values'
+import { records, offset, recordType } from '../values'
 import { getPatientRecords } from '../api'
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import Paginator, { type PageState } from 'primevue/paginator'
 import { useRoute } from 'vue-router'
 import RadioButton from 'primevue/radiobutton'
 
-const offset = ref<number>(0)
 const route = useRoute()
-const recordType = ref<string>('test')
 
 const id = +route.params.id
 

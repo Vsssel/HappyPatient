@@ -22,6 +22,7 @@ export type GetPatientRecordsResponse = {
   end: number,
   total: number,
   page: {
+    id: number,
     type: string,
     title: string,
     content: string,
@@ -47,4 +48,33 @@ export type GetPatientRecordsResponse = {
       }
     }
   }[]
+}
+
+export type PostPatientRecordsRequest = {
+  appointment_id: number,
+  type: string,
+  title: string,
+  content: string
+}
+
+export type PostPatientRecordsResponse = {
+  detail: string
+}
+
+export type PutPatientRecordsRequest = {
+  type: string,
+  title: string,
+  content: string
+}
+
+export type PutPatientRecordsResponse = {
+  detail: string
+}
+
+export type DeletePatientRecordsRequest = {
+  id: number
+}
+
+export type DeletePatientRecordsResponse = {
+  detail: string
 }

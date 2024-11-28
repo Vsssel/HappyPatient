@@ -39,7 +39,7 @@
               :class="[isActivePage('/services') ? 'text-primary' : 'text-secondary' ,'text-decoration-none rounded p-1']"
               >
               <div class="d-flex flex-row gap-2 align-items-center">
-                <DefaultAvatar />
+                <DefaultAvatar v-if="me.data.value?.name" :name="me.data.value.name" :surname="me.data.value?.surname"/>
               </div>
             </NuxtLink>
             <ThemeComponent class="me-2"/>
