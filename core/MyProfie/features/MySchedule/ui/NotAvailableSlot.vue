@@ -23,12 +23,14 @@ import { computed } from 'vue'
 import { SlotStatus, type SlotInfo } from '../types'
 import { slotHeight } from '../values'
 import { useRouter } from 'vue-router'
+import { addBreadcrumb } from '~/shared/stores';
 
 const { slot } = defineProps<{ slot: SlotInfo }>()
 const router = useRouter()
 const margin = 1
 
 const openAppointment = () => {
+  addBreadcrumb({name: `Appointment ${slot.id}`, path: `/myprofile/patient${slot.id}`})
   slot.status === SlotStatus.SOME_APPOINTMENT && router.push(`/myprofile/patient${slot.id}`)
 }
 

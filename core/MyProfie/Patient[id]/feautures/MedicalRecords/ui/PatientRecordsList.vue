@@ -1,5 +1,5 @@
 <template>
-  <div class="h-100 w-100 p-2 d-flex flex-column justify-content-between">
+  <div class="h-100 w-100 d-flex flex-column justify-content-between">
     <div class="w-100 d-flex flex-row gap-2 flex-wrap justify-content-center">
       <div class="d-flex flex-row gap-3 w-100 justify-content-center p-3">
         <div class="d-flex flex-row gap-2">

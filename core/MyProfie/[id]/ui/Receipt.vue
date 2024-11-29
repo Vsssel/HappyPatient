@@ -34,7 +34,6 @@
 import { paymentInfo2, paymentInfo } from '../values'
 import { onMounted } from 'vue'
 import { setPaymentInfo } from '../utils';
-import Record from './Record.vue';
 
 onMounted(() => {
     paymentInfo.value = []

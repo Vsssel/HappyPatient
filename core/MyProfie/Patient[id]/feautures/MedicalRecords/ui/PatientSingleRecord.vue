@@ -1,5 +1,5 @@
 <template>
-  <div class="card appointment-card  p-2 ps-3 border-2 gap-3 d-flex">
+  <div class="card appointment-card p-2 ps-3 border-2 gap-3 d-flex">
     <div class="d-flex flex-row align-items-center justify-content-between">
       <div class="d-flex gap-1 flex-column">
         <span class="text">

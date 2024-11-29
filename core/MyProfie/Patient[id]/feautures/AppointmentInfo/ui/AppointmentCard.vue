@@ -16,6 +16,13 @@
     <FormField :form-group="form">
       <template #button></template>
     </FormField>
+    <span>
+      <i 
+        class="bi bi-coin fs-5" 
+        style="color: #FFD700;"
+      />
+        {{ appointment?.price }}
+    </span>
   </div>
 </template> 
 <script lang="ts" setup>

@@ -6,10 +6,16 @@
       <div class="card p-3 w-100 d-flex flex-column gap-3 justify-content-center">
         <h5 class="text-center">Appointment Information</h5>
         <AppointmentCard 
-            :name="appointment?.doctor.name" 
-            :surname="appointment?.doctor.surname" 
-            :avatar-u-r-l="appointment?.doctor.avatarUrl" 
-            :category="appointment?.category.title" 
+            :doctor="{
+              name: appointment.doctor.name,
+              surname: appointment.doctor.surname,
+              avatarURL: appointment.doctor.avatarUrl,
+              category: appointment.category.title
+            }"
+            :patient="{
+              name: appointment.patient.name,
+              surname: appointment.patient.surname
+            }"
         />
         <FormView 
             :delete-appointment="deleteAppointment" 
