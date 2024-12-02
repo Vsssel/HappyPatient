@@ -1,151 +1,169 @@
 @import './variables';
 
 body {
-    background-color: var(--primary-bg);
-    color: var(--primary-color);
+  background-color: var(--primary-bg);
+  color: var(--primary-color);
 }
 
-.p-inputtext, .p-multiselect, .p-radiobutton-box, .p-checkbox-box, .p-multiselect-overlay, .p-autocomplete-overlay, .p-select, .p-select-overlay, .p-popover, .p-popover-flipped, .p-paginator, .p-textarea.p-variant-filled, .p-textarea {
+.p-inputtext, .p-multiselect, .p-radiobutton-box, .p-checkbox-box, .p-multiselect-overlay, .p-autocomplete-overlay, .p-select, .p-select-overlay, .p-popover, .p-popover-flipped, .p-textarea.p-variant-filled, .p-textarea, table {
   background: var(--inputtext-background) !important;
   color: var(--inputtext-color) !important;
   border: 1px solid var(--input-border-color) !important;
 }
 
-.p-togglebutton{
-    background: var(--toggle-button-bg) !important;
+.p-togglebutton {
+  background: var(--toggle-button-bg) !important;
 }
 
 .p-togglebutton.p-togglebutton-checked::before {
-    background-color: var(--inputtext-background) !important;
-    box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.02), 0px 1px 2px 0px rgba(0, 0, 0, 0.04) !important;
+  background-color: var(--inputtext-background) !important;
+  box-shadow:  0px 1px 2px 0px rgba(0, 0, 0, 0.02), 0px 1px 2px 0px rgba(0, 0, 0, 0.04) !important;
 }
 
-.p-datepicker-dropdown{
-    border: 1px solid var(--input-border-color) !important; 
+.free-slot {
+  background: var(--free-slot-bg) !important;
+}
+
+.p-datepicker-dropdown {
+  border: 1px solid var(--input-border-color) !important; 
 }
 
 .p-paginator-page.p-paginator-page-selected, .p-paginator-next:not(.p-disabled):hover, .p-paginator-prev:not(.p-disabled):hover {
-    background: #0D6EFD !important;
+  background: #0D6EFD !important;
 }
 
-.p-autocomplete-option{
-    background: var(--inputtext-background) !important;
-    color: var(--inputtext-color) !important;
+.p-autocomplete-option {
+  background: var(--inputtext-background) !important;
+  color: var(--inputtext-color) !important;
 }
 
 .p-checkbox-checked .p-checkbox-box, .p-radiobutton-checked .p-radiobutton-box .p-radiobutton-icon, .p-select-option.p-select-option-selected   {
-    background: rgb(13, 110, 253, 0.5) !important;
+  background: rgb(13, 110, 253, 0.5) !important;
 }
 
 .p-multiselect-option:not(.p-multiselect-option-selected):not(.p-disabled).p-focus, .p-autocomplete-option:not(.p-autocomplete-option-selected):not(.p-disabled).p-focus, .p-select-option:not(.p-select-option-selected):not(.p-disabled).p-focus{
-    background-color: var(--option-focus-background) !important;
+  background-color: var(--option-focus-background) !important;
 }
 
 .p-togglebutton.p-togglebutton-checked::before{
-    background-color: var(--toggle-button-checked-background);
-    box-shadow: 0px 1px 2px 0px var(--shadow-border);
+  background-color: var(--toggle-button-checked-background);
+  box-shadow: 0px 1px 2px 0px var(--shadow-border);
 }
 
 .p-skeleton {
-    background: var(--skeleton-background) !important;
+  background: var(--skeleton-background) !important;
 }
 
 .p-popover.p-popover-flipped:after, .p-popover.p-popover-flipped:before {
-    border-top-color: var(--background-white) !important;
+  border-top-color: var(--background-white) !important;
 }
 
 .p-dialog, .p-datepicker-panel, .p-datepicker-header, .p-datepicker-select-month, .p-datepicker-select-year, .p-datepicker-dropdown {
-    background: var(--card-background) !important;
-    color: var(--text-color) !important;
+  background: var(--card-background) !important;
+  color: var(--text-color) !important;
 }
 
 .p-tabpanels, .p-tablist-tab-list  {
-    background: transparent !important;
-    color: var(--text-color) !important;
-    border-color: #a1a1aa !important;
+  background: transparent !important;
+  color: var(--text-color) !important;
+  border-color: #a1a1aa !important;
 }
 .p-tab{
-    font-size: 14px;
-    border-color: #a1a1aa !important;
+  font-size: 14px;
+  border-color: #a1a1aa !important;
 }
 
-.p-tab:not(.p-tab-active):not(.p-disabled):hover, .p-tab-active{
-    color: var(--primary-color) !important;
-    border-color: var(--primary-color) !important;
+.p-tab:not(.p-tab-active):not(.p-disabled):hover, .p-tab-active {
+  color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
 }
 
 .p-tablist-active-bar{
-    background: var(--primary-color) !important;
+  background: var(--primary-color) !important;
 }
 
 .p-tab:not(.p-disabled):focus-visible {
-    outline: 0px none var(--primary-color) !important;
+  outline: 0px none var(--primary-color) !important;
 }
 
 .p-button-text.p-button-secondary{
-    background: transparent;
-    border: transparent;
+  background: transparent;
+  border: transparent;
 }
 
 .p-button-text.p-button-secondary:not(:disabled):active, .p-button-text.p-button-secondary:not(:disabled):hover {
-    background: var(--card-background) !important;
-    border: var(--card-background) !important;
-    color: var(--text-color) !important;
+  background: var(--card-background) !important;
+  border: var(--card-background) !important;
+  color: var(--text-color) !important;
 }
 
-.card{
-    background-color: var(--card-background);
+.card , #schedule-container, .p-paginator {
+  background-color: var(--card-background) !important;
 }
 
 .login-block{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 1.5rem;
-    border-radius: 8px;
-    background-color: var(--card-background);
-    box-shadow: 0 4px 8px var(--shadow-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: var(--card-background);
+  box-shadow: 0 4px 8px var(--shadow-border);
 }
 
 label, span, .p-select-label {
-    color: var(--text-color) !important;
+  color: var(--text-color) !important;
 }
 
 .p-datatable-header-cell, .p-datatable-tbody > tr, .p-datatable-tbody > tr > td {
-    background: transparent !important;
-    border-color: transparent !important;
-    color: var(--inputtext-color);
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--inputtext-color);
 }
 
 .p-datatable-tbody > tr > td {
-    padding: 0.5rem;
+  padding: 0.5rem;
 }
 
-.doctor-card{
-    box-shadow: 0px 0px 3px var(--shadow-border);
+.doctor-card {
+  box-shadow: 0px 0px 3px var(--shadow-border);
 }
 
 .p-select.p-disabled, .p-inputtext:disabled, .p-datepicker-dropdown:disabled{
-    background: var(--disabled-background) !important;
+  background: var(--disabled-background) !important;
 }
 
 .doctor-card:hover {
-    background-color: var(--card-hover-background);
+  background-color: var(--card-hover-background);
 }
 
 .bg-white{
-    background: var(--background-white) !important;
+  background: var(--background-white) !important;
 }
 
 .border-white {
-    border-color: var(--background-white) !important;
+  border-color: var(--background-white) !important;
 }
 
-.text-dark{
-    color: var(--text-color) !important;
+.text-dark, h1, h2, h3, h4, h5, h6{
+  color: var(--text-color) !important;
 }
   
 th {
-    font-weight: normal;
+  font-weight: normal;
+}
+
+.appointment-table tbody tr th, .appointment-table{
+  border: none !important;
+  background-color: var(--card-background) !important;
+}
+
+.appointment-card, #schedule-container, .p-paginator {
+  border: 1px solid var(--card-border) !important;
+}
+
+#schedule-container td , #schedule-container th{
+  background: var(--slot-bg) !important;
+  border: 1px solid #c6c6c6 !important;
 }

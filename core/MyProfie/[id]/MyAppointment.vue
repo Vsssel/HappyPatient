@@ -18,9 +18,9 @@
             }"
         />
         <FormView 
-            :delete-appointment="deleteAppointment" 
-            :onSubmit="onSubmit" 
-            :onHandleChange="onHandleChange"
+          :delete-appointment="deleteAppointment" 
+          :onSubmit="onSubmit" 
+          :onHandleChange="onHandleChange"
         />
         <div v-if="appointment.medicalRecords" class="w-10 p-2 border-top" />
         <Record v-if="appointment.medicalRecords" />
@@ -36,13 +36,11 @@
       </button>
     </div> 
     <iframe v-if="!appointment.receipt && disabled" src="https://storage.googleapis.com/maps-solutions-t3g4duark7/locator-plus/kaht/locator-plus.html"
-        width="180%"
-        style="border:0;"
+      width="180%"
+      style="border:0;"
     >
     </iframe>
   </div>
-  <ConfirmDialog />
-  <Toast />
 </template>
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
@@ -50,9 +48,7 @@ import { AppointmentCard } from '~/shared/components'
 import { useRoute, useRouter } from 'vue-router'
 import { getMySingleAppointment, deleteMySingleAppointmentResponse, putMySingleAppointment, getMyAppointmentResources } from './api'
 import { addBreadcrumb } from '~/shared/stores'
-import ConfirmDialog from 'primevue/confirmdialog'
 import { useConfirm } from 'primevue/useconfirm'
-import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 import { values, disabled, formGroup, resource,  appointment, totalPrice, element } from './values'
 import { updateValues, onHandleChange, downloadPDF } from './utils'
@@ -61,8 +57,6 @@ import FormView from './ui/FormView.vue'
 import Skeleton from 'primevue/skeleton'
 import Receipt from './ui/Receipt.vue'
 import Record from './ui/Record.vue'
-import { UserRoles } from '~/shared/enum'
-import me from '~/shared/stores/User'
 
 const route = useRoute()
 const router = useRouter()
@@ -70,7 +64,6 @@ const appointmentId = Number(route.params.id)
 const confirm = useConfirm()
 const toast = useToast()
 const loading = ref<boolean>(false)
-
 
 const onSubmit = async(fieldValues: Record<string, any>) => {
   const date = fieldValues.date.toLocaleDateString("en-GB").replace(/\//g, ".")
@@ -81,13 +74,13 @@ const onSubmit = async(fieldValues: Record<string, any>) => {
     header: 'Confirmation',
     icon: 'pi pi-exclamation-triangle',
     rejectProps: {
-        label: 'No',
-        severity: 'secondary',
-        outlined: true
+      label: 'No',
+      severity: 'secondary',
+      outlined: true
     },
     acceptProps: {
-        label: 'Yes',
-        severity: 'info'
+      label: 'Yes',
+      severity: 'info'
     },
     accept: async() => {
       const response = appointment.value && await putMySingleAppointment(appointment.value?.id, {
@@ -98,11 +91,10 @@ const onSubmit = async(fieldValues: Record<string, any>) => {
         endsAt: endsAt
       })
       if(response && response.status < 400){
-        toast.add({severity: 'success', summary: "Success", detail: response.message, life: 4000})
         appointment.value = response.data
         disabled.value = true
         updateValues()
-
+        toast.add({severity: 'success', summary: "Success", detail: response.message, life: 4000})
       }else{
         toast.add({severity: 'error', summary: "Error", detail: response?.message, life: 4000})
       }
@@ -116,18 +108,18 @@ const deleteAppointment = async() => {
     header: 'Confirmation',
     icon: 'pi pi-exclamation-triangle',
     rejectProps: {
-        label: 'No',
-        severity: 'secondary',
-        outlined: true
+      label: 'No',
+      severity: 'secondary',
+      outlined: true
     },
     acceptProps: {
-        label: 'Yes',
-        severity: 'info'
+      label: 'Yes',
+      severity: 'info'
     },
     accept: async() => {
-        const response = appointment.value && await deleteMySingleAppointmentResponse(appointment.value.id)
-        toast.add({ severity: 'success', summary: 'Success', detail: response?.data.detail, life: 4000 })
-        router.back()
+      const response = appointment.value && await deleteMySingleAppointmentResponse(appointment.value.id)
+      router.back()
+      toast.add({ severity: 'success', summary: 'Success', detail: response?.data.detail, life: 4000 })
     }
   });
 }
@@ -153,23 +145,23 @@ onMounted(async () => {
 watch(disabled, (newDisabled) => {
   formGroup.value.forEach(group => {
     group.fields.forEach(field => {
-        field.disabled = newDisabled;
+      field.disabled = newDisabled;
     });
   });
 })
 
 watch(appointment,() => {
-    updateValues()
+  updateValues()
 })
 </script>
 <style scoped>
 .btn-print{
-    background-color: rgb(255 255 255 / 30%);
-    color: rgb(61 61 61 / 50%);
+  background-color: rgb(255 255 255 / 30%);
+  color: rgb(61 61 61 / 50%);
 }
 
 .btn-print:hover{
-    background-color: rgb(255 255 255 / 100%);
-    color: rgb(61 61 61 / 100%);
+  background-color: rgb(255 255 255 / 100%);
+  color: rgb(61 61 61 / 100%);
 }
 </style>

@@ -1,36 +1,44 @@
 :root {
-    --primary-bg: #F2F2F2;
-    --primary-color: #333333;
-    --card-background: #fff;
-    --inputtext-background: #ffffff;
-    --inputtext-color: #000;
-    --text-color: #0f172a;
-    --shadow-border: rgb(0 0 0 / 0.30);
-    --toggle-button-checked-background: #fff;
-    --input-border-color: #cbd5e1;
-    --skeleton-background: #e2e8f0;
-    --card-hover-background: #f1f5f9;
-    --option-focus-background: #f1f5f9;
-    --background-white: #fff;
-    --disabled-background: #e2e8f0;
-    --toggle-button-bg: #f1f5f9;
+  --primary-bg: #F2F2F2;
+  --primary-color: #333333;
+  --card-background: #fff;
+  --inputtext-background: #ffffff;
+  --inputtext-color: #000;
+  --text-color: #0f172a;
+  --shadow-border: rgb(0 0 0 / 0.30);
+  --toggle-button-checked-background: #fff;
+  --input-border-color: #cbd5e1;
+  --skeleton-background: #e2e8f0;
+  --card-hover-background: #f1f5f9;
+  --option-focus-background: #f1f5f9;
+  --background-white: #fff;
+  --disabled-background: #e2e8f0;
+  --toggle-button-bg: #f1f5f9;
+  --bg-white: #fff;
+  --card-border: #e8e8e8;
+  --slot-bg: #eeeeee;
+  --free-slot-bg: #ffffff;
 }
   
 [data-theme='dark'] {
-    --primary-bg: #0c0c0c;
-    --primary-color: #eeeeee;
-    --card-background: #18181b;
-    --inputtext-background: #100c0c;
-    --inputtext-color: #fff;
-    --text-color: #ffffff;
-    --shadow-border: rgba(255 255 255 / 0.30);
-    --toggle-button-checked-background: #27272a;
-    --input-border-color: #3f3f46;
-    --skeleton-background: rgba(255 255 255 / 0.20);
-    --card-hover-background: rgba(0 0 0 / 0.60);
-    --option-focus-background: #27272a;
-    --background-white: #18181b;
-    --disabled-background: #3f3f46;
-    --toggle-button-bg: #09090b;
+  --primary-bg: #0c0c0c;
+  --primary-color: #eeeeee;
+  --card-background: #242427;
+  --inputtext-background: #100c0c;
+  --inputtext-color: #fff;
+  --text-color: #ffffff;
+  --shadow-border: rgba(255 255 255 / 0.30);
+  --toggle-button-checked-background: #27272a;
+  --input-border-color: #3f3f46;
+  --skeleton-background: rgba(255 255 255 / 0.20);
+  --card-hover-background: rgba(0 0 0 / 0.60);
+  --option-focus-background: #27272a;
+  --background-white: #18181b;
+  --disabled-background: #3f3f46;
+  --toggle-button-bg: #09090b;
+  --bg-white: #2e2e32;
+  --card-border: #423e3e;
+  --slot-bg: #1e1e1e;
+  --free-slot-bg: #434343;
 }
   

@@ -36,17 +36,19 @@
     <Toast />
 </template>
 <script setup lang="ts">
-import { ref, watch, nextTick } from 'vue';
+import { ref, watch, nextTick } from 'vue'
 import { selectedSlot, isVisible, doctor, weekNumber } from '../values'
 import type { FormGroup } from '~/shared/components/form/types'
 import { postAppointment } from '../api'
-import { updateSchedule } from '../utils';
-import Toast from 'primevue/toast';
-import { useToast } from 'primevue/usetoast';
+import { updateSchedule } from '../utils'
+import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast'
 import FormField from '~/shared/components/form/FormField.vue'
-import Popover from 'primevue/popover';
+import Popover from 'primevue/popover'
+import { useRouter } from 'vue-router'
 
 const toast = useToast()
+const router = useRouter()
 const values = ref({
     typeId: 1,
     date: new Date(selectedSlot.value),
@@ -144,7 +146,11 @@ const onSubmit = async(fieldValues: Record<string, any>) => {
     if(response && response.status < 400){
         toast.add({severity: 'success', summary: "Success", detail: response.data.detail, life: 4000})
         isVisible.value.toggle()
-    }else {
+    }else if (response?.status === 401 || response?.status === 422) {
+        router.push('/auth/signin')
+        console.log('router push')
+    }
+    else {
         toast.add({severity: 'error', summary: "Error", detail: response?.message, life: 4000})
     }
     await updateSchedule()

@@ -20,10 +20,10 @@
             <div class="d-flex w-100 flex-row justify-content-center gap-1 flex-wrap">
                 <Skeleton v-if="loader" v-for="num in [1, 2, 3, 4, 5, 6]" style="width: 49%; height: 100px;"></Skeleton>
                 <div v-else-if="!filteredAppointments?.length" class="d-flex align-items-center justify-content-center">
-                    <img src="../../../../../assets/no_data.jpg" class="col-6 col-md-12">
+                    <img src="../../../../../assets/no-data.png" class="col-3 col-md-9">
                 </div>
                 <div v-else v-for="appointment in filteredAppointments" class="card appointment-card border-2 d-flex">
-                    <table>
+                    <table class="appointment-table">
                         <tbody class="d-flex flex-column gap-2 p-2">
                             <tr v-for="data in formatAppointmentInfoTable(appointment)" class="d-flex flex-row justify-content-between">
                                 <th class="col-5">

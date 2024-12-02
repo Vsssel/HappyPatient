@@ -45,11 +45,6 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
 
         return { status: response.status, message: response.statusText, data: data }
     } catch (error: any) {
-
-        if(error.response.status === 401){
-            me.signOut()
-            router.push('/auth/signin')
-        }
         return { status: error.response.status, message: error.response.data.detail, data: error.response.detail }
     }
 }

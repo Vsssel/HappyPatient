@@ -77,12 +77,12 @@ watch(weekNumber, async () => {
 </script>
 
 <style scoped>
-    #schedule-container {
-        padding: 10px;
-        padding-top: 7.5px;
-        gap: 5px;
-        border: 1px solid #ddd;
-        border-radius: 20px;
-        background-color: white;
-    }
+#schedule-container {
+  padding: 10px;
+  padding-top: 7.5px;
+  gap: 5px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background-color: white;
+}
 </style>

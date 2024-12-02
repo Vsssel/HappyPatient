@@ -15,7 +15,7 @@
       </div>
     </div>
     <div v-else class="w-100 h-100 d-flex flex-column align-items-center justify-content-center p-5">
-      <img src="../../../assets/no_data.jpg" alt="No data available">
+      <img src="../../../assets/no-data.png" class="col-9" alt="No data available">
     </div>
   </div>
 </template>

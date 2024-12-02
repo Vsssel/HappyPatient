@@ -13,9 +13,9 @@
                 <span @click="logOut" class="btn btn-sm btn-log-out mt-3 w-100 text-center rounded">Log out<i class="pi pi-sign-out ms-2" /></span>
             </div>
         </div>
-        <Tabs :value="me.data.value?.role === UserRoles.Doctor ? '0' : '1'" class="col-12 col-md-9 card">
-            <TabList>
-                <Tab value="0">My Schedule</Tab>
+        <Tabs :value="me.data.value?.role === UserRoles.Doctor ? '0' : '1'" class="col-12 ps-2 pe-2 col-md-9 card">
+            <TabList class="w-100 overflow-auto overflow-y-hidden">
+                <Tab v-if="me.data.value?.role === UserRoles.Doctor" value="0">My Schedule</Tab>
                 <Tab value="1">My Appointments</Tab>
                 <Tab value="2">My Medical Records</Tab>
             </TabList>

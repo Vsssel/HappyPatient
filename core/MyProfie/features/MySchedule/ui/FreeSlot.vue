@@ -1,5 +1,5 @@
 <template>
-    <div class="btn-container position-absolute w-100 h-100 bg-white" />
+    <div class="btn-container position-absolute w-100 h-100 free-slot" />
 </template>
 <script setup lang="ts">
 import { SLOTS_PER_HOUR } from '~/shared/values'
