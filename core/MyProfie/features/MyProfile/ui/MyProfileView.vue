@@ -71,6 +71,7 @@ import { ref } from 'vue'
 import { filterAppointments, formatAppointmentInfoTable, isFuture } from '../utils'
 import RadioButton from 'primevue/radiobutton'
 import Skeleton from 'primevue/skeleton'
+import me from '~/shared/stores/User'
 
 const router = useRouter()
 const filteredAppointments = ref<GetMyAppointmentsResponse>()
@@ -83,7 +84,15 @@ const addRoute = (appointment: GetMyAppointmentsResponse[0]) => {
 onMounted(async() => {
     try{
       loader.value = true
-      appointments.value = (await getMyAppointments()).data
+      const response = (await getMyAppointments())
+      console.log(response.status)
+      if (response.status === 401) {
+        console.log(response.status)
+        me.signOut()
+        router.push('/auth/signin')
+        return
+      } 
+      appointments.value = response.data
       filteredAppointments.value = filterAppointments()
     }
     finally{

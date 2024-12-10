@@ -12,7 +12,7 @@
                   v-else 
                   v-for="freeSlot in freeSlots"
                   :key="freeSlot.startTime"
-                  :class="['col-10 text-center card border-0 p-1', formattedDate(freeSlot) === formattedDate({ startTime: timeToString(values.startsAt), endTime: timeToString(values.endsAt) }) ? 'bg-primary text-white' : 'secondary-bg secondary-text']" style="cursor: pointer;" @click="setTime(freeSlot)"
+                  :class="['col-10 text-center rounded border-0 p-1', formattedDate(freeSlot) === formattedDate({ startTime: timeToString(values.startsAt), endTime: timeToString(values.endsAt) }) ? 'bg-primary text-white' : 'secondary-bg secondary-text']" style="cursor: pointer;" @click="setTime(freeSlot)"
                 >
                    {{ formattedDate(freeSlot) }}
                 </div>

@@ -1,11 +1,12 @@
-import type { SlotStatus, WorkingStatus } from './enums';
-
+import type { ManagerSlotStatus, SlotStatus, WorkingStatus } from './enums'
+import type { GetDoctorScheduleForManagerResponse } from './api'
 
 export type SlotInfo = {
     id?: number
-    status: SlotStatus,
+    status: SlotStatus | ManagerSlotStatus,
     dayAtWeek: number,
-    indexes: Indexes
+    indexes: Indexes,
+    patient?: GetDoctorScheduleForManagerResponse['schedule'][0]['slots'][0]['patient']
 };
 
 export type EmptySlot = {

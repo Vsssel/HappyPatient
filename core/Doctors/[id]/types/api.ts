@@ -43,26 +43,26 @@ export type SingleDoctorProfileRequest = {
 }
 
 export type SingleDoctorScheduleResponse = {
-    worktime: {
-        startHours: number,
-        endHours: number
-    },
-    schedule: {
-        date: string,
-        dayAtWeek: number,
-        startTime: string,
-        endTime: string,
-        lunch?: {
-            startTime: string,
-            endTime: string
-        },
-        slots: {
-            id: number,
-            startTime: string,
-            endTime: string,
-            mine: boolean
-        }[]
-    }[]
+  worktime: {
+      startHours: number,
+      endHours: number
+  },
+  schedule: {
+      date: string,
+      dayAtWeek: number,
+      startTime: string,
+      endTime: string,
+      lunch?: {
+          startTime: string,
+          endTime: string
+      },
+      slots: {
+          id: number,
+          startTime: string,
+          endTime: string,
+          mine: boolean
+      }[]
+  }[]
 }
 
 export type SingleDoctorScheduleRequest = {
@@ -80,4 +80,76 @@ export type PostAppointmentRequest = {
 
 export type PostAppointmentResponse = {
     detail: string
+}
+
+export type GetDoctorScheduleForManagerRequest = {
+    id: number;
+    week_num: number;
+}
+
+export type GetDoctorScheduleForManagerResponse = {
+  worktime: {
+    startHours: number,
+    endHours: number
+  },
+  showPatients: boolean,
+  schedule: {
+    date: string,
+    dayAtWeek: number,
+    startTime: string,
+    endTime: string,
+    lunch: {
+      startTime: string,
+      endTime: string
+    },
+    slots: {
+      id: number,
+      startTime: string,
+      endTime: string,
+      type: {
+        id: number,
+        name: string
+      },
+      status: "booked" | "confirmed" | "missed",  
+      mine: boolean,
+      patient: {
+        id: number,
+        name: string,
+        surname: string
+      }
+    }[]
+  }[]
+}
+
+export type GetPatientsResourseRequest = {
+  fullname?: String,
+  iin?: string
+}
+
+export type GetPatientsResourseResponse = {
+  id: number,
+  name: string,
+  surname: string,
+  age: number,
+  avatarUrl: string
+}[]
+
+export type PostAppointmentForPatientRequest = {
+  doctorId: number,
+  date: string,
+  typeId: number,
+  startsAt: string,
+  endsAt: string
+}
+
+export type PostAppointmentForPatientResponse = {
+  detail: string
+}
+
+export type PostInvitePatientRequest = {
+  email: string
+}
+
+export type PostInvitePatientResponse = {
+  detail: string
 }

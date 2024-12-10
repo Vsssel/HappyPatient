@@ -1,14 +1,15 @@
-import { SLOTS_PER_HOUR, getWeekDates } from "~/shared/values"
-import { getDoctorSchedule } from "../api"
+import { SLOTS_PER_HOUR } from "~/shared/values"
+import { getDoctorSchedule, getDoctorScheduleForManager } from "../api"
 import { weekNumber, worktime, id, schedule, timeToSlotIndex, weekDates, whereNoSlots, slots, isWorkingTime } from "../values"
-import { SlotStatus, WorkingStatus} from "../types";
-
+import { SlotStatus, WorkingStatus} from "../types"
+import me from "~/shared/stores/User"
+import { UserRoles } from "~/shared/enum"
 
 export const updateSchedule = async () => {
-    const responseData = (await getDoctorSchedule({id: id.value, week_num: weekNumber.value})).data
+    const responseData = me.data.value?.role === UserRoles.Manager ? (await getDoctorScheduleForManager(id.value, weekNumber.value)).data  : (await getDoctorSchedule({id: id.value, week_num: weekNumber.value})).data
     worktime.value = responseData?.worktime
     schedule.value = responseData?.schedule
-    weekDates.value = getWeekDates(weekNumber.value);
+    weekDates.value = responseData.schedule.map(sch => sch.date)
     try {
         whereNoSlots.value = [];  
         slots.value = [];
@@ -30,9 +31,9 @@ export const updateSchedule = async () => {
                 indexes = {
                     start: timeToSlotIndex(worktime.value, day.lunch.startTime),
                     end: timeToSlotIndex(worktime.value, day.lunch.endTime)
-                };
-                setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.UNAVAILABLE);
-                slots.value.push({ status: SlotStatus.LUNCH, dayAtWeek, indexes });
+                }
+                setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.UNAVAILABLE)
+                slots.value.push({ status: SlotStatus.LUNCH, dayAtWeek, indexes })
             }
             
             for (let slot of day.slots) {
@@ -42,10 +43,10 @@ export const updateSchedule = async () => {
                 };
                 setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.UNAVAILABLE);
 
-                if (slot.mine)
+                if (slot?.mine)
                     slots.value.push({ id: slot.id, status: SlotStatus.MY_APPOINTMENT, dayAtWeek, indexes });
                 else
-                    slots.value.push({ id: slot.id, status: SlotStatus.SOME_APPOINTMENT, dayAtWeek, indexes });
+                    slots.value.push({ id: slot.id, status: me.data.value?.role === UserRoles.Manager ? slot.status : SlotStatus.SOME_APPOINTMENT, dayAtWeek, indexes, patient: slot?.patient });
             }
 
             for (let [slotIndex, slotWorkingStatus] of isWorkingTime.value[dayAtWeek].entries()) {

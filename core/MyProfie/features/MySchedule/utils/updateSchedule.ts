@@ -1,4 +1,4 @@
-import { SLOTS_PER_HOUR, getWeekDates } from "~/shared/values"
+import { SLOTS_PER_HOUR } from "~/shared/values"
 import { getMySchedule } from "../api";
 import { weekNumber, worktime, schedule, timeToSlotIndex, weekDates, whereNoSlots, slots, isWorkingTime } from '../values'
 import { SlotStatus, WorkingStatus} from "../types";
@@ -8,7 +8,7 @@ export const updateSchedule = async () => {
     const responseData = (await getMySchedule({ week: weekNumber.value})).data
     worktime.value = responseData?.worktime
     schedule.value = responseData?.schedule
-    weekDates.value = getWeekDates(weekNumber.value);
+    weekDates.value = responseData.schedule.map(sch => sch.date)
     try {
         whereNoSlots.value = [];  
         slots.value = [];

@@ -14,11 +14,13 @@
             </div>
         </div>
         <Tabs :value="me.data.value?.role === UserRoles.Doctor ? '0' : '1'" class="col-12 ps-2 pe-2 col-md-9 card">
-            <TabList class="w-100 overflow-auto overflow-y-hidden">
+            <div class="w-100 pb-3 overflow-y-hidden">
+              <TabList class="w-100">
                 <Tab v-if="me.data.value?.role === UserRoles.Doctor" value="0">My Schedule</Tab>
                 <Tab value="1">My Appointments</Tab>
                 <Tab value="2">My Medical Records</Tab>
-            </TabList>
+              </TabList>
+            </div>
             <TabPanels class="h-100">
                 <TabPanel value="0" class="h-100">
                     <MySchedule></MySchedule>

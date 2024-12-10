@@ -1,9 +1,18 @@
 <template>
-  <Skeleton v-if="loading" class="w-25 h-100" />
-  <div v-else class="d-flex flex-column flex-md-row p-3 content-container m-3 gap-2 flex-row align-self-center justify-content-center">
-    <div :class="['d-flex flex-column flex-md-row gap-2 ', (appointment.receipt) ? 'col-12 col-md-8': `${!disabled ? 'col-8' : 'col-12 col-md-6'}`]">
+  <Skeleton v-if="loading" class="w-25 h-auto" />
+  <div 
+    v-else 
+    class="d-flex flex-column flex-md-row p-3 content-container m-3 gap-2 align-items-start justify-content-center">
+    
+    <div 
+      :class="['d-flex flex-column flex-md-row gap-2', 
+      appointment.receipt 
+        ? 'col-12 col-md-8' 
+        : `${!disabled ? 'col-8' : 'col-12 col-md-6'}`]"
+    >
       <FreeSlots v-if="!disabled && !appointment.receipt"></FreeSlots>
-      <div class="card p-3 w-100 d-flex flex-column gap-3 justify-content-center">
+      
+      <div class="card p-3 w-100 d-flex flex-column gap-3">
         <h5 class="text-center">Appointment Information</h5>
         <AppointmentCard 
             :doctor="{
@@ -22,21 +31,32 @@
           :onSubmit="onSubmit" 
           :onHandleChange="onHandleChange"
         />
-        <div v-if="appointment.medicalRecords" class="w-10 p-2 border-top" />
+        <div v-if="appointment.medicalRecords" class="w-100 p-2 border-top" />
         <Record v-if="appointment.medicalRecords" />
       </div>
     </div>
-    <div v-if="appointment.receipt" class="d-flex card p-2 col-12 col-md-4 border-none gap-2 flex-column">
-      <div ref="element" class="d-flex w-100 align-self-center justify-self-center">
+
+    <div 
+      v-if="appointment.receipt" 
+      class="d-flex card p-2 col-12 col-md-4 border-none gap-2 flex-column"
+    >
+      <div ref="element" class="d-flex w-100 justify-content-center">
         <Receipt />
       </div>
-      <button @click="downloadPDF" class="w-100 btn btn-print border border-2 rounded d-flex justify-content-center gap-2">
+      <button 
+        @click="downloadPDF" 
+        class="w-100 btn btn-print border border-2 rounded d-flex justify-content-center gap-2"
+      >
         <i class="bi bi-filetype-pdf" />
         Get PDF Receipt
       </button>
     </div> 
-    <iframe v-if="!appointment.receipt && disabled" src="https://storage.googleapis.com/maps-solutions-t3g4duark7/locator-plus/kaht/locator-plus.html"
+
+    <iframe 
+      v-if="!appointment.receipt && disabled" 
+      src="https://storage.googleapis.com/maps-solutions-t3g4duark7/locator-plus/kaht/locator-plus.html"
       width="180%"
+      height="49%"
       style="border:0;"
     >
     </iframe>

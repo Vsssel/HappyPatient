@@ -3,7 +3,7 @@
     <div class="gap-1 col-12 col-md-3 flex-row">
       <PatientInfo :patient="patient"/>
     </div>
-    <Tabs value="0" class="card col-9">
+    <Tabs value="0" class="card col-12 col-md-9">
       <TabList>
         <Tab value="0">Appointment Information</Tab>
         <Tab value="1">Medical Records</Tab>

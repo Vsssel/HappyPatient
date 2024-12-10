@@ -14,7 +14,7 @@
         inputClass="w-100"
         class="w-100"
         @complete="search"
-        />
+      />
     </template>
     <template #offices>
         <div class="d-flex flex-column">

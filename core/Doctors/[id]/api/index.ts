@@ -1,3 +1,6 @@
 export * from './getDoctorSchedule'
 export * from './getDoctorProfile'
 export * from './postAppointment'
+export * from './getDoctorScheduleForManager'
+export * from './getPatientsResourse'
+export * from './postAppointmentForPatient'
