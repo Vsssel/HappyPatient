@@ -19,31 +19,32 @@ jobs:
     - name: Build Docker Image
       run: docker build -t frontend .
 
+    - name: Set up SSH Agent
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Use the private key secret here
+
     - name: Log in to Remote Server
       env:
         SSHPASS: ${{ secrets.SSH_PASS }}
       run: |
         sshpass -p "${SSHPASS}" ssh -o StrictHostKeyChecking=no root@64.225.71.203 "echo 'Logged in successfully!'"
 
-    - name: Save Docker Image and Deploy to Remote Server
+    - name: Pull Latest Code, Stop Containers, and Rebuild Docker Image on Remote Server
       env:
         SSHPASS: ${{ secrets.SSH_PASS }}
       run: |
-        # Save the Docker image to a tar file
-        docker save frontend | gzip > frontend.tar.gz
-        
-        # Copy the tar file to the remote server
-        sshpass -p "${SSHPASS}" scp -o StrictHostKeyChecking=no frontend.tar.gz root@64.225.71.203:/tmp
-        
-        # SSH into the remote server, load the Docker image, and restart the container with docker-compose
+        # SSH into the remote server to pull the latest changes, stop containers, and rebuild
         sshpass -p "${SSHPASS}" ssh -o StrictHostKeyChecking=no root@64.225.71.203 <<EOF
-          # Navigate to the correct directory
+          # Navigate to the project directory
           cd /HappyPatient/front
 
-          # Load the Docker image
-          docker load < /tmp/frontend.tar.gz
+          # Pull the latest code from GitHub
+          git pull origin main
 
-          # Restart the docker-compose services
+          # Stop and remove the running Docker containers
           docker-compose down
+
+          # Rebuild the Docker image and start the containers
           docker-compose up --build -d
         EOF
