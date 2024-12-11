@@ -1,8 +1,14 @@
-version: '3.8'
-
+version: "3.8"
 services:
   frontend:
-    image: frontend
+    build:
+      context: .
+      dockerfile: dockerfile
     ports:
       - "3000:3000"
-    restart: always
+    networks:
+      - frontend_network
+networks:
+  frontend_network:
+    driver: bridge
+
