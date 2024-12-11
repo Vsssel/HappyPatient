@@ -6,9 +6,4 @@ services:
       dockerfile: dockerfile
     ports:
       - "3000:3000"
-    networks:
-      - frontend_network
-networks:
-  frontend_network:
-    driver: bridge
 
