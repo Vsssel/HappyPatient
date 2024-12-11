@@ -16,17 +16,34 @@ jobs:
     - name: Set up Docker
       uses: docker/setup-buildx-action@v2
 
+    - name: Build Docker Image
+      run: docker build -t frontend .
+
     - name: Log in to Remote Server
       env:
         SSHPASS: ${{ secrets.SSH_PASS }}
       run: |
         sshpass -p "${SSHPASS}" ssh -o StrictHostKeyChecking=no root@64.225.71.203 "echo 'Logged in successfully!'"
 
-    - name: Build Docker Image
-      run: docker build -t frontend .
-
-    - name: Save and Deploy Docker Image
+    - name: Save Docker Image and Deploy to Remote Server
       env:
         SSHPASS: ${{ secrets.SSH_PASS }}
       run: |
-        docker save frontend | sshpass -p "${SSHPASS}" ssh -o StrictHostKeyChecking=no root@64.225.71.203 "docker-compose down && docker-compose -f /HappyPatient/front/docker-compose.yml up --build"
+        # Save the Docker image to a tar file
+        docker save frontend | gzip > frontend.tar.gz
+        
+        # Copy the tar file to the remote server
+        sshpass -p "${SSHPASS}" scp -o StrictHostKeyChecking=no frontend.tar.gz root@64.225.71.203:/tmp
+        
+        # SSH into the remote server, load the Docker image, and restart the container with docker-compose
+        sshpass -p "${SSHPASS}" ssh -o StrictHostKeyChecking=no root@64.225.71.203 <<EOF
+          # Navigate to the correct directory
+          cd /HappyPatient/front
+
+          # Load the Docker image
+          docker load < /tmp/frontend.tar.gz
+
+          # Restart the docker-compose services
+          docker-compose down
+          docker-compose up --build -d
+        EOF
