@@ -1,0 +1,20 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Build Docker Image
+      run: docker build -t frontend .
+
+    - name: Push Docker Image
+      run: docker save frontend | ssh user@your-droplet "docker load && docker-compose -f /path/to/frontend/docker-compose.yml up -d"

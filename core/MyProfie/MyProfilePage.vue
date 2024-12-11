@@ -1,39 +1,39 @@
 <template>
-    <div class="content-container m-2 gap-2 p-2 d-flex flex-column flex-md-row align-self-center">
-        <div class="gap-1 col-12 col-md-3 flex-row">
-            <div class="card p-3 d-flex justify-content-center align-items-center gap-2">
-                <DefaultAvatar width="100" height="100" font-size="50" :name="me.data.value?.name" :surname="me.data.value?.surname"/>
-                <h6>{{ me.data.value?.name }} {{ me.data.value?.surname }}</h6>
-                <span class="text-secondary text">{{ me.data.value?.email }}</span>
-                <span class="text-secondary text">{{ me.data.value?.iin }}</span>
-                <span class="text-secondary text">
-                    <i class="bi bi-cake2"></i>
-                    {{ me.data.value?.birthDate }}
-                </span>
-                <span @click="logOut" class="btn btn-sm btn-log-out mt-3 w-100 text-center rounded">Log out<i class="pi pi-sign-out ms-2" /></span>
-            </div>
-        </div>
-        <Tabs :value="me.data.value?.role === UserRoles.Doctor ? '0' : '1'" class="col-12 ps-2 pe-2 col-md-9 card">
-            <div class="w-100 pb-3 overflow-y-hidden">
-              <TabList class="w-100">
-                <Tab v-if="me.data.value?.role === UserRoles.Doctor" value="0">My Schedule</Tab>
-                <Tab value="1">My Appointments</Tab>
-                <Tab value="2">My Medical Records</Tab>
-              </TabList>
-            </div>
-            <TabPanels class="h-100">
-                <TabPanel value="0" class="h-100">
-                    <MySchedule></MySchedule>
-                </TabPanel>
-                <TabPanel value="1" class="h-100">
-                    <MyProfileView />
-                </TabPanel>
-                <TabPanel value="2" class="h-100">
-                    <MyMedicalRecordsView />
-                </TabPanel>
-            </TabPanels>
-        </Tabs>
+  <div class="content-container m-2 gap-2 p-2 d-flex flex-column flex-md-row align-self-center">
+    <div class="gap-1 col-12 col-md-3 flex-row">
+      <div class="card p-3 d-flex justify-content-center align-items-center gap-2">
+        <DefaultAvatar width="100" height="100" font-size="50" :name="me.data.value?.name" :surname="me.data.value?.surname"/>
+        <h6>{{ me.data.value?.name }} {{ me.data.value?.surname }}</h6>
+        <span class="text-secondary text">{{ me.data.value?.email }}</span>
+        <span class="text-secondary text">{{ me.data.value?.iin }}</span>
+        <span class="text-secondary text">
+          <i class="bi bi-cake2"></i>
+          {{ me.data.value?.birthDate }}
+        </span>
+        <span @click="logOut" class="btn btn-sm btn-log-out mt-3 w-100 text-center rounded">Log out<i class="pi pi-sign-out ms-2" /></span>
+      </div>
     </div>
+    <Tabs :value="me.data.value?.role === UserRoles.Doctor ? '0' : '1'" class="col-12 ps-2 pe-2 col-md-9 card">
+      <div class="w-100 pb-3 overflow-y-hidden">
+        <TabList class="w-100">
+          <Tab v-if="me.data.value?.role === UserRoles.Doctor" value="0">My Schedule</Tab>
+          <Tab value="1">My Appointments</Tab>
+          <Tab value="2">My Medical Records</Tab>
+        </TabList>
+      </div>
+      <TabPanels class="h-100">
+        <TabPanel value="0" class="h-100">
+          <MySchedule></MySchedule>
+        </TabPanel>
+        <TabPanel value="1" class="h-100">
+          <MyProfileView />
+        </TabPanel>
+        <TabPanel value="2" class="h-100">
+          <MyMedicalRecordsView />
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
+  </div>
 </template>
 <script setup lang="ts">
 import Tabs from 'primevue/tabs'
@@ -48,13 +48,26 @@ import DefaultAvatar from '~/shared/components/header/DefaultAvatar.vue'
 import { useRouter } from 'vue-router'
 import MySchedule from './features/MySchedule/ui/MySchedule.vue'
 import { UserRoles } from '~/shared/enum'
+import { onBeforeRouteLeave } from 'vue-router';
 
 const router = useRouter()
 
 const logOut = () => {
-    me.signOut()
-    router.push('/auth/signin')
+  me.signOut();
+  router.push('/auth/signin').then(() => {
+    window.history.pushState(null, '/myprofile', '/auth/signin')
+    window.history.replaceState(null, '/myprofile', '/auth/signin')
+  })
 }
+
+onBeforeRouteLeave((to, from, next) => {
+  if (!me.isAuthorized && to.path !== '/auth/signin') {
+    next('/auth/signin')
+  } else {
+    next()
+  }
+})
+
 </script>
 <style scoped>
 .btn-log-out{

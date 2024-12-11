@@ -42,7 +42,6 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
 
         const data = response.data
 
-
         return { status: response.status, message: response.statusText, data: data }
     } catch (error: any) {
         return { status: error.response.status, message: error.response.data.detail, data: error.response.detail }

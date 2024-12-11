@@ -1,7 +1,4 @@
 import { type UserData } from './types'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
 
 const me = {
     key: 'me',
