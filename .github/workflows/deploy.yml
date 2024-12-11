@@ -29,4 +29,4 @@ jobs:
       env:
         SSHPASS: ${{ secrets.SSH_PASS }}
       run: |
-        docker save frontend | sshpass -p "${SSHPASS}" ssh -o StrictHostKeyChecking=no root@64.225.71.203 "docker load && docker-compose -f /HappyPatient/front/docker-compose.yml up -d"
+        docker save frontend | sshpass -p "${SSHPASS}" ssh -o StrictHostKeyChecking=no root@64.225.71.203 "docker-compose down && docker-compose -f /HappyPatient/front/docker-compose.yml up --build"
