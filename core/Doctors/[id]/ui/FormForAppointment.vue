@@ -33,7 +33,7 @@
   </FormField>
 </template>
 <script lang="ts" setup>
-import { appointmentFor, isPatientHasAccount, formForAppointment, values, isVisible, totalPrice, type, selectedPatientID, patients, selectedPatient, doctor, weekNumber } from '../values'
+import { appointmentFor, isPatientHasAccount, formForAppointment, values, isVisible, totalPrice, type, selectedPatientID, patients, selectedPatient, doctor, weekNumber, searchError } from '../values'
 import { onHandleChange, updateSchedule } from '../utils'
 import RadioButton from 'primevue/radiobutton'
 import FormField from '~/shared/components/form/FormField.vue'
@@ -48,15 +48,22 @@ const onSubmit = async(fieldValues: Record<string, any>) => {
   const date = fieldValues.date.toLocaleDateString("en-GB").replace(/\//g, ".")
   const startsAt = fieldValues.startsAt.toLocaleTimeString("en-GB")
   const endsAt = fieldValues.endsAt.toLocaleTimeString("en-GB")
-  selectedPatientID.value = appointmentFor.value === 'Patient' ?  Number(patients.value.filter(res => selectedPatient.value.includes(`${res.name} ${res.surname}`))[0].id) : 0
+  selectedPatientID.value = appointmentFor.value === 'Patient' ?  patients.value.filter(res => `${res.name} ${res.surname}`.includes(selectedPatient.value.toString())) : 0
+  if(selectedPatientID.value.length > 1 && appointmentFor.value === 'Patient'){
+    console.log('error')
+    searchError.value = 'Please select patient'
+    return
+  }
   const response = doctor.value && (appointmentFor.value === 'Me' ? 
   await postAppointment(doctor.value.id, weekNumber.value, {doctorId: doctor.value.id, date: date, typeId: Number(type.value), startsAt: startsAt, endsAt: endsAt}) 
-  : await postAppointmentForPatient(Number(selectedPatientID.value), {doctorId: doctor.value.id, date: date, typeId: Number(type.value), startsAt: startsAt, endsAt: endsAt}))
+  : await postAppointmentForPatient(Number(selectedPatientID.value[0].id), {doctorId: doctor.value.id, date: date, typeId: Number(type.value), startsAt: startsAt, endsAt: endsAt}))
   if(response && response.status < 400){
     toast.add({severity: 'success', summary: "Success", detail: response.data.detail, life: 4000})
     isVisible.value.toggle()
     appointmentFor.value = 'Me'
     selectedPatient.value = ''
+    selectedPatientID.value = 0
+    searchError.value = ''
   }else if (response?.status === 401 || response?.status === 422) {
     router.push('/auth/signin')
     console.log('router push')

@@ -1,13 +1,13 @@
 <template>
   <Popover ref="isVisible" class="col-6 col-md-2">
-    <FormField v-if="me.data.value?.role === UserRoles.Manager" :formGroup="formGroup">
+    <FormField v-if="me.data.value?.role === UserRoles.Manager && me.data.value.buildingId === doctor?.office.building_id" :formGroup="formGroup">
       <template #button></template>
       <template #appointment_for>
         <SelectButton :allowEmpty="false" size="large" v-model="appointmentFor" :options="['Me', 'Patient']" />
       </template>
     </FormField>
-    <FormForPatient v-if="me.data.value?.role === UserRoles.Manager" />
-    <FormForSearch v-if="me.data.value?.role === UserRoles.Manager"/>
+    <FormForPatient  v-if="me.data.value?.role === UserRoles.Manager && me.data.value.buildingId === doctor?.office.building_id" />
+    <FormForSearch  v-if="me.data.value?.role === UserRoles.Manager && me.data.value.buildingId === doctor?.office.building_id"/>
     <FormForAppointment />
   </Popover>
 </template>

@@ -8,5 +8,6 @@ export type UserData = {
     email: string,
     iin: string,
     role: string,
-    token: string
+    token: string,
+    buildingId?: number
 };

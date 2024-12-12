@@ -23,7 +23,7 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
         }
 
         const response = await axios({
-            url: 'http://64.225.71.203:2222/' + endpoint,
+            url: 'http://localhost:2222/' + endpoint,
             method: options.method || 'GET',
             headers,
             data: options.body,
@@ -35,7 +35,7 @@ export const useApi = async <T>(endpoint: string, options: ApiOption = {}): Prom
             if (me.isAuthorized()){
                 me.refreshToken(refreshedToken.replace('Bearer ', ''));
             }else {
-                me.authorize(response.data.id, response.data.name, response.data.surname , response.data.gender, response.data.birthDate, response.data.age, response.data.email, response.data.iin,  response.data.role, refreshedToken.replace('Bearer ', ''))
+                me.authorize(response.data.id, response.data.name, response.data.surname , response.data.gender, response.data.birthDate, response.data.age, response.data.email, response.data.iin,  response.data.role, refreshedToken.replace('Bearer ', ''), response.data.buildingId)
             }
         }
         

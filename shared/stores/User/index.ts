@@ -4,8 +4,8 @@ const me = {
     key: 'me',
     data: ref<UserData>(),
 
-    authorize(id: number, name: string, surname: string, gender: string, birthDate: string, age: number, email: string, iin: string, role: string, token: string): void {
-        this.data.value = { id, name, surname, token, gender, birthDate, age, email, iin, role };
+    authorize(id: number, name: string, surname: string, gender: string, birthDate: string, age: number, email: string, iin: string, role: string, token: string, buildingId?: number): void {
+        this.data.value = { id, name, surname, token, gender, birthDate, age, email, iin, role , buildingId};
         this.updateStore();
     },
     
