@@ -1,13 +1,13 @@
 <template>
   <Popover ref="isVisible" class="col-6 col-md-2">
-    <FormField :formGroup="formGroup">
+    <FormField v-if="me.data.value?.role === UserRoles.Manager" :formGroup="formGroup">
       <template #button></template>
       <template #appointment_for>
         <SelectButton :allowEmpty="false" size="large" v-model="appointmentFor" :options="['Me', 'Patient']" />
       </template>
     </FormField>
-    <FormForPatient />
-    <FormForSearch />
+    <FormForPatient v-if="me.data.value?.role === UserRoles.Manager" />
+    <FormForSearch v-if="me.data.value?.role === UserRoles.Manager"/>
     <FormForAppointment />
   </Popover>
 </template>
@@ -21,6 +21,8 @@ import SelectButton from 'primevue/selectbutton'
 import FormForPatient from './FormForPatient.vue'
 import FormForSearch from './FormForSearch.vue'
 import FormForAppointment from './FormForAppointment.vue'
+import me from '~/shared/stores/User'
+import { UserRoles } from '~/shared/enum'
 
 watch(() => selectedSlot.value, (newDate) => {
   if (newDate) {

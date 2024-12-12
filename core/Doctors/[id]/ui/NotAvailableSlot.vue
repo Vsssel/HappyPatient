@@ -50,15 +50,24 @@ const slotInfo = computed(() => {
     case SlotStatus.MY_APPOINTMENT:
       return { bg: '#0D6EFD', color: '#FFFFFF', title: 'mine' }
     case SlotStatus.SOME_APPOINTMENT:
-      return { bg: '#AAAAAA', color: '#FFFFFF', title: null, icon: 'bi bi-ban' }; // Yellow
+       // Yellow
     case ManagerSlotStatus.BOOKED:
-      return { bg: '#9fd3c7', color: '#FFFFFF', title: `${slot.patient?.name.slice(0, 1)}. ${slot.patient?.surname}` }; // Light Purple
+      if (slot.patient) {
+        return { bg: '#9fd3c7', color: '#FFFFFF', title: `${slot.patient?.name.slice(0, 1)}. ${slot.patient?.surname}` }
+      }
+      return { bg: '#AAAAAA', color: '#FFFFFF', title: null, icon: 'bi bi-ban' };
     case ManagerSlotStatus.CONFIRMED:
-      return { bg: '#385170', color: '#FFFFFF', title: `${slot.patient?.name.slice(0, 1)}. ${slot.patient?.surname}` }; // Green
+      if (slot.patient) {
+        return { bg: '#385170', color: '#FFFFFF', title: `${slot.patient?.name.slice(0, 1)}. ${slot.patient?.surname}` };
+      }
+      return { bg: '#AAAAAA', color: '#FFFFFF', title: null, icon: 'bi bi-ban' };
     case ManagerSlotStatus.MISSED:
-      return { bg: '#F1948A', color: '#FFFFFF', title: `${slot.patient?.name.slice(0, 1)}. ${slot.patient?.surname}` }; // Light Red
+      if (slot.patient) {
+        return { bg: '#F1948A', color: '#FFFFFF', title: `${slot.patient?.name.slice(0, 1)}. ${slot.patient?.surname}` }
+      }
+      return { bg: '#AAAAAA', color: '#FFFFFF', title: null, icon: 'bi bi-ban' };
     default:
-      return { bg: '#AAAAAA', color: '#000000', title: 'Lunch time' }; // Light Gray
+      return { bg: '#AAAAAA', color: '#000000', title: 'Lunch time' }
   }
 });
 </script>
