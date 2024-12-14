@@ -13,9 +13,7 @@
       `color: ${slotInfo.color}`,
       `background-color: ${slotInfo.bg}`,
       slot.status === SlotStatus.MY_APPOINTMENT || 
-      slot.status === ManagerSlotStatus.BOOKED || 
-      slot.status === ManagerSlotStatus.CONFIRMED || 
-      slot.status === ManagerSlotStatus.MISSED ? 
+      me.data.value?.buildingId === doctor?.office.building_id ? 
       'cursor: pointer' : ''
     ]"
   >
@@ -29,6 +27,9 @@ import { computed } from 'vue';
 import { ManagerSlotStatus, SlotStatus, type SlotInfo } from '../types';
 import { slotHeight } from '../values';
 import { useRouter } from 'vue-router';
+import { doctor } from '../values';
+import me from '~/shared/stores/User';
+import { UserRoles } from '~/shared/enum';
 
 const { slot } = defineProps<{ slot: SlotInfo }>();
 const router = useRouter();
@@ -37,9 +38,8 @@ const margin = 1;
 const openAppointment = () => {
   if (
     slot.status === SlotStatus.MY_APPOINTMENT ||
-    slot.status === ManagerSlotStatus.BOOKED ||
-    slot.status === ManagerSlotStatus.CONFIRMED ||
-    slot.status === ManagerSlotStatus.MISSED
+    me.data.value?.buildingId === doctor?.value?.office.building_id || 
+    me.data.value?.role === UserRoles.Manager
   ) {
     router.push(`/myprofile/${slot.id}`);
   }
@@ -50,7 +50,6 @@ const slotInfo = computed(() => {
     case SlotStatus.MY_APPOINTMENT:
       return { bg: '#0D6EFD', color: '#FFFFFF', title: 'mine' }
     case SlotStatus.SOME_APPOINTMENT:
-       // Yellow
     case ManagerSlotStatus.BOOKED:
       if (slot.patient) {
         return { bg: '#9fd3c7', color: '#FFFFFF', title: `${slot.patient?.name.slice(0, 1)}. ${slot.patient?.surname}` }

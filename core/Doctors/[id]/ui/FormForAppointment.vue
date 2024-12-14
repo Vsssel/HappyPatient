@@ -49,9 +49,14 @@ const onSubmit = async(fieldValues: Record<string, any>) => {
   const startsAt = fieldValues.startsAt.toLocaleTimeString("en-GB")
   const endsAt = fieldValues.endsAt.toLocaleTimeString("en-GB")
   selectedPatientID.value = appointmentFor.value === 'Patient' ?  patients.value.filter(res => `${res.name} ${res.surname}`.includes(selectedPatient.value.toString())) : 0
+  console.log(selectedPatientID.value)
   if(selectedPatientID.value.length > 1 && appointmentFor.value === 'Patient'){
     console.log('error')
     searchError.value = 'Please select patient'
+    return
+  }
+  if(!selectedPatientID.value[0]){
+    searchError.value = 'Patient does not exists'
     return
   }
   const response = doctor.value && (appointmentFor.value === 'Me' ? 

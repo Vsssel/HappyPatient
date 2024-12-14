@@ -13,8 +13,8 @@
 </template>
 <script setup lang="ts">
 import { watch } from 'vue'
-import { selectedSlot, isVisible, doctor, formGroup, values, email, appointmentFor, totalPrice, type, emailError } from '../values'
-import { calculateEndTime, updateForm, updateStartTime, emailValidation } from '../utils'
+import { selectedSlot, isVisible, doctor, formGroup, values, appointmentFor, totalPrice, type} from '../values'
+import { calculateEndTime, updateForm, updateStartTime } from '../utils'
 import FormField from '~/shared/components/form/FormField.vue'
 import Popover from 'primevue/popover'
 import SelectButton from 'primevue/selectbutton'
@@ -42,16 +42,5 @@ watch(() => type.value, () => {
   totalPrice.value = doctor.value ? doctor.value.price_list.filter(price => price.typeId === values.value.typeId)[0].price : 0
   updateStartTime()
   updateForm()
-})
-
-watch(() => email.value , () => {
-  if (!email.value){
-    emailError.value = 'Email is required'
-  }
-  else if (!emailValidation(email.value)) {
-    emailError.value = 'Email is invalid'
-  }else [
-    emailError.value = ''
-  ]
 })
 </script>

@@ -1,5 +1,5 @@
 export type ApiOption = {
-    method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+    method?: 'GET' | 'POST' | 'DELETE' | 'PUT';
     headers?: Record<string, string>;
     body?: any;
     params?: Record<string, any>;

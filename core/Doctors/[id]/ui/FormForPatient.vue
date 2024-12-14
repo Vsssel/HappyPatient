@@ -23,7 +23,7 @@
       <div class="d-flex flex-column mt-2 mb-2 gap-2">
         <span class="text">Email: </span>
         <InputText v-model="email" />
-        <span v-if="emailError" class="text text-danger">{{ emailError }}</span>
+        <span v-if="emailError.length" class="text text-danger">{{ emailError }}</span>
       </div>
     </template>
   </FormField>
@@ -31,7 +31,7 @@
 <script lang="ts" setup>
 import RadioButton from 'primevue/radiobutton'
 import InputText from 'primevue/inputtext'
-import { formForPatient, isPatientHasAccount, email, emailError, appointmentFor } from '../values'
+import { formForPatient, isPatientHasAccount, email, emailError, appointmentFor, isVisible } from '../values'
 import { emailValidation } from '../utils'
 import { useToast } from 'primevue/usetoast'
 import { postInvitePatient } from '../api/postInvitePatient'
@@ -51,6 +51,8 @@ const invitePatient = async() => {
   const response = await postInvitePatient({email: email.value})
   if (response.status < 400) {
     toast.add({severity: 'success', summary: 'Success', detail: response.data.detail, life: 4000 })
+    isVisible.value.toggle()
+    emailError.value = ''
     email.value = ''
   }else {
     toast.add({severity: 'error', summary: 'Success', detail: response.data.detail, life: 4000 })

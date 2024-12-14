@@ -26,7 +26,29 @@
                 />
             </template>
         </Table>
-        <div class="d-flex flex-wrap w-100 justify-content-center flex-row gap-2">
+        <div v-if="me.data.value?.role === UserRoles.Manager && me.data.value?.buildingId === doctor?.office.building_id" class="d-flex flex-wrap w-100 justify-content-center p-2 flex-row gap-2">
+            <div class="d-flex flex-row gap-2 align-items-center">
+                <div class="btn btn-sm btn-primary fw-medium" style="font-size: 10px;">mine</div>
+                <span style="font-size: 10px;">- Your appointment</span>
+            </div>
+            <div class="d-flex flex-row gap-2 align-items-center">
+                <div class="btn d-flex align-items-center justify-content-center p-1 text text-white fw-medium" style="background-color: #9fd3c7; font-size: 10px;">N. Surname</div>
+                <span style="font-size: 10px;">- Booked appointments</span>
+            </div>
+            <div class="d-flex flex-row gap-2 align-items-center">
+                <div class="btn d-flex align-items-center justify-content-center p-1 text text-white fw-medium" style="background-color: #385170; font-size: 10px;">N. Surname</div>
+                <span style="font-size: 10px;">- Confirmed appointments</span>
+            </div>
+            <div class="d-flex flex-row gap-2 align-items-center">
+                <div class="btn d-flex align-items-center justify-content-center p-1 text text-white fw-medium" style="background-color: #F1948A; font-size: 10px;">N. Surname</div>
+                <span style="font-size: 10px;">- Missed appointments</span>
+            </div>
+            <div class="d-flex flex-row gap-2 align-items-center">
+                <div class="btn d-flex align-items-center justify-content-center p-1 btn-warning text fw-medium"><i class="bi bi-ban" style="font-size: 10px;" /></div>
+                <span style="font-size: 10px;">- You have another appointment at this time</span>
+            </div>
+        </div>
+        <div v-else class="d-flex flex-wrap w-100 justify-content-center flex-row gap-2">
             <div class="d-flex flex-row gap-2 align-items-center">
                 <div class="btn btn-sm btn-primary fw-medium" style="font-size: 10px;">mine</div>
                 <span style="font-size: 10px;">- Your appointment</span>
@@ -45,13 +67,15 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
 import { WorkingStatus } from '../types';
-import { slotKey, emptySlotKey, weekNumber, schedule, worktime, weekDates, whereNoSlots, slots, isWorkingTime } from '../values';
+import { slotKey, emptySlotKey, weekNumber, schedule, worktime, weekDates, whereNoSlots, slots, isWorkingTime, doctor } from '../values';
 import Table from '~/shared/components/Table/Table.vue';
 import NotAvailableSlot from './NotAvailableSlot.vue';
 import FreeSlot from './FreeSlot.vue';
 import RoundButton from '~/shared/components/button/RoundButton.vue'
 import { MAX_WEEKS_AHEAD } from '~/shared/values'
-import { updateSchedule } from '../utils';
+import { updateSchedule } from '../utils'
+import me from '~/shared/stores/User';
+import { UserRoles } from '~/shared/enum';
 
 const loading = ref(false);
 const now = computed(() => new Date());
