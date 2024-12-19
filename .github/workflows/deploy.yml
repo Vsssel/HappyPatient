@@ -24,18 +24,18 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Log in and Deploy on Remote Server
+    - name: Log in to Remote Server
       env:
-        SSH_HOST: root@64.225.71.203
-        PROJECT_PATH: /HappyPatient/front
+        SSHPASS: ${{ secrets.SSH_PASS }}
       run: |
-        ssh -o StrictHostKeyChecking=no $SSH_HOST <<EOF
+        sshpass -p "${SSHPASS}" ssh -o StrictHostKeyChecking=no root@64.225.71.203 "echo 'Logged in successfully!'"
+
+    - name: Pull Latest Code, Stop Containers, and Rebuild Docker Image on Remote Server
+      run: |
+        # SSH into the remote server to pull the latest changes, stop containers, and rebuild
+        sshpass -p "${SSHPASS}" ssh -o StrictHostKeyChecking=no root@64.225.71.203 <<EOF
           # Navigate to the project directory
           cd /HappyPatient/front
-
-          # Ensure the correct SSH key is used for Git operations
-          eval \$(ssh-agent -s)
-          ssh-add /root/.ssh/id_ed25519
 
           # Pull the latest code from GitHub
           git pull origin main
