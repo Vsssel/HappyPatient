@@ -49,7 +49,8 @@ const slotInfo = computed(() => {
   switch (slot.status) {
     case SlotStatus.MY_APPOINTMENT:
       return { bg: '#0D6EFD', color: '#FFFFFF', title: 'mine' }
-    case SlotStatus.SOME_APPOINTMENT:
+    case SlotStatus.SOME_APPOINTMENT: 
+      return { bg: '#AAAAAA', color: '#FFFFFF', title: null, icon: 'bi bi-ban' };
     case ManagerSlotStatus.BOOKED:
       if (slot.patient) {
         return { bg: '#9fd3c7', color: '#FFFFFF', title: `${slot.patient?.name.slice(0, 1)}. ${slot.patient?.surname}` }

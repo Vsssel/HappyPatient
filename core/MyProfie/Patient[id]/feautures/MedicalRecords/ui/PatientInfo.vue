@@ -16,12 +16,20 @@
       </span>
     </div>
     <div class="w-100">
-      <button class="w-100 btn btn-sm btn-add-record" @click="openAddRecordModal">Add Record</button>
+      <button 
+        v-if="records?.page.length" 
+        type="button"
+        class="w-100 btn btn-sm btn-add-record"
+        title="You can add records only rwhen records are availabe to you"
+        @click="openAddRecordModal"
+      >
+        Add Record
+      </button>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { patient } from '../values'
+import { patient, records } from '../values'
 import { addRecord } from '../values'
 
 const openAddRecordModal = () => {

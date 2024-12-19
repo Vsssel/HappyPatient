@@ -1,3 +1,5 @@
+import type { SlotStatus } from "./enum";
+
 export type MyScheduleGetRequest = {
     week: number;
 }
@@ -24,6 +26,7 @@ export type MyScheduleGetResponse = {
         id: number,
         name: string
       },
+      status: SlotStatus
       patient: {
         id: number,
         name: string,

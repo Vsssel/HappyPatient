@@ -1,5 +1,5 @@
 <template>
-  <Skeleton v-if="loading" class="w-25 h-auto" />
+  <Skeleton v-if="loading" style="width: 25%; height: 50%; padding: 10;" height="10rem" />
   <div 
     v-else 
     class="d-flex flex-column flex-md-row p-3 content-container m-3 gap-2 align-items-start justify-content-center">

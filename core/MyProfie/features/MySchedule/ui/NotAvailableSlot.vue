@@ -12,7 +12,7 @@
         `margin: ${margin}px`,
         `color: ${slotInfo.color}`,
         `backgroundColor: ${slotInfo.bg}`,
-        slot.status === SlotStatus.SOME_APPOINTMENT ? 'cursor: pointer' : ''
+        slot.status === (SlotStatus.BOOKED || SlotStatus.CONFIRMED || SlotStatus.MISSED) ? 'cursor: pointer' : ''
     ]"
   >
     <span class="table-text text-white">{{ slotInfo.title }}</span>
@@ -31,15 +31,19 @@ const margin = 1
 
 const openAppointment = () => {
   addBreadcrumb({name: `Appointment ${slot.id}`, path: `/myprofile/patient${slot.id}`})
-  slot.status === SlotStatus.SOME_APPOINTMENT && router.push(`/myprofile/patient${slot.id}`)
+  slot.status === (SlotStatus.BOOKED || SlotStatus.CONFIRMED || SlotStatus.MISSED) && router.push(`/myprofile/patient${slot.id}`)
 }
 
 const slotInfo = computed(() => {
   switch (slot.status) {
-    case SlotStatus.SOME_APPOINTMENT:
-        return { bg: '#AAAAAA', color: '#FFFFFF', title:`${slot.patient?.name.slice(0, 1)}. ${slot.patient?.surname}` };
+    case SlotStatus.BOOKED:
+      return { bg: '#9fd3c7', color: '#FFFFFF', title: `${slot.patient?.name.slice(0, 1)}. ${slot.patient?.surname}` }
+    case SlotStatus.CONFIRMED:
+      return { bg: '#385170', color: '#FFFFFF', title: `${slot.patient?.name.slice(0, 1)}. ${slot.patient?.surname}` };
+    case SlotStatus.MISSED:
+      return { bg: '#F1948A', color: '#FFFFFF', title: `${slot.patient?.name.slice(0, 1)}. ${slot.patient?.surname}` }
     default:
-        return { bg: '#AAAAAA', color: '#FFFFFF', title: 'Lunch time' }
+      return { bg: '#AAAAAA', color: '#000000', title: 'Lunch time' }
   }
 });
 </script>

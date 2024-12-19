@@ -5,6 +5,8 @@ export enum WorkingStatus {
 };
 
 export enum SlotStatus {
-    LUNCH = -1,
-    SOME_APPOINTMENT = 0
-};
+    MISSED = "missed",
+    BOOKED = "booked",
+    CONFIRMED = "confirmed",
+    LUNCH = "lunch"
+  }

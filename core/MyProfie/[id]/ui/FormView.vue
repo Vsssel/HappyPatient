@@ -7,7 +7,7 @@
   >
     <template #button>
       <div 
-        v-if="isFuture || (me.data.value?.role === UserRoles.Manager && (appointment.patient.id === me.data.value.id))" 
+        v-if="isFuture && (appointment.patient.id === me.data.value?.id)" 
         class="w-100"
       >
         <div 

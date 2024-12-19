@@ -11,7 +11,6 @@ import Schedule from './[id]/ui/Schedule.vue'
 import ProfileCard from './[id]/ui/ProfileCard.vue'
 import BookingWindow from './[id]/ui/BookingWindow.vue'
 import { id } from './[id]/values'
-import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
