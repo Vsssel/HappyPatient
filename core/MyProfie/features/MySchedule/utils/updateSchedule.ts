@@ -32,7 +32,7 @@ export const updateSchedule = async () => {
                     end: timeToSlotIndex(worktime.value, day.lunch.endTime)
                 };
                 setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.UNAVAILABLE);
-                slots.value.push({ status: SlotStatus.LUNCH, dayAtWeek, indexes, patient: null });
+                slots.value.push({ status: SlotStatus.LUNCH, dayAtWeek, indexes, startTime: day.lunch.startTime ,endTime: day.lunch.endTime, date: day.date, patient: null });
             }
             
             for (let slot of day.slots) {
@@ -41,7 +41,7 @@ export const updateSchedule = async () => {
                     end: timeToSlotIndex(worktime.value, slot.endTime)
                 };
                 setWorkingStatus(day.dayAtWeek, indexes, WorkingStatus.UNAVAILABLE);
-                slots.value.push({ id: slot.id, status: slot.status, dayAtWeek, indexes, patient: slot.patient });
+                slots.value.push({ id: slot.id, status: slot.status, dayAtWeek, indexes,startTime: slot.startTime ,endTime: slot.endTime, date: day.date, patient: slot.patient });
             }
 
             for (let [slotIndex, slotWorkingStatus] of isWorkingTime.value[dayAtWeek].entries()) {

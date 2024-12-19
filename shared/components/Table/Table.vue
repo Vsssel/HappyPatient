@@ -26,7 +26,7 @@
             class="min-slot"
             :style="{ height: `${50/SLOTS_PER_HOUR}px`}"
           >
-            <slot :name="`${weekDay.index}-${slotIndex}`" />
+            <slot :class="currentTime(week[weekDay.index], `${hourSlotsRelation.hour}:00:00`, `${hourSlotsRelation.hour + 1}:00:00`)" :name="`${weekDay.index}-${slotIndex}`" />
           </div>
         </td>
       </tr>
@@ -52,6 +52,14 @@ onMounted(() => {
     hoursSlotsRelations.value.push(currHourSlots)
   }
 });
+
+const currentTime = (date: string, startTime: string, endTime: string): boolean => {
+  const now = new Date();
+  const startDateTime = new Date(`${date}T${startTime}`);
+  const endDateTime = new Date(`${date}T${endTime}`);
+
+  return now >= startDateTime && now <= endDateTime;
+};
 </script>
 <style scoped>
 table {

@@ -6,6 +6,9 @@ export type SlotInfo = {
     status: SlotStatus,
     dayAtWeek: number,
     indexes: Indexes,
+    startTime: string,
+    endTime: string,
+    date: string,
     patient: MyScheduleGetResponse['schedule'][0]['slots'][0]['patient'] | null
 };
 
