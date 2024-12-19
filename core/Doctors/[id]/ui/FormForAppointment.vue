@@ -1,5 +1,10 @@
 <template>
-  <FormField v-if="appointmentFor === 'Me' || isPatientHasAccount" :formGroup="formForAppointment" v-model:values="values" :submit="onSubmit" :onChange="onHandleChange">
+  <FormField 
+    v-if="appointmentFor === 'Me' || isPatientHasAccount" 
+    :formGroup="formForAppointment" 
+    v-model:values="values" 
+    :submit="onSubmit" 
+    :onChange="onHandleChange">
     <template #typeId>
       <div class="d-flex gap-2">
         <div class="d-flex align-items-center gap-2">
