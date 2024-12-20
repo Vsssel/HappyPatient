@@ -1,46 +1,42 @@
 export type GetMyAppointmentsResponse = {
-  id: number,
-  date: string,
-  index: number,
-  startTime: string,
-  endTime: string,
-  price: number,
-  type: {
+  start: number,
+  end: number,
+  total: number,
+  page: {
     id: number,
-    name: string
-  },
-  category: {
-    id: number,
-    title: string
-  },
-  room: {
-    id: number,
-    building_id: number,
-    address: string,
-    title: string
-  },
-  doctor: {
-    id: number,
-    name: string,
-    surname: string,
-    avatarUrl: string
-  },
-  patient: {
-    id: number,
-    name: string,
-    surname: string
-  },
-  receipt: {
-    id: number,
-    timestamp: string,
-    method: string,
-    provider: string,
-    amount: number
-  },
-  medicalRecords: {
-    title: string,
-    type: string,
-    addedTime: string,
-    content: string
+    index: number,
+    date: string,
+    startTime: string,
+    endTime: string,
+    price: number,
+    isFinished: true,
+    isPaid: true,
+    type: {
+      id: number,
+      name: string
+    },
+    category: {
+      id: number,
+      title: string
+    },
+    room: {
+      id: number,
+      building_id: number,
+      address: string,
+      location: string,
+      title: string
+    },
+    doctor: {
+      id: number,
+      name: string,
+      surname: string,
+      avatarUrl: string
+    }
   }[]
-}[]
+}
+
+export type GetMyAppointmentsRequest = {
+  time_status?: string,
+  offset: number,
+  limit: number
+}

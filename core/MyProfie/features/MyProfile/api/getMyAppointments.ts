@@ -1,10 +1,11 @@
 import { useApi } from "~/shared/api"
-import type { GetMyAppointmentsResponse } from "../types"
+import type { GetMyAppointmentsRequest, GetMyAppointmentsResponse } from "../types"
 import type { ApiResponse } from "~/shared/api/type"
 
-export const getMyAppointments = async(): Promise<ApiResponse<GetMyAppointmentsResponse>> => {
+export const getMyAppointments = async(params: GetMyAppointmentsRequest): Promise<ApiResponse<GetMyAppointmentsResponse>> => {
     const response = await useApi<GetMyAppointmentsResponse>('patient/appointments', {
         method: "GET",
+        params: params,
         auth: true
     })
 
