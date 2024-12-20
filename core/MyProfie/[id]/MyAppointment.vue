@@ -52,16 +52,17 @@
       </button>
     </div> 
 
-    <iframe 
-      v-if="!appointment.receipt && disabled" 
-      src="https://storage.googleapis.com/maps-solutions-t3g4duark7/locator-plus/kaht/locator-plus.html"
-      width="180%"
-      height="49%"
-      style="border:0;"
-    >
-    </iframe>
+    <iframe :src="`https://www.google.com/maps/embed?pb=${appointment.room.location}`"
+      width="500" 
+      height="400" 
+      style="border:1;" 
+      allowfullscreen="true" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade"
+    />
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import { AppointmentCard } from '~/shared/components'
@@ -84,6 +85,7 @@ const appointmentId = Number(route.params.id)
 const confirm = useConfirm()
 const toast = useToast()
 const loading = ref<boolean>(false)
+const url = ref<string>(``)
 
 const onSubmit = async(fieldValues: Record<string, any>) => {
   const date = fieldValues.date.toLocaleDateString("en-GB").replace(/\//g, ".")

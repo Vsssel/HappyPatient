@@ -85,7 +85,6 @@ import { updateValues } from '../utils'
 import { defineProps } from 'vue'
 import { FormField } from '~/shared/components'
 import me from '~/shared/stores/User'
-import { UserRoles } from '~/shared/enum'
 
 defineProps<{
   onSubmit: (fieldValues: Record<string, any>) => Promise<void>,

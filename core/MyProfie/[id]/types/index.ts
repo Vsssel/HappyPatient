@@ -17,6 +17,7 @@ export type GetMySingleAppointmentResponse = {
     id: number,
     building_id: number,
     address: string,
+    location: string,
     title: string
   },
   doctor: {
@@ -76,6 +77,7 @@ export type PutMySingleAppointementResponse = {
     id: number,
     building_id: number,
     address: string,
+    location: string,
     title: string
   },
   doctor: {

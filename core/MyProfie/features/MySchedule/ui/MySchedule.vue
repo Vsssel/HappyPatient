@@ -14,7 +14,7 @@
         style="color: #888;"
       />
     </div>
-    <Skeleton v-if="loading" style="width: 100%; height: 100%;"></Skeleton>
+    <Skeleton v-if="loading" style="width: 100%; height: 650px;"></Skeleton>
     <Table v-if="schedule && schedule.length > 0 && !loading" :week="weekDates" :worktime="worktime">
       <template v-for="slot in slots" #[slotKey(slot)] >
         <NotAvailableSlot :slot="slot" />
@@ -49,8 +49,9 @@ import RoundButton from '~/shared/components/button/RoundButton.vue'
 import { MAX_WEEKS_AHEAD } from '~/shared/values'
 import { updateSchedule } from '../utils'
 import { WorkingStatus } from '../types'
+import Skeleton from 'primevue/skeleton'
 
-const loading = ref(false);
+const loading = ref<boolean>(false);
 
 onMounted(async () => {
   try{

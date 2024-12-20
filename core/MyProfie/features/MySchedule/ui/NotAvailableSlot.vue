@@ -12,7 +12,7 @@
         `margin: ${margin}px`,
         `color: ${slotInfo.color}`,
         `backgroundColor: ${slotInfo.bg}`,
-        slot.status === (SlotStatus.BOOKED || SlotStatus.CONFIRMED || SlotStatus.MISSED) ? 'cursor: pointer' : ''
+        slot.status === (SlotStatus.BOOKED || slot.status === SlotStatus.MISSED || slot.status === SlotStatus.CONFIRMED) ? 'cursor: pointer' : ''
     ]"
   >
     <span class="table-text text-white">{{ slotInfo.title }}</span>
@@ -31,7 +31,7 @@ const margin = 1
 
 const openAppointment = () => {
   addBreadcrumb({name: `Appointment ${slot.id}`, path: `/myprofile/patient${slot.id}`})
-  slot.status === (SlotStatus.BOOKED || SlotStatus.CONFIRMED || SlotStatus.MISSED) && router.push(`/myprofile/patient${slot.id}`)
+  router.push(`/myprofile/patient${slot.id}`)
 }
 
 const slotInfo = computed(() => {

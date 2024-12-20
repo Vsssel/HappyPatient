@@ -1,6 +1,6 @@
 <template>
     <div id="schedule-container" class="d-flex flex-column">
-      <div class="d-flex col-12 col-md-6 col-xl-4 align-self-right justify-content-between align-items-center text">
+      <div class="d-flex col-12 gap-2 align-self-right align-items-center text">
         <RoundButton 
           @click="weekNumber--" 
           :disabled="weekNumber <= 0"
@@ -13,8 +13,9 @@
           class="pi pi-chevron-right" 
           style="color: #888;"
         />
+        <span class="text-danger">You can make appointment only for upcoming 3 weeks</span>
       </div>
-      <Skeleton v-if="loading" style="width: 100%; height: 100%;"></Skeleton>
+      <Skeleton v-if="loading" style="width: 100%; height: 650px"></Skeleton>
       <Table v-if="schedule && schedule.length > 0 && !loading" :week="weekDates" :worktime="worktime">
         <template v-for="slot in slots" #[slotKey(slot)] >
           <NotAvailableSlot :slot="slot" />
@@ -77,6 +78,7 @@ import { MAX_WEEKS_AHEAD } from '~/shared/values'
 import { updateSchedule } from '../utils'
 import me from '~/shared/stores/User';
 import { UserRoles } from '~/shared/enum';
+import Skeleton from 'primevue/skeleton';
 
 const loading = ref(false);
 const now = computed(() => new Date());
